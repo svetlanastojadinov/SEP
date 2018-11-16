@@ -2,10 +2,25 @@ package com.ftn.uns.payment_concentrator.model;
 
 import java.util.Collection;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Magazine {
+
+	@Column
 	private String title;
+
+	@Id
+	@Column(nullable = false, unique = true)
 	private int issn;
+
+	@Column
 	private Subscription subscription;
+
+	@OneToMany
 	private Collection<Article> articles;
 
 	public Magazine() {
@@ -18,7 +33,7 @@ public class Magazine {
 		this.title = title;
 		this.issn = issn;
 		this.subscription = subscription;
-		this.articles = articles;
+		// this.articles = articles;
 	}
 
 	public String getTitle() {
@@ -44,13 +59,11 @@ public class Magazine {
 	public void setSubscription(Subscription subscription) {
 		this.subscription = subscription;
 	}
-
-	public Collection<Article> getArticles() {
-		return articles;
-	}
-
-	public void setArticles(Collection<Article> articles) {
-		this.articles = articles;
-	}
+	/*
+	 * public Collection<Article> getArticles() { return articles; }
+	 * 
+	 * public void setArticles(Collection<Article> articles) { this.articles =
+	 * articles; }
+	 */
 
 }

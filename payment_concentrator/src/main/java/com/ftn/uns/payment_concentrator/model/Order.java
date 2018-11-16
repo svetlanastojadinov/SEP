@@ -2,13 +2,32 @@ package com.ftn.uns.payment_concentrator.model;
 
 import java.util.Date;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="order_table")
 public class Order {
+	
+	@Id
+	@Column
 	private long id;
+	
+	@Column
 	private PaymentType paymentType;
+	
+	@Column
 	private Double price;
+	
+	@Column
 	private Date date;
+	
+	@Column
 	private String payerUsername;
+	
+	@OneToOne
 	private Magazine magazine;
+	
+	@OneToOne
 	private Article article;
 
 	public Order() {

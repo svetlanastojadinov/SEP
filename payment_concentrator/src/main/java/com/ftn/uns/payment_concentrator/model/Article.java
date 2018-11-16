@@ -1,7 +1,20 @@
 package com.ftn.uns.payment_concentrator.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Article {
+
+	@Id
+	@Column
+	private long id;
+	
+	@Column
 	private String title;
+	
+	@Column
 	private String authorUsername;
 
 	public Article() {
@@ -9,8 +22,9 @@ public class Article {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Article(String title, String authorUsername) {
+	public Article(long id, String title, String authorUsername) {
 		super();
+		this.id = id;
 		this.title = title;
 		this.authorUsername = authorUsername;
 	}
@@ -29,6 +43,14 @@ public class Article {
 
 	public void setAuthorUsername(String authorUsername) {
 		this.authorUsername = authorUsername;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }

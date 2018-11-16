@@ -1,7 +1,15 @@
 package com.ftn.uns.payment_concentrator.model;
 
+import javax.persistence.*;
+
+@Entity
 public class PaymentMethod {
+
+	@Id
+	@Column
 	private long id;
+
+	@Column
 	private PaymentType paymentType;
 
 	public PaymentMethod() {
