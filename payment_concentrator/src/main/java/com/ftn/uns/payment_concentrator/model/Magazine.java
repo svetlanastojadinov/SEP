@@ -15,7 +15,7 @@ public class Magazine {
 
 	@Id
 	@Column(nullable = false, unique = true)
-	private int issn;
+	private String issn;
 
 	@Column
 	private Subscription subscription;
@@ -28,7 +28,7 @@ public class Magazine {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Magazine(String title, int issn, Subscription subscription, Collection<Article> articles) {
+	public Magazine(String title, String issn, Subscription subscription, Collection<Article> articles) {
 		super();
 		this.title = title;
 		this.issn = issn;
@@ -44,11 +44,11 @@ public class Magazine {
 		this.title = title;
 	}
 
-	public int getIssn() {
+	public String getIssn() {
 		return issn;
 	}
 
-	public void setIssn(int issn) {
+	public void setIssn(String issn) {
 		this.issn = issn;
 	}
 
