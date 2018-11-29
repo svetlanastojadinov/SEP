@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ftn.uns.payment_concentrator.exeptions.UnexistingMagazineExepction;
+import com.ftn.uns.payment_concentrator.exeptions.UnexistingMagazineException;
 import com.ftn.uns.payment_concentrator.model.Magazine;
 import com.ftn.uns.payment_concentrator.repository.MagazineRepository;
 import com.ftn.uns.payment_concentrator.service.MagazineService;
@@ -18,9 +18,9 @@ public class MagazineServiceJpa implements MagazineService{
 	
 	@Override
 	public Magazine findOne(String issn) {
-		Magazine magazine=magazineRepository.getOne(issn);
-		if(magazine==null)
-			throw new UnexistingMagazineExepction(issn);
+		// TODO Auto-generated method stub
+		Magazine magazine=magazineRepository.findById(issn).orElseThrow(()->new UnexistingMagazineException(issn));
+		
 		return magazine;
 	}
 
@@ -45,7 +45,11 @@ public class MagazineServiceJpa implements MagazineService{
 	@Override
 	public Magazine update(Magazine magazine, String issn) {
 		// TODO Auto-generated method stub
-		return null;
+		Magazine magazineToUpdate=this.findOne(issn);
+		magazineToUpdate.setSubscription(magazine.getSubscription());
+		magazineToUpdate.setTitle(magazine.getTitle());
+		
+		return magazineRepository.save(magazineToUpdate);
 	}
 
 }

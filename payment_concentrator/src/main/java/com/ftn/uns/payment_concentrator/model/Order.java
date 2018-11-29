@@ -2,7 +2,11 @@ package com.ftn.uns.payment_concentrator.model;
 
 import java.util.Date;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="order_table")
@@ -29,6 +33,9 @@ public class Order {
 	
 	@OneToOne
 	private Article article;
+	
+	@Column
+	private boolean executed;
 
 	public Order() {
 		super();
@@ -36,7 +43,7 @@ public class Order {
 	}
 
 	public Order(long id, PaymentType paymentType, Double price, Date date, String payerUsername, Magazine magazine,
-			Article article) {
+			Article article, boolean executed) {
 		super();
 		this.id = id;
 		this.paymentType = paymentType;
@@ -45,6 +52,7 @@ public class Order {
 		this.payerUsername = payerUsername;
 		this.magazine = magazine;
 		this.article = article;
+		this.executed=executed;
 	}
 
 	public long getId() {
@@ -101,6 +109,14 @@ public class Order {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public Boolean getExecuted() {
+		return executed;
+	}
+
+	public void setExecuted(Boolean executed) {
+		this.executed = executed;
 	}
 
 }

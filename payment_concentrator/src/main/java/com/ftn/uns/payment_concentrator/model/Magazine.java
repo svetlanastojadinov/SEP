@@ -4,8 +4,11 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonValue;
 
 @Entity
 public class Magazine {
@@ -18,10 +21,8 @@ public class Magazine {
 	private String issn;
 
 	@Column
+	@Enumerated(EnumType.STRING)
 	private Subscription subscription;
-
-	@OneToMany
-	private Collection<Article> articles;
 
 	public Magazine() {
 		super();
@@ -33,7 +34,7 @@ public class Magazine {
 		this.title = title;
 		this.issn = issn;
 		this.subscription = subscription;
-		// this.articles = articles;
+		
 	}
 
 	public String getTitle() {
@@ -52,6 +53,7 @@ public class Magazine {
 		this.issn = issn;
 	}
 
+
 	public Subscription getSubscription() {
 		return subscription;
 	}
@@ -59,11 +61,5 @@ public class Magazine {
 	public void setSubscription(Subscription subscription) {
 		this.subscription = subscription;
 	}
-	/*
-	 * public Collection<Article> getArticles() { return articles; }
-	 * 
-	 * public void setArticles(Collection<Article> articles) { this.articles =
-	 * articles; }
-	 */
 
 }
