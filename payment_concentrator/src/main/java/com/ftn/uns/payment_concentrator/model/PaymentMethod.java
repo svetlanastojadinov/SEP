@@ -6,10 +6,12 @@ import javax.persistence.*;
 public class PaymentMethod {
 
 	@Id
-	@Column
+	@Column(nullable = false, unique = true)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 
 	@Column
+	@Enumerated(EnumType.STRING)
 	private PaymentType paymentType;
 
 	public PaymentMethod() {

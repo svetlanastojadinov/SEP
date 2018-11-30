@@ -4,6 +4,10 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -13,17 +17,19 @@ import javax.persistence.Table;
 public class Order {
 	
 	@Id
-	@Column
+	@Column(nullable = false, unique = true)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
 	@Column
+	@Enumerated(EnumType.STRING)
 	private PaymentType paymentType;
 	
 	@Column
 	private Double price;
 	
 	@Column
-	private Date date;
+	private Date dateOfTransaction;
 	
 	@Column
 	private String payerUsername;
@@ -48,7 +54,7 @@ public class Order {
 		this.id = id;
 		this.paymentType = paymentType;
 		this.price = price;
-		this.date = date;
+		this.dateOfTransaction = date;
 		this.payerUsername = payerUsername;
 		this.magazine = magazine;
 		this.article = article;
@@ -104,11 +110,11 @@ public class Order {
 	}
 
 	public Date getDate() {
-		return date;
+		return dateOfTransaction;
 	}
 
 	public void setDate(Date date) {
-		this.date = date;
+		this.dateOfTransaction = date;
 	}
 
 	public Boolean getExecuted() {

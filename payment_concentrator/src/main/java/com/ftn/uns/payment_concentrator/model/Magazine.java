@@ -8,8 +8,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
 @Entity
 public class Magazine {
 
