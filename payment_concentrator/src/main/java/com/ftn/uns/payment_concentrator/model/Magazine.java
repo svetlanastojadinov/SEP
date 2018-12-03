@@ -60,4 +60,11 @@ public class Magazine {
 		this.subscription = subscription;
 	}
 
+	@Override
+	public String toString() {
+		return issn + " " + title+" " + subscription;
+	}
+	
+	
+
 }

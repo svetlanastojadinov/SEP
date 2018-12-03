@@ -56,4 +56,11 @@ public class Article {
 		this.id = id;
 	}
 
+	@Override
+	public String toString() {
+		return id + " " + " " + title + " " + authorUsername;
+	}
+	
+	
+
 }

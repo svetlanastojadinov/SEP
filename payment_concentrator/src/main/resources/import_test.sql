@@ -1,6 +1,6 @@
-insert into payment_method(payment_type) values ('CARD');
-insert into payment_method(payment_type) values ('PAYPAL');
-insert into payment_method(payment_type) values ('BITCOIN');
+insert into payment_method(id,payment_type) values (1,'CARD');
+insert into payment_method(id,payment_type) values (2,'PAYPAL');
+insert into payment_method(id,payment_type) values (3,'BITCOIN');
 
 insert into article(title,author_username) values ('Title1','username1');
 insert into article(title,author_username) values ('Title2','username2');

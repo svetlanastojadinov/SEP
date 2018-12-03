@@ -1,0 +1,16 @@
+.margined {
+    width:85%;
+}
+
+th {
+    background-color: moccasin;
+}
+
+.welcome {
+    font-size: 250%;
+    color: brown;
+}
+
+.radioFont {
+    font-size: 200%;
+}
