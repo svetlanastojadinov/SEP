@@ -7,11 +7,14 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { HomepageComponent } from './homepage/homepage.component';
 import {SharedService} from './shared_service/shared.service';
+import {PaymentService} from './payment_service/payment.service';
+import { PaypalsuccesComponent } from './paypalsucces/paypalsucces.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomepageComponent
+    HomepageComponent,
+    PaypalsuccesComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +24,8 @@ import {SharedService} from './shared_service/shared.service';
     FormsModule
   ],
   providers: [
-    SharedService
+    SharedService,
+    PaymentService
   ],
   bootstrap: [AppComponent]
 })
