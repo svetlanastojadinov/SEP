@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {SharedService} from './../shared_service/shared.service';
 import { DatePipe } from '@angular/common';
+import {PaymentService} from './../payment_service/payment.service';
+import {Router,ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -18,7 +20,12 @@ export class HomepageComponent implements OnInit {
   private order: any = {};
   private selectedId: number = 0;
 
-  constructor(private sharedService:SharedService, private datePipe: DatePipe) { }
+  constructor(
+    private sharedService:SharedService, 
+    private datePipe: DatePipe,
+    private paymentService:PaymentService,
+    private router:Router 
+  ) { }
 
   ngOnInit() {
     this.sharedService.getMagazines().subscribe(
@@ -45,6 +52,15 @@ export class HomepageComponent implements OnInit {
   }
 
   buy() {
+    if(this.selectedPaymentMode === "PAYPAL") {
+      this.paymentService.makePayment("50").subscribe(
+        (data:any) => {
+          const url: string = data.redirect_url;
+          window.location.href = url;
+        }
+      );
+    }
+    /*
     this.order.paymentType=this.selectedPaymentMode;
     this.order.price=1000.00;
     this.order.dateOfTransaction = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
@@ -69,11 +85,13 @@ export class HomepageComponent implements OnInit {
       (data:any)=> {
         console.log("VRATIO SEEEE")
       }
-    )
+    )*/
     //this.order.
    // console.log(this.selectedPaymentMode);
    // console.log(this.indicator);  // magazine or article
     //alert("TREBA SADA IMPLEMENTIRATI")
+
+
   }
 
 }
