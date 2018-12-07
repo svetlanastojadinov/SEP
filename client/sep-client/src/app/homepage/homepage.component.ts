@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {SharedService} from './../shared_service/shared.service';
 import { DatePipe } from '@angular/common';
 import {PaymentService} from './../payment_service/payment.service';
+import {PaymentBTCService} from './../payment_btc_service/payment.btc.service';
 import {Router,ActivatedRoute} from '@angular/router';
 
 @Component({
@@ -24,6 +25,7 @@ export class HomepageComponent implements OnInit {
     private sharedService:SharedService, 
     private datePipe: DatePipe,
     private paymentService:PaymentService,
+    private paymentBTCService: PaymentBTCService,
     private router:Router 
   ) { }
 
@@ -58,7 +60,14 @@ export class HomepageComponent implements OnInit {
           const url: string = data.redirect_url;
           window.location.href = url;
         }
-      );
+      )}
+      if(this.selectedPaymentMode === "BITCOIN") {
+        this.paymentBTCService.makePaymentBTC(this.order).subscribe(
+          (data:any) => {
+            const url: string = data.redirect_url;
+            window.location.href = url;
+          }
+        );
     }
     /*
     this.order.paymentType=this.selectedPaymentMode;
