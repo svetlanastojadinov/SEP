@@ -49,7 +49,7 @@ public class PayPalClient {
 	    payment.setTransactions(transactions);
 
 	    RedirectUrls redirectUrls = new RedirectUrls();
-	    redirectUrls.setCancelUrl(adress+"/cancel");
+	    redirectUrls.setCancelUrl(adress+"/cancelPaypal");
 	    redirectUrls.setReturnUrl(adress+"/paypalsucces");
 	    payment.setRedirectUrls(redirectUrls);
 	    Payment createdPayment;
