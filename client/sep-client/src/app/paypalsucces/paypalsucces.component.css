@@ -1,0 +1,9 @@
+.big-font{
+    font-size: 300%;
+    color: brown;
+}
+
+button {
+    width: 25%;
+    height: 20%;
+}
