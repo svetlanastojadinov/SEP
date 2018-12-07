@@ -54,13 +54,7 @@ export class HomepageComponent implements OnInit {
   }
 
   buy() {
-    if(this.selectedPaymentMode === "PAYPAL") {
-      this.paymentService.makePayment("50").subscribe(
-        (data:any) => {
-          const url: string = data.redirect_url;
-          window.location.href = url;
-        }
-      )}
+    
       if(this.selectedPaymentMode === "BITCOIN") {
         this.paymentBTCService.makePaymentBTC(this.order).subscribe(
           (data:any) => {
@@ -68,12 +62,6 @@ export class HomepageComponent implements OnInit {
             window.location.href = url;
           }
         );
-    }
-    /*
-    this.order.paymentType=this.selectedPaymentMode;
-    this.order.price=1000.00;
-    this.order.dateOfTransaction = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-    this.order.payerUsername = "Buduci logovani korisnik/ci";
     if(this.indicator === 'magazine'){
       this.sharedService.getOneMagazine(this.selectedId).subscribe(
         (data:any)=>{
@@ -89,18 +77,14 @@ export class HomepageComponent implements OnInit {
         })
     }
 
-    //console.log(this.order);
-    this.sharedService.buy(this.order).subscribe(
-      (data:any)=> {
-        console.log("VRATIO SEEEE")
-      }
-    )*/
-    //this.order.
-   // console.log(this.selectedPaymentMode);
-   // console.log(this.indicator);  // magazine or article
-    //alert("TREBA SADA IMPLEMENTIRATI")
-
-
+    if(this.selectedPaymentMode === "PAYPAL") {
+      this.paymentService.makePayment("50",this.order).subscribe(
+        (data:any) => {
+          const url: string = data.redirect_url;
+          window.location.href = url;
+        }
+      );
+    }
   }
 
 }

@@ -4,7 +4,7 @@ import {Router,ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-paypalsucces',
-  templateUrl: './paypalsucces.component.html',
+  templateUrl: './paypalsucces.component.html', 
   styleUrls: ['./paypalsucces.component.css']
 })
 export class PaypalsuccesComponent implements OnInit {

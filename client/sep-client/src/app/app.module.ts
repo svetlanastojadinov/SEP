@@ -8,13 +8,15 @@ import {FormsModule} from '@angular/forms';
 import { HomepageComponent } from './homepage/homepage.component';
 import {SharedService} from './shared_service/shared.service';
 import {PaymentService} from './payment_service/payment.service';
-import { PaypalsuccesComponent } from './paypalsucces/paypalsucces.component'
+import { PaypalsuccesComponent } from './paypalsucces/paypalsucces.component';
+import { CancelPaypalComponent } from './cancel-paypal/cancel-paypal.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     HomepageComponent,
-    PaypalsuccesComponent
+    PaypalsuccesComponent,
+    CancelPaypalComponent
   ],
   imports: [
     BrowserModule,
