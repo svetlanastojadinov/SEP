@@ -55,13 +55,6 @@ export class HomepageComponent implements OnInit {
 
   buy() {
     
-      if(this.selectedPaymentMode === "BITCOIN") {
-        this.paymentBTCService.makePaymentBTC(this.order).subscribe(
-          (data:any) => {
-            const url: string = data.redirect_url;
-            window.location.href = url;
-          }
-        );
     if(this.indicator === 'magazine'){
       this.sharedService.getOneMagazine(this.selectedId).subscribe(
         (data:any)=>{
@@ -85,6 +78,14 @@ export class HomepageComponent implements OnInit {
         }
       );
     }
+    if(this.selectedPaymentMode === "BITCOIN") {
+      this.paymentBTCService.makePaymentBTC(this.order).subscribe(
+        (data:any) => {
+          const url: string = data.redirect_url;
+          window.location.href = url;
+        }
+      );
+      }
   }
 
 }
