@@ -5,7 +5,7 @@ import java.util.Date;
 public class BTCPaymentCallback {
 	private long id;
 	private long order_id;
-	private BTCOrderStatus status;
+	private String status;
 	private double price_amount;
 	private String receive_currency;
 	private double pay_amount;
@@ -16,7 +16,7 @@ public class BTCPaymentCallback {
 	public BTCPaymentCallback() {
 	}
 
-	public BTCPaymentCallback(long id, long order_id, BTCOrderStatus status, double price_amount,
+	public BTCPaymentCallback(long id, long order_id, String status, double price_amount,
 			String receive_currency, double pay_amount, String pay_currency, Date created_at, String token) {
 		super();
 		this.id = id;
@@ -46,11 +46,11 @@ public class BTCPaymentCallback {
 		this.order_id = order_id;
 	}
 
-	public BTCOrderStatus getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(BTCOrderStatus status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
