@@ -1,4 +1,4 @@
-package com.ftn.uns.payment_concentrator.paypal;
+package com.ftn.uns.payment_concentrator.paymentImpls;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
+import com.ftn.uns.payment_concentrator.paymentInterface.PaymentInterface;
 import com.paypal.api.payments.Amount;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payee;
@@ -21,14 +22,17 @@ import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 
 @Service
-public class PayPalClient {
+public class PayPalClient implements PaymentInterface{
 	public PayPalClient(){}
 	
 	private String clientId = "AYiZ1NVxzcFb0aHZnHSCaTqpeJpZf6ZSwJxoeFTKLAnvOktF8nOF0P3zcoL2FW3yRcSgyrxyHakUyoRl";
 	private String clientSecret = "ELTcYHBS5VuNby6wuz1Rn9wzHGbiWVGvnJaZuQ2Qn4QlrhoubqIJxl0HiencysO3KrkU8q4_6aWMkKJB";
 	private String adress = "http://localhost:4200";
-	public Map<String, Object> createPayment(String sum){
-	    Map<String, Object> response = new HashMap<String, Object>();
+	
+	@Override
+	public Map<String, Object> create(String sum) {
+		System.out.println("USAO U PAYPAL");
+		Map<String, Object> response = new HashMap<String, Object>();
 	    Amount amount = new Amount();
 	    amount.setCurrency("USD");
 	    amount.setTotal(sum);
@@ -73,8 +77,9 @@ public class PayPalClient {
 	    }
 	    return response;
 	}
-	
-	public Map<String, Object> completePayment(HttpServletRequest req){
+
+	@Override
+	public Map<String, Object> complete(HttpServletRequest req) {
 		Map<String, Object> response = new HashMap<String, Object>();
 	    Payment payment = new Payment();
 	    payment.setId(req.getParameter("paymentId"));

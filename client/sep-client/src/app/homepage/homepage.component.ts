@@ -79,7 +79,7 @@ export class HomepageComponent implements OnInit {
       );
     }
     if(this.selectedPaymentMode === "BITCOIN") {
-      this.paymentBTCService.makePaymentBTC(this.order).subscribe(
+      this.paymentBTCService.makePaymentBTC('0.001',this.order).subscribe(
         (data:any) => {
           const url: string = data.redirect_url;
           window.location.href = url;
