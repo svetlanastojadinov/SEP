@@ -14,7 +14,7 @@ export class PaymentBTCService {
   }
 
   completePaymentBTC(paymentId, payerId) {
- //   console.log(payerId);
-  //  return this.http.post('api/paypal/complete/payment?paymentId=' + paymentId + '&payerId=' + payerId , {});
+  // console.log("***********************"+payerId);
+    return this.http.post('api/bitcoin/complete/payment?paymentId=' + paymentId + '&payerId=' + payerId , {});
   }
 }

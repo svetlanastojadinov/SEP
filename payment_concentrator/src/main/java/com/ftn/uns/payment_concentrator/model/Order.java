@@ -13,33 +13,39 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="order_table")
+@Table(name = "order_table")
 public class Order {
-	
+
 	@Id
 	@Column(nullable = false, unique = true)
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@Column
 	@Enumerated(EnumType.STRING)
 	private PaymentType paymentType;
-	
+
 	@Column
 	private Double price;
-	
+
 	@Column
 	private Date dateOfTransaction;
-	
+
 	@Column
-	private String payerUsername;
-	
+	private String merchantId;
+
+	@Column
+	private String merchantPassword;
+
+	@Column
+	private String merchantOrderId;
+
 	@OneToOne
 	private Magazine magazine;
-	
+
 	@OneToOne
 	private Article article;
-	
+
 	@Column
 	private boolean executed;
 
@@ -48,17 +54,19 @@ public class Order {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Order(long id, PaymentType paymentType, Double price, Date date, String payerUsername, Magazine magazine,
-			Article article, boolean executed) {
+	public Order(long id, PaymentType paymentType, Double price, Date dateOfTransaction, String merchantId,
+			String merchantPassword, String merchantOrderId, Magazine magazine, Article article, boolean executed) {
 		super();
 		this.id = id;
 		this.paymentType = paymentType;
 		this.price = price;
-		this.dateOfTransaction = date;
-		this.payerUsername = payerUsername;
+		this.dateOfTransaction = dateOfTransaction;
+		this.merchantId = merchantId;
+		this.merchantPassword = merchantPassword;
+		this.merchantOrderId = merchantOrderId;
 		this.magazine = magazine;
 		this.article = article;
-		this.executed=executed;
+		this.executed = executed;
 	}
 
 	public long getId() {
@@ -83,14 +91,6 @@ public class Order {
 
 	public void setPrice(Double price) {
 		this.price = price;
-	}
-
-	public String getPayerUsername() {
-		return payerUsername;
-	}
-
-	public void setPayerUsername(String payerUsername) {
-		this.payerUsername = payerUsername;
 	}
 
 	public Magazine getMagazine() {
@@ -124,6 +124,36 @@ public class Order {
 	public void setExecuted(Boolean executed) {
 		this.executed = executed;
 	}
+	public Date getDateOfTransaction() {
+		return dateOfTransaction;
+	}
 
+	public void setDateOfTransaction(Date dateOfTransaction) {
+		this.dateOfTransaction = dateOfTransaction;
+	}
+
+	public String getMerchantId() {
+		return merchantId;
+	}
+
+	public void setMerchantId(String merchantId) {
+		this.merchantId = merchantId;
+	}
+
+	public String getMerchantPassword() {
+		return merchantPassword;
+	}
+
+	public void setMerchantPassword(String merchantPassword) {
+		this.merchantPassword = merchantPassword;
+	}
+
+	public String getMerchantOrderId() {
+		return merchantOrderId;
+	}
+
+	public void setMerchantOrderId(String merchantOrderId) {
+		this.merchantOrderId = merchantOrderId;
+	}
 
 }

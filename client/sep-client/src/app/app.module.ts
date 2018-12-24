@@ -10,13 +10,21 @@ import {SharedService} from './shared_service/shared.service';
 import {PaymentService} from './payment_service/payment.service';
 import { PaypalsuccesComponent } from './paypalsucces/paypalsucces.component';
 import { CancelPaypalComponent } from './cancel-paypal/cancel-paypal.component'
+import { BTCsuccessComponent } from './btcsuccess/btcsuccess.component';
+import { PaymentBTCService } from './payment_btc_service/payment.btc.service';
+import { CancelBTCComponent } from './cancel-btc/cancel-btc.component';
+import { PaymentCardService } from './payment_card_service/payment.card.service';
+import { BankCardInfoComponent } from './bank-card-info/bank-card-info.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomepageComponent,
     PaypalsuccesComponent,
-    CancelPaypalComponent
+    CancelPaypalComponent,
+    BTCsuccessComponent,
+    CancelBTCComponent,
+    BankCardInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +35,9 @@ import { CancelPaypalComponent } from './cancel-paypal/cancel-paypal.component'
   ],
   providers: [
     SharedService,
-    PaymentService
+    PaymentService,
+    PaymentBTCService,
+    PaymentCardService
   ],
   bootstrap: [AppComponent]
 })

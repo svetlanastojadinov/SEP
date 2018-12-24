@@ -2,6 +2,7 @@ package com.ftn.uns.payment_concentrator.paymentImpls;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,38 +18,38 @@ import com.ftn.uns.payment_concentrator.model.OrderViaBTC;
 import com.ftn.uns.payment_concentrator.paymentInterface.PaymentInterface;
 
 @Service
-public class BTCClient implements PaymentInterface{
+public class BTCClient implements PaymentInterface {
+
+	private String url = "http://localhost:4200";
+	private String sandboxUrl = "https://api-sandbox.coingate.com/v2/orders";
+	private String clientSecret = "Token CXaY7NVw4VbDTLRfQBb9C7bixEtQeXzQPJENVy5r";
+	private String token = UUID.randomUUID().toString();
 
 	@Override
 	public Map<String, Object> create(String sum) {
+		System.err.println("create btc");
 		Map<String, Object> response = new HashMap<String, Object>();
 		OrderViaBTC orderViaBTC = new OrderViaBTC();
-		/*
-		 * if(order.getMagazine()==null){
-		 * orderViaBTC.setOrder_id(Long.toString(order.getArticle().getId()));
-		 * }else{ orderViaBTC.setOrder_id(order.getMagazine().getIssn()); }
-		 * orderViaBTC.setPrice_amount(order.getPrice());
-		 */
-		System.out.println("RADI LI?");
+
 		orderViaBTC.setOrder_id("Merchant's ID");
 		orderViaBTC.setPrice_amount(Double.parseDouble(sum));
-		// orderViaBTC.setCallback_url("http://example.com/payments/accept-coingate-callback");
-		orderViaBTC.setCancel_url("http://localhost:4200");
-		orderViaBTC.setSuccess_url("http://localhost:4200");
-		orderViaBTC.setToken("ssssssVw4VbDTLRfQBb9C7bixEtQeXzQPJENVy5r");
+		orderViaBTC.setCancel_url(url + "/cancelbtc");
+		orderViaBTC.setSuccess_url(url + "/btcsucces");
+		// orderViaBTC.setCallback_url("http://localhost:8080/api/bitcoin/complete/payment");
+		orderViaBTC.setToken(token);
 
-		String url = "https://api-sandbox.coingate.com/v2/orders";
 		// CXaY7NVw4VbDTLRfQBb9C7bixEtQeXzQPJENVy5r sand
 		// 8nQpsozzqQVTzgYicPx2eutAoDn4aLbr_SpYD83R token
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", "Token CXaY7NVw4VbDTLRfQBb9C7bixEtQeXzQPJENVy5r");
-		ResponseEntity<OrderViaBTC> responseEntity = new RestTemplate().exchange(url, HttpMethod.POST,
+		headers.add("Authorization", clientSecret);
+		ResponseEntity<OrderViaBTC> responseEntity = new RestTemplate().exchange(sandboxUrl, HttpMethod.POST,
 				new HttpEntity<OrderViaBTC>(orderViaBTC, headers), OrderViaBTC.class);
 
 		if (responseEntity.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
 			response.put("status", "error");
 			return response;
 		}
+
 		response.put("status", "success");
 		response.put("redirect_url", responseEntity.getBody().getPayment_url());
 
@@ -57,6 +58,7 @@ public class BTCClient implements PaymentInterface{
 
 	@Override
 	public Map<String, Object> complete(HttpServletRequest request) {
+		System.err.println("COMPLETE ? ? ?");
 		// TODO Auto-generated method stub
 		return null;
 	}

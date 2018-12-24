@@ -48,7 +48,7 @@ public class OrderServiceJpa implements OrderService{
 		orderToUpdate.setPrice(order.getPrice());
 		orderToUpdate.setMagazine(order.getMagazine());
 		orderToUpdate.setArticle(order.getArticle());
-		orderToUpdate.setPayerUsername(order.getPayerUsername());
+		orderToUpdate.setMerchantId(order.getMerchantId());
 		orderToUpdate.setDate(order.getDate());
 		orderToUpdate.setExecuted(order.getExecuted());
 		

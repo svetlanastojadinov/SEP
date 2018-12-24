@@ -3,6 +3,7 @@ import {SharedService} from './../shared_service/shared.service';
 import { DatePipe } from '@angular/common';
 import {PaymentService} from './../payment_service/payment.service';
 import {PaymentBTCService} from './../payment_btc_service/payment.btc.service';
+import {PaymentCardService} from './../payment_card_service/payment.card.service';
 import {Router,ActivatedRoute} from '@angular/router';
 
 @Component({
@@ -26,6 +27,7 @@ export class HomepageComponent implements OnInit {
     private datePipe: DatePipe,
     private paymentService:PaymentService,
     private paymentBTCService: PaymentBTCService,
+    private paymentCardService: PaymentCardService,
     private router:Router 
   ) { }
 
@@ -85,7 +87,15 @@ export class HomepageComponent implements OnInit {
           window.location.href = url;
         }
       );
-      }
+    }
+    if(this.selectedPaymentMode === "CARD") {
+      this.paymentCardService.makePaymentCard("50",this.order).subscribe(
+        (data:any) => {
+          const url: string = data.redirect_url;
+          window.location.href = url;
+        }
+      );
+    }
   }
 
 }

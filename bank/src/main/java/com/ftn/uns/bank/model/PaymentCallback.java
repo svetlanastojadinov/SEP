@@ -34,5 +34,10 @@ public class PaymentCallback {
 		this.paymentId = paymentId;
 	}
 	
+	@Override
+	public String toString(){
+		return "paymentUrl="+paymentUrl+"paymentId="+paymentId;
+		
+	}
 	
 }

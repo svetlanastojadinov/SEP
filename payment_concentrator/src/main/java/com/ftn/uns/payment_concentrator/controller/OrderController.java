@@ -58,8 +58,8 @@ public class OrderController {
 		if (order.getPaymentType() != updatedOrder.getPaymentType()) {
 			updatedOrder.setPaymentType(order.getPaymentType());
 		}
-		if (order.getPayerUsername() != updatedOrder.getPayerUsername()) {
-			updatedOrder.setPayerUsername(order.getPayerUsername());
+		if (order.getMerchantId() != updatedOrder.getMerchantId()) {
+			updatedOrder.setMerchantId(order.getMerchantId());
 		}
 		if (order.getMagazine() != updatedOrder.getMagazine()) {
 			updatedOrder.setMagazine(order.getMagazine());

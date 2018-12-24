@@ -31,6 +31,8 @@ public class TransactionController {
 	private PaymentSameBank paymentSameBank;
 	
 	private String bankCode="1";
+	
+	private String url = "http://localhost:4200/via-card";
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Collection<Transaction>> getTransactions() {
@@ -55,18 +57,15 @@ public class TransactionController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	private ResponseEntity<PaymentCallback> startTransaction(@Valid @RequestBody Transaction transaction) {
-		Transaction savedTransaction = transactionService.save(transaction);
-		// da li je zahtev ispravan???
-
-		String url = "http://localhost:4200";
+	private ResponseEntity<String> startTransaction(@Valid @RequestBody String sum) {
+	//	Transaction savedTransaction = transactionService.save(transaction);
+		System.out.println("bank: primila zahtev");
+		
 		PaymentCallback paymentCallback = new PaymentCallback();
-		paymentCallback.setPaymentId(savedTransaction.getId());
+		paymentCallback.setPaymentId(Long.parseLong(sum));
 		paymentCallback.setPaymentUrl(url);
 
-		//redirect 
-		System.out.println("pokrenuta transakcija");
-		return new ResponseEntity<>(paymentCallback, HttpStatus.OK);
+		return new ResponseEntity<String>(paymentCallback.toString(), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{paymentId}", method = RequestMethod.POST)
