@@ -2,6 +2,8 @@ package com.ftn.uns.bank.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -29,10 +31,10 @@ public class TransactionController {
 
 	@Autowired
 	private PaymentSameBank paymentSameBank;
-	
-	private String bankCode="1";
-	
-	private String url = "http://localhost:4200/via-card";
+
+	private String bankCode = "1";
+
+	private String url = "http://localhost:1337";
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Collection<Transaction>> getTransactions() {
@@ -58,9 +60,9 @@ public class TransactionController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	private ResponseEntity<String> startTransaction(@Valid @RequestBody String sum) {
-	//	Transaction savedTransaction = transactionService.save(transaction);
+		// Transaction savedTransaction = transactionService.save(transaction);
 		System.out.println("bank: primila zahtev");
-		
+
 		PaymentCallback paymentCallback = new PaymentCallback();
 		paymentCallback.setPaymentId(Long.parseLong(sum));
 		paymentCallback.setPaymentUrl(url);
@@ -69,16 +71,17 @@ public class TransactionController {
 	}
 
 	@RequestMapping(value = "/{paymentId}", method = RequestMethod.POST)
-	public ResponseEntity<?> completeTransaction(@PathVariable long paymentId,
+	public Map<String, Object> completeTransaction(@PathVariable long paymentId,
 			@Valid @RequestBody ClientAccount clientAccount) {
-
+		Map<String, Object> response = new HashMap<String, Object>();
+		
 		if (clientAccount.getPan().startsWith(bankCode)) {
-			paymentSameBank.completeTransaction(clientAccount, paymentId);
+			response = paymentSameBank.completeTransaction(clientAccount, paymentId);
 		} else {
 			// pcc
 		}
 
-		return new ResponseEntity<>("", HttpStatus.OK);
+		return response;
 	}
 
 }

@@ -14,7 +14,6 @@ import { BTCsuccessComponent } from './btcsuccess/btcsuccess.component';
 import { PaymentBTCService } from './payment_btc_service/payment.btc.service';
 import { CancelBTCComponent } from './cancel-btc/cancel-btc.component';
 import { PaymentCardService } from './payment_card_service/payment.card.service';
-import { BankCardInfoComponent } from './bank-card-info/bank-card-info.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +23,6 @@ import { BankCardInfoComponent } from './bank-card-info/bank-card-info.component
     CancelPaypalComponent,
     BTCsuccessComponent,
     CancelBTCComponent,
-    BankCardInfoComponent
   ],
   imports: [
     BrowserModule,
