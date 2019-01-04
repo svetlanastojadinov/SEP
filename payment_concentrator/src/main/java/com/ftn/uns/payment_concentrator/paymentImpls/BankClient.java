@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.ftn.uns.payment_concentrator.model.Order;
 import com.ftn.uns.payment_concentrator.paymentInterface.PaymentInterface;
 
 @Service
@@ -23,14 +24,14 @@ public class BankClient implements PaymentInterface {
 																		// prodavca
 
 	@Override
-	public Map<String, Object> create(String sum) {
+	public Map<String, Object> create(Order order) {
 		System.err.println("pc: placanje karticom");
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		ResponseEntity<String> responseEntity = new RestTemplate().exchange(urlBank, HttpMethod.POST,
-				new HttpEntity<String>(sum, headers), String.class);
+		ResponseEntity<Map> responseEntity = new RestTemplate().exchange(urlBank, HttpMethod.POST,
+				new HttpEntity<Order>(order, headers), Map.class);
 
 		if (responseEntity.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
 			response.put("status", "error");
@@ -38,14 +39,16 @@ public class BankClient implements PaymentInterface {
 			return response;
 		}
 		response.put("status", "success");
-		response.put("redirect_url", responseEntity.getBody().split("=")[1].split("paymentId")[0]);
-
+		response.put("redirect_url",
+				responseEntity.getBody().get("url") + "/" + String.valueOf(responseEntity.getBody().get("paymentId")));
+		System.err.println("banka oleee " + response.get("redirect_url"));
 		return response;
 	}
 
 	@Override
 	public Map<String, Object> complete(HttpServletRequest request) {
-		// TODO Auto-generated method stub
+		System.out.println("pc: zavrseno placanje");
+		// sacuvati podatke
 		return null;
 	}
 

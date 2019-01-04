@@ -59,22 +59,25 @@ public class TransactionController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	private ResponseEntity<String> startTransaction(@Valid @RequestBody String sum) {
-		// Transaction savedTransaction = transactionService.save(transaction);
-		System.out.println("bank: primila zahtev");
+	private ResponseEntity<Map<String, Object>> startTransaction(@RequestBody Transaction transaction) {
+
+		Transaction savedTransaction = transactionService.save(transaction);
 
 		PaymentCallback paymentCallback = new PaymentCallback();
-		paymentCallback.setPaymentId(Long.parseLong(sum));
+		paymentCallback.setPaymentId(savedTransaction.getId());
 		paymentCallback.setPaymentUrl(url);
 
-		return new ResponseEntity<String>(paymentCallback.toString(), HttpStatus.OK);
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("paymentId", paymentCallback.getPaymentId());
+		response.put("url", paymentCallback.getPaymentUrl());
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{paymentId}", method = RequestMethod.POST)
 	public Map<String, Object> completeTransaction(@PathVariable long paymentId,
 			@Valid @RequestBody ClientAccount clientAccount) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		
+
 		if (clientAccount.getPan().startsWith(bankCode)) {
 			response = paymentSameBank.completeTransaction(clientAccount, paymentId);
 		} else {

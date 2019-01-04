@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class Transaction {
 
 	@Id
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = true, length=10)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
@@ -131,6 +131,13 @@ public class Transaction {
 
 	public void setErrorUrl(String errorUrl) {
 		this.errorUrl = errorUrl;
+	}
+
+	@Override
+	public String toString() {
+		return "Transaction [id=" + id + ", merchantId=" + merchantId + ", merchantPassword=" + merchantPassword
+				+ ", merchantOrderId=" + merchantOrderId + ", merchantTimestamp=" + merchantTimestamp + ", amount="
+				+ amount + ", successUrl=" + successUrl + ", failedUrl=" + failedUrl + ", errorUrl=" + errorUrl + "]";
 	}
 
 }

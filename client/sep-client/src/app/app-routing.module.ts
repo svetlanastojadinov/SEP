@@ -5,6 +5,7 @@ import {PaypalsuccesComponent} from './paypalsucces/paypalsucces.component';
 import {BTCsuccessComponent} from './btcsuccess/btcsuccess.component';
 import { CancelPaypalComponent } from './cancel-paypal/cancel-paypal.component'
 import { CancelBTCComponent } from './cancel-btc/cancel-btc.component';
+import { CardSuccessComponent } from './cardsucess/cardsuccess.component';
 
 const routes: Routes = [
     {path: 'homepage', component: HomepageComponent},
@@ -12,8 +13,8 @@ const routes: Routes = [
     {path: 'paypalsucces', component: PaypalsuccesComponent},
     {path: 'btcsuccess', component: BTCsuccessComponent},
     {path: 'cancelPaypal', component: CancelPaypalComponent},
-    {path: 'cancelbtc', component: CancelBTCComponent}
-
+    {path: 'cancelbtc', component: CancelBTCComponent},
+    {path: 'cardsuccess', component: CardSuccessComponent},
 ];
 
 @NgModule({

@@ -14,6 +14,7 @@ import { BTCsuccessComponent } from './btcsuccess/btcsuccess.component';
 import { PaymentBTCService } from './payment_btc_service/payment.btc.service';
 import { CancelBTCComponent } from './cancel-btc/cancel-btc.component';
 import { PaymentCardService } from './payment_card_service/payment.card.service';
+import { CardSuccessComponent } from './cardsucess/cardsuccess.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { PaymentCardService } from './payment_card_service/payment.card.service'
     CancelPaypalComponent,
     BTCsuccessComponent,
     CancelBTCComponent,
+    CardSuccessComponent
   ],
   imports: [
     BrowserModule,

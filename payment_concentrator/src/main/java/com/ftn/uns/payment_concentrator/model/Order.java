@@ -26,10 +26,10 @@ public class Order {
 	private PaymentType paymentType;
 
 	@Column
-	private Double price;
+	private Double amount;
 
 	@Column
-	private Date dateOfTransaction;
+	private Date merchantTimestamp;
 
 	@Column
 	private String merchantId;
@@ -54,13 +54,13 @@ public class Order {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Order(long id, PaymentType paymentType, Double price, Date dateOfTransaction, String merchantId,
+	public Order(long id, PaymentType paymentType, Double amount, Date merchantTimestamp, String merchantId,
 			String merchantPassword, String merchantOrderId, Magazine magazine, Article article, boolean executed) {
 		super();
 		this.id = id;
 		this.paymentType = paymentType;
-		this.price = price;
-		this.dateOfTransaction = dateOfTransaction;
+		this.amount = amount;
+		this.merchantTimestamp = merchantTimestamp;
 		this.merchantId = merchantId;
 		this.merchantPassword = merchantPassword;
 		this.merchantOrderId = merchantOrderId;
@@ -85,12 +85,12 @@ public class Order {
 		this.paymentType = paymentType;
 	}
 
-	public Double getPrice() {
-		return price;
+	public Double getAmount() {
+		return amount;
 	}
 
-	public void setPrice(Double price) {
-		this.price = price;
+	public void setAmount(Double amount) {
+		this.amount = amount;
 	}
 
 	public Magazine getMagazine() {
@@ -110,11 +110,11 @@ public class Order {
 	}
 
 	public Date getDate() {
-		return dateOfTransaction;
+		return merchantTimestamp;
 	}
 
 	public void setDate(Date date) {
-		this.dateOfTransaction = date;
+		this.merchantTimestamp = date;
 	}
 
 	public Boolean getExecuted() {
@@ -123,13 +123,6 @@ public class Order {
 
 	public void setExecuted(Boolean executed) {
 		this.executed = executed;
-	}
-	public Date getDateOfTransaction() {
-		return dateOfTransaction;
-	}
-
-	public void setDateOfTransaction(Date dateOfTransaction) {
-		this.dateOfTransaction = dateOfTransaction;
 	}
 
 	public String getMerchantId() {
@@ -154,6 +147,14 @@ public class Order {
 
 	public void setMerchantOrderId(String merchantOrderId) {
 		this.merchantOrderId = merchantOrderId;
+	}
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", paymentType=" + paymentType + ", amount=" + amount + ", dateOfTransaction="
+				+ merchantTimestamp + ", merchantId=" + merchantId + ", merchantPassword=" + merchantPassword
+				+ ", merchantOrderId=" + merchantOrderId + ", magazine=" + magazine + ", article=" + article
+				+ ", executed=" + executed + "]";
 	}
 
 }

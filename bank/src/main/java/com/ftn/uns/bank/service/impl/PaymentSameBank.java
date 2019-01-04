@@ -26,7 +26,7 @@ public class PaymentSameBank {
 	@Autowired
 	private TransactionService transactionService;
 	
-	private String url="http://localhost:4200/";
+	private String url="http://localhost:4200";
 
 	public Map<String, Object> completeTransaction(ClientAccount clientAccount, long paymentId) {
 
@@ -46,20 +46,20 @@ public class PaymentSameBank {
 				|| !clientFromDB.getCardHolderName().equals(clientAccount.getCardHolderName())) {
 			// wrong data, redirect
 			response.put("status", "wrong data");
-			response.put("redirect_url", url+"/cancelPaypal");
+			response.put("redirect_url", url+"/cancel");
 			return response;
 		}
 		if (clientFromDB.getExpirationDate().before(new Date())) {
 			// expired, redirect
 			response.put("status", "expired");
-			response.put("redirect_url", url+"/cancelPaypal");
+			response.put("redirect_url", url+"/cancel");
 			return response;
 		}
 
 		if (clientFromDB.getAvailableFunds() < transaction.getAmount()) {
 			// client doesn't have enough money, redirect
 			response.put("status", "error");
-			response.put("redirect_url", url+"/cancelPaypal");
+			response.put("redirect_url", url+"/cancel");
 			return response;
 		} else {
 			System.err.println("PLACAMOOO " + transaction.getAmount() + " od " + clientFromDB.getPan() + " za "
@@ -69,7 +69,7 @@ public class PaymentSameBank {
 			clientAccountService.updateFunds(clientMerchant.getClientAccount(),
 					clientMerchant.getClientAccount().getAvailableFunds() + transaction.getAmount());
 			response.put("status", "success");
-			response.put("status", url+"/paypalsucces");
+			response.put("redirect_url", url+"/cardsuccess");
 			
 
 		}

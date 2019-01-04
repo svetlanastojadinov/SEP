@@ -19,7 +19,6 @@
     float: left;
     font-size: 18px;
     padding: 10px 25px;
-    margin-top: 20px;
     position: relative;
 }
 .creditCardForm .payment .form-group {
@@ -42,7 +41,7 @@
     width: 100%;
 }
 .creditCardForm #expiration-date {
-    width: 49%;
+    width: 47%;
 }
 .creditCardForm #credit_cards {
     width: 50%;
@@ -51,7 +50,7 @@
 }
 .creditCardForm #pay-now {
     width: 100%;
-    margin-top: 25px;
+    margin-top: 20px;
 }
 .creditCardForm .payment .btn {
     width: 100%;

@@ -56,7 +56,14 @@ export class HomepageComponent implements OnInit {
   }
 
   buy() {
-    
+    this.order.amount=0.001;
+    this.order.merchantTimestamp=new Date();
+    this.order.merchantId='merchantId';
+    this.order.merchantPassword='merchantPass';
+    this.order.merchantOrderId='';
+    this.order.executed=false;
+    this.order.paymentType=this.selectedPaymentMode;
+     
     if(this.indicator === 'magazine'){
       this.sharedService.getOneMagazine(this.selectedId).subscribe(
         (data:any)=>{
@@ -73,7 +80,7 @@ export class HomepageComponent implements OnInit {
     }
 
     if(this.selectedPaymentMode === "PAYPAL") {
-      this.paymentService.makePayment("50",this.order).subscribe(
+      this.paymentService.makePayment(this.order).subscribe(
         (data:any) => {
           const url: string = data.redirect_url;
           window.location.href = url;
@@ -81,7 +88,7 @@ export class HomepageComponent implements OnInit {
       );
     }
     if(this.selectedPaymentMode === "BITCOIN") {
-      this.paymentBTCService.makePaymentBTC('0.001',this.order).subscribe(
+      this.paymentBTCService.makePaymentBTC(this.order).subscribe(
         (data:any) => {
           const url: string = data.redirect_url;
           window.location.href = url;
@@ -89,7 +96,7 @@ export class HomepageComponent implements OnInit {
       );
     }
     if(this.selectedPaymentMode === "CARD") {
-      this.paymentCardService.makePaymentCard("50",this.order).subscribe(
+      this.paymentCardService.makePaymentCard(this.order).subscribe(
         (data:any) => {
           const url: string = data.redirect_url;
           window.location.href = url;

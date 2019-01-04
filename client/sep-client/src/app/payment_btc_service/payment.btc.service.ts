@@ -9,8 +9,8 @@ export class PaymentBTCService {
 
   constructor(private http:HttpClient) { }
 
-  makePaymentBTC(sum, order) {
-    return this.http.post('api/bitcoin/make/payment?sum='+sum, {order:order});
+  makePaymentBTC(order) {
+    return this.http.post('api/bitcoin/make/payment', order);
   }
 
   completePaymentBTC(paymentId, payerId) {

@@ -3,8 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import { BankCardInfoComponent } from './bank-card-info/bank-card-info.component';
 
 const routes: Routes = [
-    {path: '**',component: BankCardInfoComponent},
-
+    {path: ':url',component: BankCardInfoComponent},
 ];
 
 @NgModule({

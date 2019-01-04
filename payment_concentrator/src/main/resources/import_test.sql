@@ -11,8 +11,8 @@ insert into magazine(title,issn,subscription) values ('Title1',10000001,'READER_
 insert into magazine(title,issn,subscription) values ('Title2',10000002,'READER_PAYS');
 insert into magazine(title,issn,subscription) values ('Title3',10000003,'READER_PAYS');
 
-insert into order_table(payment_type, price, date_of_transaction,merchant_id, executed) values ('CARD',100,{ts '2018-11-29 18:47:52.69'},'buyer1',0);
-insert into order_table(payment_type, price, date_of_transaction,merchant_id, executed) values ('PAYPAL',100,{ts '2018-11-28 18:47:52.69'},'buyer2',1);
-insert into order_table(payment_type, price, date_of_transaction,merchant_id, executed) values ('BITCOIN',100,{ts '2018-11-27 18:47:52.69'},'buyer3',0);
-insert into order_table(payment_type, price, date_of_transaction,merchant_id, executed) values ('CARD',100,{ts '2018-11-26 18:47:52.69'},'buyer1',0);
+insert into order_table(payment_type, amount, merchant_timestamp,merchant_id, executed) values ('CARD',100,{ts '2018-11-29 18:47:52.69'},'buyer1',0);
+insert into order_table(payment_type, amount, merchant_timestamp,merchant_id, executed) values ('PAYPAL',100,{ts '2018-11-28 18:47:52.69'},'buyer2',1);
+insert into order_table(payment_type, amount, merchant_timestamp,merchant_id, executed) values ('BITCOIN',100,{ts '2018-11-27 18:47:52.69'},'buyer3',0);
+insert into order_table(payment_type, amount, merchant_timestamp,merchant_id, executed) values ('CARD',100,{ts '2018-11-26 18:47:52.69'},'buyer1',0);
 

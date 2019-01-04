@@ -7,6 +7,7 @@ import {FormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { BankCardInfoComponent } from './bank-card-info/bank-card-info.component';
+import { PaymentCardService } from './payment_card_service/payment.card.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,9 @@ import { BankCardInfoComponent } from './bank-card-info/bank-card-info.component
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    PaymentCardService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
