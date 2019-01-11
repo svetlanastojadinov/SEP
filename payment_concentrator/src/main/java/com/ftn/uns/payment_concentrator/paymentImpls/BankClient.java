@@ -23,6 +23,7 @@ public class BankClient implements PaymentInterface {
 	private String urlBank = "http://localhost:8083/api/transactions";// banka
 																		// prodavca
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Map<String, Object> create(Order order) {
 		System.err.println("pc: placanje karticom");
@@ -35,20 +36,20 @@ public class BankClient implements PaymentInterface {
 
 		if (responseEntity.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
 			response.put("status", "error");
-			response.put("redirect_url", "");
+			response.put("redirect_url", "/error");
 			return response;
 		}
 		response.put("status", "success");
 		response.put("redirect_url",
 				responseEntity.getBody().get("url") + "/" + String.valueOf(responseEntity.getBody().get("paymentId")));
-		System.err.println("banka oleee " + response.get("redirect_url"));
+	
 		return response;
 	}
 
 	@Override
 	public Map<String, Object> complete(HttpServletRequest request) {
 		System.out.println("pc: zavrseno placanje");
-		// sacuvati podatke
+		
 		return null;
 	}
 

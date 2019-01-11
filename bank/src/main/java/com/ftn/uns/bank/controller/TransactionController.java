@@ -25,8 +25,9 @@ import org.springframework.web.client.RestTemplate;
 import com.ftn.uns.bank.model.ClientAccount;
 import com.ftn.uns.bank.model.PaymentCallback;
 import com.ftn.uns.bank.model.Transaction;
+import com.ftn.uns.bank.paymentImpls.PaymentDifferentBank;
+import com.ftn.uns.bank.paymentImpls.PaymentSameBank;
 import com.ftn.uns.bank.service.TransactionService;
-import com.ftn.uns.bank.service.impl.PaymentSameBank;
 
 @RestController
 @RequestMapping("/api/transactions")
@@ -38,8 +39,11 @@ public class TransactionController {
 	@Autowired
 	private PaymentSameBank paymentSameBank;
 
-	private String bankCode = "1";
-	private String urlPcc="http://localhost:8082/api/banks/payment";
+	@Autowired
+	private PaymentDifferentBank paymentDiffBank;
+
+	private String bin = "438131"; // unic banka
+	private String urlPcc = "http://localhost:8082/api/banks/payment";
 
 	private String url = "http://localhost:1337";
 
@@ -66,8 +70,7 @@ public class TransactionController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	private ResponseEntity<Map<String, Object>> startTransaction(@RequestBody Transaction transaction) {
-
+	private ResponseEntity<Map<String, Object>> initiateTransaction(@RequestBody Transaction transaction) {
 		Transaction savedTransaction = transactionService.save(transaction);
 
 		PaymentCallback paymentCallback = new PaymentCallback();
@@ -80,25 +83,42 @@ public class TransactionController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/{paymentId}", method = RequestMethod.POST)
-	public Map<String, Object> completeTransaction(@PathVariable long paymentId,
+	public Map<String, Object> startTransaction(@PathVariable long paymentId,
 			@Valid @RequestBody ClientAccount clientAccount) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
-		if (clientAccount.getPan().startsWith(bankCode)) {
-			response = paymentSameBank.completeTransaction(clientAccount, paymentId);
+		if (clientAccount.getPan().startsWith(bin)) {
+			response = paymentSameBank.completingTransaction(clientAccount, paymentId);
 		} else {
-			// pcc
 			Map<String, Object> request = new HashMap<String, Object>();
-			request.put("ACQUIRER_ORDER_ID",(long)(Math.random()*(9999999999.00 - 1000000000 + 1) + 1000000000));
+			request.put("ACQUIRER_ORDER_ID", paymentId);
 			request.put("ACQUIRER_TIMESTAMP", new Date());
 			request.put("clientAccount", clientAccount);
-			
+
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			ResponseEntity<Map> responseEntity = new RestTemplate().exchange(urlPcc, HttpMethod.POST,
 					new HttpEntity<Map>(request, headers), Map.class);
+			response = responseEntity.getBody();
 		}
+
+		return response;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/completing", method = RequestMethod.POST)
+	public Map<String, Object> completingTransactionDiffBank(@RequestBody Map map) {
+		Map<String, Object> response = paymentDiffBank.completingTransaction(map);
+
+		return response;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/complete", method = RequestMethod.POST)
+	public Map<String, Object> completeDiffTransaction(@Valid @RequestBody Map map) {
+		Map<String, Object> response = paymentDiffBank.completeTransaction(map);
 
 		return response;
 	}

@@ -2,7 +2,6 @@ package com.ftn.uns.pcc.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.uns.pcc.model.Bank;
+import com.ftn.uns.pcc.paymentImpl.PaymentPcc;
 import com.ftn.uns.pcc.service.BankService;
 
 @RestController
@@ -24,6 +24,9 @@ import com.ftn.uns.pcc.service.BankService;
 public class BankController {
 	@Autowired
 	private BankService bankService;
+
+	@Autowired
+	private PaymentPcc paymentPcc;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Collection<Bank>> getBanks() {
@@ -53,15 +56,12 @@ public class BankController {
 		return new ResponseEntity<Bank>(HttpStatus.OK);
 	}
 
+	@SuppressWarnings({ "rawtypes" })
 	@RequestMapping(value = "/payment", method = RequestMethod.POST)
 	private ResponseEntity<Map> payment(@RequestBody Map map) {
-		Map<String, Object> response = new HashMap<String, Object>();
+		Map<String, Object> responseMap = paymentPcc.completingTransaction(map);
 
-		System.err.println("pcc: primila zahtev");
-		System.err.println(map.get("ACQUIRER_ORDER_ID"));
-		System.err.println(map.get("clientAccount"));
-
-		return new ResponseEntity<Map>(response, HttpStatus.CREATED);
+		return new ResponseEntity<Map>(responseMap, HttpStatus.OK);
 	}
 
 }

@@ -1,3 +1,2 @@
-insert into bank(id, name) values (1,'bank1');
-insert into bank(id, name) values (2,'bank2');
-insert into bank(id, name) values (3,'bank3');
+insert into bank(bin, port, url, name, brand) values (438131,8083,'1337','UNICREDIT BANK SERBIA JSC BELGRADE', 'VISA');
+insert into bank(bin, port, url, name, brand) values (418340,8083,'1337','BANK INTESA AD BELGRADE', 'VISA');
