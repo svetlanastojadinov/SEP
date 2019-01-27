@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {PaymentBTCService} from './../payment_btc_service/payment.btc.service';
 import {Router,ActivatedRoute} from '@angular/router';
-import { PaymentCardService } from '../payment_card_service/payment.card.service';
+import { PaymentCardService } from 'src/app/payment_card_service/payment.card.service';
 
 @Component({
   selector: 'app-cardsuccess',
@@ -14,7 +13,10 @@ export class CardSuccessComponent implements OnInit {
     private activatedRoute:ActivatedRoute,private router:Router) { }
  
   ngOnInit() {
-    console.log("zavrseno placanje");
+    this.paymentService.completePaymentCard(1,"payerId").subscribe(
+      (data:any)=>{
+        console.log(data); 
+      });//paymentId,payerId
   }
 
   backToCart(){

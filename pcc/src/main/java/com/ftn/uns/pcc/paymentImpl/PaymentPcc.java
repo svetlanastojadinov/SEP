@@ -30,7 +30,6 @@ public class PaymentPcc {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		// provera da li je zahtev ispravan?
 		String pan = (String) ((Map<String, Object>) map.get("clientAccount")).get("pan");
 		ArrayList<Bank> banks = (ArrayList<Bank>) bankService.findAll();
 		for (Bank bank : banks) {

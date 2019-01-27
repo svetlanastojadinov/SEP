@@ -22,6 +22,7 @@ public class BankClient implements PaymentInterface {
 
 	private String urlBank = "http://localhost:8083/api/transactions";// banka
 																		// prodavca
+	private String address = "http://localhost:4200";
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -31,25 +32,26 @@ public class BankClient implements PaymentInterface {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
+
 		ResponseEntity<Map> responseEntity = new RestTemplate().exchange(urlBank, HttpMethod.POST,
 				new HttpEntity<Order>(order, headers), Map.class);
 
 		if (responseEntity.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
 			response.put("status", "error");
-			response.put("redirect_url", "/error");
+			response.put("redirect_url", address + "/error");
 			return response;
 		}
 		response.put("status", "success");
 		response.put("redirect_url",
 				responseEntity.getBody().get("url") + "/" + String.valueOf(responseEntity.getBody().get("paymentId")));
-	
+
 		return response;
 	}
 
 	@Override
 	public Map<String, Object> complete(HttpServletRequest request) {
 		System.out.println("pc: zavrseno placanje");
-		
+
 		return null;
 	}
 

@@ -13,8 +13,7 @@ export class PaymentCardService {
     return this.http.post('api/card/make/payment',order);
   }
   completePaymentCard(paymentId, payerId) {
-    // console.log("***********************"+payerId);
-      return this.http.post('api/card/complete/payment?paymentId=' + paymentId + '&payerId=' + payerId , {});
+    return this.http.post('api/card/complete/payment?paymentId=' + paymentId + '&payerId=' + payerId , {});
     }
 
 }

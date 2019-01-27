@@ -27,6 +27,8 @@ import {SharedService} from './../shared_service/shared.service';
     private router:Router,
     private paymentCardService: PaymentCardService) { }
    ngOnInit() {
+
+
     this.activatedRoute.params.subscribe(params => {
       this.url=params['url'];
     });
@@ -40,7 +42,6 @@ import {SharedService} from './../shared_service/shared.service';
       });
   }
   confirm( ){
-    
 
     this.creditCard.pan = this.creditCardForm.value.PAN;
     this.creditCard.securityCode = this.creditCardForm.value.cvv;
@@ -55,13 +56,12 @@ import {SharedService} from './../shared_service/shared.service';
     this.paymentCardService.completePaymentCard(this.url, this.creditCard).subscribe( //123 je id nadjene transakcije
       (data:any) => {
         const url: string = data.redirect_url;
-        console.log("********** "+url);
-        window.location.href = url;
+        window.location.href = url; 
       });
   }
   
   backToCart(){
-  //  this.router.navigate(['homepage']);
+    window.location.href="http://localhost:4200";
   }
   
 }

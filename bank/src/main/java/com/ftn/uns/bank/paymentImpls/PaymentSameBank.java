@@ -35,32 +35,15 @@ public class PaymentSameBank {
 
 		ClientAccount clientFromDB = clientAccountService.findOne(clientAccount.getPan());
 
-		if (clientFromDB == null) {
-			response.put("status", "wrong data");
-			response.put("redirect_url", url + "/error");
-			return response;
-		}
-		if (!clientFromDB.getSecurityCode().equals(clientAccount.getSecurityCode())
-				|| !clientFromDB.getCardHolderName().equals(clientAccount.getCardHolderName())) {
-			response.put("status", "wrong data");
-			response.put("redirect_url", url + "/error");
-			return response;
-		}
-		if (clientFromDB.getAvailableFunds() < transaction.getAmount()) {
-			response.put("status", "failed");
-			response.put("redirect_url", url + "/failed");
-			return response;
-		} else {
-			System.err.println("ista banka: PLACAMOOO " + transaction.getAmount() + " od " + clientFromDB.getPan() + " za "
-					+ clientMerchant.getClientAccount().getPan());
+		System.err.println("ista banka: PLACAMOOO " + transaction.getAmount() + " od " + clientFromDB.getPan() + " za "
+				+ clientMerchant.getClientAccount().getPan());
 
-			clientAccountService.updateFunds(clientFromDB, clientFromDB.getAvailableFunds() - transaction.getAmount());
-			clientAccountService.updateFunds(clientMerchant.getClientAccount(),
-					clientMerchant.getClientAccount().getAvailableFunds() + transaction.getAmount());
-			response.put("status", "success");
-			response.put("redirect_url", url + "/cardsuccess");
+		clientAccountService.updateFunds(clientFromDB, clientFromDB.getAvailableFunds() - transaction.getAmount());
+		clientAccountService.updateFunds(clientMerchant.getClientAccount(),
+				clientMerchant.getClientAccount().getAvailableFunds() + transaction.getAmount());
+		response.put("status", "success");
+		response.put("redirect_url", url + "/cardsuccess");
 
-		}
 		return response;
 
 	}
