@@ -25,7 +25,7 @@ public class Transaction {
 	private String merchantPassword;
 
 	@Column
-	private int merchantOrderId;
+	private long merchantOrderId;
 
 	@Column
 	private Date merchantTimestamp;
@@ -85,11 +85,11 @@ public class Transaction {
 		this.merchantPassword = merchantPassword;
 	}
 
-	public int getMerchantOrderId() {
+	public long getMerchantOrderId() {
 		return merchantOrderId;
 	}
 
-	public void setMerchantOrderId(int merchantOrderId) {
+	public void setMerchantOrderId(long merchantOrderId) {
 		this.merchantOrderId = merchantOrderId;
 	}
 

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,15 +15,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.ftn.uns.payment_concentrator.model.Merchant;
 import com.ftn.uns.payment_concentrator.model.Order;
 import com.ftn.uns.payment_concentrator.paymentInterface.PaymentInterface;
+import com.ftn.uns.payment_concentrator.service.MerchantService;
+import com.ftn.uns.payment_concentrator.service.OrderService;
 
 @Service
 public class BankClient implements PaymentInterface {
 
-	private String urlBank = "http://localhost:8083/api/transactions";// banka
-																		// prodavca
 	private String address = "http://localhost:4200";
+
+	@Autowired
+	private MerchantService merchantService;
+
+	@Autowired
+	private OrderService orderService;
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -32,8 +40,12 @@ public class BankClient implements PaymentInterface {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-
-		ResponseEntity<Map> responseEntity = new RestTemplate().exchange(urlBank, HttpMethod.POST,
+		
+		Merchant merchant = merchantService.findOne(order.getMerchantId());
+		orderService.save(order);
+		
+		ResponseEntity<Map> responseEntity = new RestTemplate().exchange(
+				"http://localhost:" + merchant.getBankUrl() + "/api/transactions", HttpMethod.POST,
 				new HttpEntity<Order>(order, headers), Map.class);
 
 		if (responseEntity.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
@@ -50,9 +62,16 @@ public class BankClient implements PaymentInterface {
 
 	@Override
 	public Map<String, Object> complete(HttpServletRequest request) {
-		System.out.println("pc: zavrseno placanje");
-
-		return null;
+		Map<String, Object> response = new HashMap<String, Object>();
+		try {
+			Order order = orderService.findOne(Long.parseLong(request.getParameter("merchantOrderId")));
+			orderService.updateExecution(order, true);
+			System.out.println("pc: zavrseno placanje!!!!!!!!!!!!!!");
+			response.put("status", "success");
+		} catch (RuntimeException e) {
+			response.put("status", "errror");
+		}
+		return response;
 	}
 
 }

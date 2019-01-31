@@ -42,17 +42,9 @@ public class OrderServiceJpa implements OrderService {
 	}
 
 	@Override
-	public Order update(Order order, long id) {
-		Order orderToUpdate = this.findOne(id);
-		orderToUpdate.setPaymentType(order.getPaymentType());
-		orderToUpdate.setAmount(order.getAmount());
-		orderToUpdate.setMagazine(order.getMagazine());
-		orderToUpdate.setArticle(order.getArticle());
-		orderToUpdate.setMerchantId(order.getMerchantId());
-		orderToUpdate.setDate(order.getDate());
-		orderToUpdate.setExecuted(order.getExecuted());
-
-		return orderRepository.save(orderToUpdate);
+	public Order updateExecution(Order order, boolean b) {
+		order.setExecuted(b);
+		return orderRepository.save(order);
 	}
 
 }

@@ -51,16 +51,7 @@ public class MagazineController {
 	@RequestMapping(value = "/{issn}", method = RequestMethod.PUT)
 	private ResponseEntity<Magazine> updateMagazine(@PathVariable String issn, @Valid @RequestBody Magazine magazine) {
 
-		Magazine updatedMagazine = magazineService.findOne(issn);
-
-		if (magazine.getSubscription() != updatedMagazine.getSubscription()) {
-			updatedMagazine.setSubscription(magazine.getSubscription());
-		}
-		if (magazine.getTitle() != updatedMagazine.getTitle()) {
-			updatedMagazine.setTitle(magazine.getTitle());
-		}
-
-		magazineService.update(updatedMagazine, issn);
+		Magazine updatedMagazine = magazineService.update(magazine, issn);
 		return new ResponseEntity<Magazine>(updatedMagazine, HttpStatus.OK);
 	}
 

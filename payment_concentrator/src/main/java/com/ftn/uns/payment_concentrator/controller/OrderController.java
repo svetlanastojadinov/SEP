@@ -47,39 +47,8 @@ public class OrderController {
 		return new ResponseEntity<Order>(savedOrder, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	private ResponseEntity<Order> updateOrder(@PathVariable Long id, @Valid @RequestBody Order order) {
-
-		Order updatedOrder = orderService.findOne(id);
-
-		if (order.getAmount() != updatedOrder.getAmount()) {
-			updatedOrder.setAmount(order.getAmount());
-		}
-		if (order.getPaymentType() != updatedOrder.getPaymentType()) {
-			updatedOrder.setPaymentType(order.getPaymentType());
-		}
-		if (order.getMerchantId() != updatedOrder.getMerchantId()) {
-			updatedOrder.setMerchantId(order.getMerchantId());
-		}
-		if (order.getMagazine() != updatedOrder.getMagazine()) {
-			updatedOrder.setMagazine(order.getMagazine());
-		}
-		if (order.getDate() != updatedOrder.getDate()) {
-			updatedOrder.setDate(order.getDate());
-		}
-		if (order.getArticle() != updatedOrder.getArticle()) {
-			updatedOrder.setArticle(order.getArticle());
-		}
-		if (order.getExecuted() != updatedOrder.getExecuted()) {
-			updatedOrder.setExecuted(order.getExecuted());
-		}
-
-		orderService.update(updatedOrder, id);
-		return new ResponseEntity<Order>(updatedOrder, HttpStatus.OK);
-	}
-
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	private ResponseEntity<Order> deleteOrder(@PathVariable Long id) {
+	private ResponseEntity<Order> deleteOrder(@PathVariable long id) {
 		orderService.delete(orderService.findOne(id));
 		return new ResponseEntity<Order>(HttpStatus.OK);
 	}

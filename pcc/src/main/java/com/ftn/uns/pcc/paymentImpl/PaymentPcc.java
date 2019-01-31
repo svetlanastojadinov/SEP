@@ -39,7 +39,7 @@ public class PaymentPcc {
 				ResponseEntity<Map> responseEntity = new RestTemplate().exchange(url, HttpMethod.POST,
 						new HttpEntity<Map>(map, headers), Map.class);
 				if (responseEntity.getBody().get("status").equals("success")) {
-					String url1 = "http://localhost:" + String.valueOf(bank.getPort()) + "/api/transactions/complete";
+					String url1 = "http://localhost:" + String.valueOf(bank.getPort()) + "/api/transactions/complete"; //port banke prodavca
 
 					ResponseEntity<Map> responseEnt = new RestTemplate().exchange(url1, HttpMethod.POST,
 							new HttpEntity<Map>(responseEntity.getBody(), headers), Map.class);

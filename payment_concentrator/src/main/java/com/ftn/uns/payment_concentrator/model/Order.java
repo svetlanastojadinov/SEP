@@ -16,11 +16,6 @@ import javax.persistence.Table;
 @Table(name = "order_table")
 public class Order {
 
-	@Id
-	@Column(nullable = false, unique = true)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-
 	@Column
 	@Enumerated(EnumType.STRING)
 	private PaymentType paymentType;
@@ -37,8 +32,13 @@ public class Order {
 	@Column
 	private String merchantPassword;
 
+	@Id
+	@Column(nullable = false, unique = true)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long merchantOrderId;
+
 	@Column
-	private String merchantOrderId;
+	private String buyerUsername;
 
 	@OneToOne
 	private Magazine magazine;
@@ -54,27 +54,40 @@ public class Order {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Order(long id, PaymentType paymentType, Double amount, Date merchantTimestamp, String merchantId,
-			String merchantPassword, String merchantOrderId, Magazine magazine, Article article, boolean executed) {
+	public Order(PaymentType paymentType, Double amount, Date merchantTimestamp, String merchantId,
+			String merchantPassword, long merchantOrderId, String buyerUsername, Magazine magazine, Article article,
+			boolean executed) {
 		super();
-		this.id = id;
 		this.paymentType = paymentType;
 		this.amount = amount;
 		this.merchantTimestamp = merchantTimestamp;
 		this.merchantId = merchantId;
 		this.merchantPassword = merchantPassword;
 		this.merchantOrderId = merchantOrderId;
+		this.buyerUsername = buyerUsername;
 		this.magazine = magazine;
 		this.article = article;
 		this.executed = executed;
 	}
 
-	public long getId() {
-		return id;
+	public Date getMerchantTimestamp() {
+		return merchantTimestamp;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setMerchantTimestamp(Date merchantTimestamp) {
+		this.merchantTimestamp = merchantTimestamp;
+	}
+
+	public String getBuyerUsername() {
+		return buyerUsername;
+	}
+
+	public void setBuyerUsername(String buyerUsername) {
+		this.buyerUsername = buyerUsername;
+	}
+
+	public void setExecuted(boolean executed) {
+		this.executed = executed;
 	}
 
 	public PaymentType getPaymentType() {
@@ -141,20 +154,20 @@ public class Order {
 		this.merchantPassword = merchantPassword;
 	}
 
-	public String getMerchantOrderId() {
+	public long getMerchantOrderId() {
 		return merchantOrderId;
 	}
 
-	public void setMerchantOrderId(String merchantOrderId) {
+	public void setMerchantOrderId(long merchantOrderId) {
 		this.merchantOrderId = merchantOrderId;
 	}
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", paymentType=" + paymentType + ", amount=" + amount + ", dateOfTransaction="
-				+ merchantTimestamp + ", merchantId=" + merchantId + ", merchantPassword=" + merchantPassword
-				+ ", merchantOrderId=" + merchantOrderId + ", magazine=" + magazine + ", article=" + article
-				+ ", executed=" + executed + "]";
+		return "Order [paymentType=" + paymentType + ", amount=" + amount + ", merchantTimestamp=" + merchantTimestamp
+				+ ", merchantId=" + merchantId + ", merchantPassword=" + merchantPassword + ", merchantOrderId="
+				+ merchantOrderId + ", buyerUsername=" + buyerUsername + ", magazine=" + magazine + ", article="
+				+ article + ", executed=" + executed + "]";
 	}
 
 }

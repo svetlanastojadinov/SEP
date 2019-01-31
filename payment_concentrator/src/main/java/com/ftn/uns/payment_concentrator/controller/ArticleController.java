@@ -51,15 +51,7 @@ public class ArticleController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	private ResponseEntity<Article> updateArticle(@PathVariable long id, @Valid @RequestBody Article article) {
 
-		Article updatedArticle = articleService.findOne(id);
-
-		if (article.getAuthorUsername() != updatedArticle.getAuthorUsername()) {
-			updatedArticle.setAuthorUsername(article.getAuthorUsername());
-		}
-		if (article.getTitle() != updatedArticle.getTitle()) {
-			updatedArticle.setTitle(article.getTitle());
-		}
-		articleService.update(updatedArticle, id);
+		Article updatedArticle = articleService.update(article, id);
 		return new ResponseEntity<Article>(updatedArticle, HttpStatus.OK);
 	}
 

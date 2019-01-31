@@ -22,6 +22,12 @@ public class Magazine {
 	@Enumerated(EnumType.STRING)
 	private Subscription subscription;
 
+	@Column
+	private String merchantId;
+
+	@Column
+	private double price;
+
 	public Magazine() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -32,7 +38,7 @@ public class Magazine {
 		this.title = title;
 		this.issn = issn;
 		this.subscription = subscription;
-		
+
 	}
 
 	public String getTitle() {
@@ -51,7 +57,6 @@ public class Magazine {
 		this.issn = issn;
 	}
 
-
 	public Subscription getSubscription() {
 		return subscription;
 	}
@@ -60,11 +65,25 @@ public class Magazine {
 		this.subscription = subscription;
 	}
 
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public String getMerchantId() {
+		return merchantId;
+	}
+
+	public void setMerchantId(String merchantUsername) {
+		this.merchantId = merchantUsername;
+	}
+
 	@Override
 	public String toString() {
-		return issn + " " + title+" " + subscription;
+		return issn + " " + title + " " + subscription + " " + price;
 	}
-	
-	
 
 }

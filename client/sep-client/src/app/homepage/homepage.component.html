@@ -9,6 +9,7 @@
       <th scope="col">#</th>
       <th scope="col">Title</th>
       <th scope="col">Author</th>
+      <th scope="col">Price</th>
       <th scope="col">Option</th>
     </tr>
   </thead>
@@ -16,7 +17,8 @@
     <tr *ngFor="let article of articles">
       <td scope="row">{{article.id}}</td>
       <td scope="row">{{article.title}}</td>
-      <td scope="row">{{article.authorUsername}}</td>
+      <td scope="row">{{article.merchantId}}</td>
+      <td scope="row">{{article.price | currency:"RSD "}}</td> 
       <td scope="row"><button type="button" data-toggle="modal" data-target="#myModal" (click)="setIndicator('article',article.id)"
          class="btn btn-primary">Buy</button></td>
     </tr>
@@ -29,6 +31,7 @@
       <th scope="col">#</th>
       <th scope="col">Title</th>
       <th scope="col">Subscription</th>
+      <th scope="col">Price</th>
       <th scope="col">Option</th>
     </tr>
   </thead>
@@ -37,6 +40,7 @@
       <td scope="row">{{magazine.issn}}</td>
       <td scope="row">{{magazine.title}}</td>
       <td scope="row">{{magazine.subscription}}</td>
+      <td scope="row">{{magazine.price | currency:"RSD "}}</td> 
       <td scope="row"><button type="button" class="btn btn-primary" (click)="setIndicator('magazine',magazine.issn)"
         data-toggle="modal" data-target="#myModal">Buy</button></td>
     </tr>

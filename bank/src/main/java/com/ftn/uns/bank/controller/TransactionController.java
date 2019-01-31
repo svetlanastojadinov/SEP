@@ -78,7 +78,6 @@ public class TransactionController {
 	public Map<String, Object> startTransaction(@PathVariable long paymentId,
 			@Valid @RequestBody ClientAccount clientAccount) {
 		Map<String, Object> response = payment.startTransaction(paymentId, clientAccount);
-
 		return response;
 	}
 

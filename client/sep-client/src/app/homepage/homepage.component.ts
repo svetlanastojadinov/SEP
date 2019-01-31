@@ -49,6 +49,7 @@ export class HomepageComponent implements OnInit {
   setIndicator(indicator: string, id:number){
     this.indicator=indicator;
     this.selectedId=id;
+    this.getDataOrder();
   }
 
   choose(type:string){
@@ -56,28 +57,8 @@ export class HomepageComponent implements OnInit {
   }
 
   buy() {
-    this.order.amount=0.001;
-    this.order.merchantTimestamp=new Date();
-    this.order.merchantId='merchantId';
-    this.order.merchantPassword='merchantPass';
-    this.order.merchantOrderId='';
-    this.order.executed=false;
+    
     this.order.paymentType=this.selectedPaymentMode;
-     
-    if(this.indicator === 'magazine'){
-      this.sharedService.getOneMagazine(this.selectedId).subscribe(
-        (data:any)=>{
-          this.order.magazine=data;
-          this.order.article=null;
-        })
-    }
-    if(this.indicator === 'article'){
-      this.sharedService.getOneArticle(this.selectedId).subscribe(
-        (data:any)=>{
-          this.order.magazine=null;
-          this.order.article=data;
-        })
-    }
 
     if(this.selectedPaymentMode === "PAYPAL") {
       this.paymentService.makePayment(this.order).subscribe(
@@ -96,12 +77,42 @@ export class HomepageComponent implements OnInit {
       );
     }
     if(this.selectedPaymentMode === "CARD") {
+      console.log("placanje");
       this.paymentCardService.makePaymentCard(this.order).subscribe(
         (data:any) => {
           const url: string = data.redirect_url;
           window.location.href = url;
         }
       );
+    }
+  }
+  getDataOrder(){
+    this.order.merchantTimestamp=new Date();
+    this.order.merchantPassword='merchantPass';
+    this.order.merchantId='';
+    this.order.merchantOrderId='';
+    this.order.amount=0;
+    this.order.executed=false;
+
+    if(this.indicator === 'magazine'){
+      this.sharedService.getOneMagazine(this.selectedId).subscribe(
+        (data:any)=>{
+          this.order.magazine=data;
+          this.order.amount=data.price;
+          this.order.merchantId=data.merchantId;
+          this.order.article=null;
+          console.log("magazine");
+        })
+    }
+    if(this.indicator === 'article'){
+      this.sharedService.getOneArticle(this.selectedId).subscribe(
+        (data:any)=>{
+          this.order.magazine=null;
+          this.order.article=data;
+          this.order.amount=data.price;
+          this.order.merchantId=data.merchantId;
+          console.log("article");
+        })
     }
   }
 

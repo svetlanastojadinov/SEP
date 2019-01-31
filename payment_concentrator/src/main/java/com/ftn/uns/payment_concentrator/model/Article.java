@@ -11,14 +11,17 @@ public class Article {
 
 	@Id
 	@Column(nullable = false, unique = true)
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@Column
 	private String title;
-	
+
 	@Column
-	private String authorUsername;
+	private String merchantId;
+
+	@Column
+	private double price;	
 
 	public Article() {
 		super();
@@ -29,7 +32,7 @@ public class Article {
 		super();
 		this.id = id;
 		this.title = title;
-		this.authorUsername = authorUsername;
+		this.merchantId = authorUsername;
 	}
 
 	public String getTitle() {
@@ -40,12 +43,12 @@ public class Article {
 		this.title = title;
 	}
 
-	public String getAuthorUsername() {
-		return authorUsername;
+	public String getMerchantId() {
+		return merchantId;
 	}
 
-	public void setAuthorUsername(String authorUsername) {
-		this.authorUsername = authorUsername;
+	public void setMerchantId(String merchantUsername) {
+		this.merchantId = merchantUsername;
 	}
 
 	public long getId() {
@@ -56,11 +59,17 @@ public class Article {
 		this.id = id;
 	}
 
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 	@Override
 	public String toString() {
-		return id + " " + " " + title + " " + authorUsername;
+		return id + " " + " " + title + " " + merchantId + " " + price;
 	}
-	
-	
 
 }
