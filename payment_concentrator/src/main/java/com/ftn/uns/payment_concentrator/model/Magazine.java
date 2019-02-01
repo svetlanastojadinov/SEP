@@ -48,6 +48,12 @@ public class Magazine implements Serializable{
 		this.user = user;
 	}
 
+	@Column
+	private String merchantId;
+
+	@Column
+	private double price;
+
 	public Magazine() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -58,7 +64,7 @@ public class Magazine implements Serializable{
 		this.title = title;
 		this.issn = issn;
 		this.subscription = subscription;
-		
+
 	}
 
 	public String getTitle() {
@@ -77,7 +83,6 @@ public class Magazine implements Serializable{
 		this.issn = issn;
 	}
 
-
 	public Subscription getSubscription() {
 		return subscription;
 	}
@@ -86,10 +91,27 @@ public class Magazine implements Serializable{
 		this.subscription = subscription;
 	}
 
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public String getMerchantId() {
+		return merchantId;
+	}
+
+	public void setMerchantId(String merchantUsername) {
+		this.merchantId = merchantUsername;
+	}
+
 	@Override
 	public String toString() {
-		return issn + " " + title+" " + subscription;
+		return issn + " " + title + " " + subscription + " " + price;
 	}
+<<<<<<< HEAD
 
 	public String getAuthor() {
 		return author;
@@ -100,5 +122,7 @@ public class Magazine implements Serializable{
 	}
 	
 	
+=======
+>>>>>>> e45c5b63e7a931d2990da712f7e3859e860d059c
 
 }

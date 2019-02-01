@@ -4,7 +4,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.ftn.uns.payment_concentrator.model.Order;
+
 public interface PaymentInterface {
-	public Map<String, Object> create(String sum);
+	public Map<String, Object> create(Order order);
+
 	public Map<String, Object> complete(HttpServletRequest request);
 }

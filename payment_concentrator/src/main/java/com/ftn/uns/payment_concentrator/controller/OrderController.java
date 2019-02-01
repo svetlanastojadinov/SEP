@@ -47,59 +47,30 @@ public class OrderController {
 		return new ResponseEntity<Order>(savedOrder, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	private ResponseEntity<Order> updateOrder(@PathVariable Long id, @Valid @RequestBody Order order) {
-
-		Order updatedOrder = orderService.findOne(id);
-
-		if (order.getPrice() != updatedOrder.getPrice()) {
-			updatedOrder.setPrice(order.getPrice());
-		}
-		if (order.getPaymentType() != updatedOrder.getPaymentType()) {
-			updatedOrder.setPaymentType(order.getPaymentType());
-		}
-		if (order.getMerchantId() != updatedOrder.getMerchantId()) {
-			updatedOrder.setMerchantId(order.getMerchantId());
-		}
-		if (order.getMagazine() != updatedOrder.getMagazine()) {
-			updatedOrder.setMagazine(order.getMagazine());
-		}
-		if (order.getDate() != updatedOrder.getDate()) {
-			updatedOrder.setDate(order.getDate());
-		}
-		if (order.getArticle() != updatedOrder.getArticle()) {
-			updatedOrder.setArticle(order.getArticle());
-		}
-		if (order.getExecuted() != updatedOrder.getExecuted()) {
-			updatedOrder.setExecuted(order.getExecuted());
-		}
-
-		orderService.update(updatedOrder, id);
-		return new ResponseEntity<Order>(updatedOrder, HttpStatus.OK);
-	}
-	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	private ResponseEntity<Order> deleteOrder(@PathVariable Long id) {
+	private ResponseEntity<Order> deleteOrder(@PathVariable long id) {
 		orderService.delete(orderService.findOne(id));
 		return new ResponseEntity<Order>(HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "buy", method = RequestMethod.POST)
 	private ResponseEntity<Order> buy(@RequestBody Order order) {
-		/*System.out.println(order.getPrice());
-		System.out.println(order.getPayerUsername());
-		System.out.println(order.getPaymentType());
-		System.out.println(order.getMagazine());
-		System.out.println(order.getArticle());*/
-		if(order.getPaymentType() == PaymentType.CARD) {
+		/*
+		 * System.out.println(order.getPrice());
+		 * System.out.println(order.getPayerUsername());
+		 * System.out.println(order.getPaymentType());
+		 * System.out.println(order.getMagazine());
+		 * System.out.println(order.getArticle());
+		 */
+		if (order.getPaymentType() == PaymentType.CARD) {
 			System.out.println("Cepanje kartice");
 		}
-		
-		if(order.getPaymentType() == PaymentType.PAYPAL) {
+
+		if (order.getPaymentType() == PaymentType.PAYPAL) {
 			System.out.println("Udri paypal");
 		}
-		
-		if(order.getPaymentType() == PaymentType.BITCOIN) {
+
+		if (order.getPaymentType() == PaymentType.BITCOIN) {
 			System.out.println("Daj mu ga malo po bitcoin");
 		}
 		return null;

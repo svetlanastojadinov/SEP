@@ -19,9 +19,13 @@ public class ClientAccountJpa implements ClientAccountService {
 	@Override
 	public ClientAccount findOne(String pan) {
 		// TODO Auto-generated method stub
-		ClientAccount clientAccount = clientAccountRepository.findById(pan)
-				.orElseThrow(() -> new UnexistingClientAccountException(pan));
+		ClientAccount clientAccount = null;
+		try {
+			clientAccount = clientAccountRepository.findById(pan)
+					.orElseThrow(() -> new UnexistingClientAccountException(pan));
+		} catch (RuntimeException e) {
 
+		}
 		return clientAccount;
 	}
 
@@ -44,13 +48,12 @@ public class ClientAccountJpa implements ClientAccountService {
 	}
 
 	@Override
-	public ClientAccount updateFunds(ClientAccount clientAccount,double funds) {
+	public ClientAccount updateFunds(ClientAccount clientAccount, double funds) {
 		// TODO Auto-generated method stub
 		ClientAccount clientAccountToUpdate = this.findOne(clientAccount.getPan());
 		clientAccountToUpdate.setAvailableFunds(funds);
-		
+
 		return clientAccountRepository.save(clientAccountToUpdate);
 	}
-
 
 }

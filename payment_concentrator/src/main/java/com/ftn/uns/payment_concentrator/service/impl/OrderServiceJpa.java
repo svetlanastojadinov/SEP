@@ -11,15 +11,15 @@ import com.ftn.uns.payment_concentrator.repository.OrderRepository;
 import com.ftn.uns.payment_concentrator.service.OrderService;
 
 @Service
-public class OrderServiceJpa implements OrderService{
-	
-	@Autowired 
+public class OrderServiceJpa implements OrderService {
+
+	@Autowired
 	private OrderRepository orderRepository;
 
 	@Override
 	public Order findOne(long id) {
-		Order order=orderRepository.findById(id).orElseThrow(()-> new UnexistingOrderException(id));
-		
+		Order order = orderRepository.findById(id).orElseThrow(() -> new UnexistingOrderException(id));
+
 		return order;
 	}
 
@@ -42,17 +42,9 @@ public class OrderServiceJpa implements OrderService{
 	}
 
 	@Override
-	public Order update(Order order, long id) {
-		Order orderToUpdate=this.findOne(id);
-		orderToUpdate.setPaymentType(order.getPaymentType());
-		orderToUpdate.setPrice(order.getPrice());
-		orderToUpdate.setMagazine(order.getMagazine());
-		orderToUpdate.setArticle(order.getArticle());
-		orderToUpdate.setMerchantId(order.getMerchantId());
-		orderToUpdate.setDate(order.getDate());
-		orderToUpdate.setExecuted(order.getExecuted());
-		
-		return orderRepository.save(orderToUpdate);
+	public Order updateExecution(Order order, boolean b) {
+		order.setExecuted(b);
+		return orderRepository.save(order);
 	}
 
 }

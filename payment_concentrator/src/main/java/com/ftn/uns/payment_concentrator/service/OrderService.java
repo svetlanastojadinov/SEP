@@ -14,6 +14,6 @@ public interface OrderService {
 
 	public void delete(Order order);
 
-	public Order update(Order order, long id);
+	public Order updateExecution(Order order, boolean b);
 
 }

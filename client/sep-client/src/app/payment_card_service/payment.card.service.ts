@@ -9,11 +9,11 @@ export class PaymentCardService {
 
   constructor(private http:HttpClient) { }
 
-  makePaymentCard(sum, order) {
-    return this.http.post('api/card/make/payment?sum='+sum, {order:order});
+  makePaymentCard(order) {
+    return this.http.post('api/card/make/payment',order);
   }
-
   completePaymentCard(paymentId, payerId) {
-   //  return this.http.post('api/card/complete/payment?paymentId=' + paymentId + '&payerId=' + payerId , {});
-  }
+    return this.http.post('api/card/complete/payment?paymentId=' + paymentId + '&payerId=' + payerId , {});
+    }
+
 }

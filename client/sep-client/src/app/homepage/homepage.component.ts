@@ -46,6 +46,7 @@ export class HomepageComponent implements OnInit {
   setIndicator(indicator: string, id:number){
     this.indicator=indicator;
     this.selectedId=id;
+    this.getDataOrder();
   }
 
   choose(type:string){
@@ -54,23 +55,10 @@ export class HomepageComponent implements OnInit {
 
   buy() {
     
-    if(this.indicator === 'magazine'){
-      this.sharedService.getOneMagazine(this.selectedId).subscribe(
-        (data:any)=>{
-          this.order.magazine=data;
-          this.order.article=null;
-        })
-    }
-    if(this.indicator === 'article'){
-      this.sharedService.getOneArticle(this.selectedId).subscribe(
-        (data:any)=>{
-          this.order.magazine=null;
-          this.order.article=data;
-        })
-    }
+    this.order.paymentType=this.selectedPaymentMode;
 
     if(this.selectedPaymentMode === "PAYPAL") {
-      this.paymentService.makePayment("50",this.order).subscribe(
+      this.paymentService.makePayment(this.order).subscribe(
         (data:any) => {
           const url: string = data.redirect_url;
           window.location.href = url;
@@ -78,7 +66,7 @@ export class HomepageComponent implements OnInit {
       );
     }
     if(this.selectedPaymentMode === "BITCOIN") {
-      this.paymentBTCService.makePaymentBTC('0.001',this.order).subscribe(
+      this.paymentBTCService.makePaymentBTC(this.order).subscribe(
         (data:any) => {
           const url: string = data.redirect_url;
           window.location.href = url;
@@ -86,12 +74,42 @@ export class HomepageComponent implements OnInit {
       );
     }
     if(this.selectedPaymentMode === "CARD") {
-      this.paymentCardService.makePaymentCard("50",this.order).subscribe(
+      console.log("placanje");
+      this.paymentCardService.makePaymentCard(this.order).subscribe(
         (data:any) => {
           const url: string = data.redirect_url;
           window.location.href = url;
         }
       );
+    }
+  }
+  getDataOrder(){
+    this.order.merchantTimestamp=new Date();
+    this.order.merchantPassword='merchantPass';
+    this.order.merchantId='';
+    this.order.merchantOrderId='';
+    this.order.amount=0;
+    this.order.executed=false;
+
+    if(this.indicator === 'magazine'){
+      this.sharedService.getOneMagazine(this.selectedId).subscribe(
+        (data:any)=>{
+          this.order.magazine=data;
+          this.order.amount=data.price;
+          this.order.merchantId=data.merchantId;
+          this.order.article=null;
+          console.log("magazine");
+        })
+    }
+    if(this.indicator === 'article'){
+      this.sharedService.getOneArticle(this.selectedId).subscribe(
+        (data:any)=>{
+          this.order.magazine=null;
+          this.order.article=data;
+          this.order.amount=data.price;
+          this.order.merchantId=data.merchantId;
+          console.log("article");
+        })
     }
   }
 

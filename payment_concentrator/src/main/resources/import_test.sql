@@ -13,6 +13,7 @@ insert into payment_method(id,payment_type) values (1,'CARD');
 insert into payment_method(id,payment_type) values (2,'PAYPAL');
 insert into payment_method(id,payment_type) values (3,'BITCOIN');
 
+<<<<<<< HEAD
 insert into article(title,user_id,author) values ('Title1',1,'vladimir');
 insert into article(title,user_id,author) values ('Title2',1,'vladimir');
 insert into article(title,user_id,author) values ('Title3',2,'milan');
@@ -26,4 +27,16 @@ insert into order_table(payment_type, price, date_of_transaction,merchant_id, ex
 insert into order_table(payment_type, price, date_of_transaction,merchant_id, executed) values ('PAYPAL',100,{ts '2018-11-28 18:47:52.69'},'buyer2',1);
 insert into order_table(payment_type, price, date_of_transaction,merchant_id, executed) values ('BITCOIN',100,{ts '2018-11-27 18:47:52.69'},'buyer3',0);
 insert into order_table(payment_type, price, date_of_transaction,merchant_id, executed) values ('CARD',100,{ts '2018-11-26 18:47:52.69'},'buyer1',0);
+=======
+insert into article(title,merchant_id,price) values ('Title1','pera',0.01);
+insert into article(title,merchant_id,price) values ('Title2','pera',1);
+insert into article(title,merchant_id,price) values ('Title3','pera',3.20);
+insert into article(title,merchant_id,price) values ('Title4','pera',5);
 
+insert into magazine(title,issn,subscription,price,merchant_id) values ('Title1',10000001,'READER_PAYS', 50,'mile');
+insert into magazine(title,issn,subscription,price,merchant_id) values ('Title2',10000002,'READER_PAYS',70,'mile');
+insert into magazine(title,issn,subscription,price,merchant_id) values ('Title3',10000003,'READER_PAYS',80,'mile');
+>>>>>>> e45c5b63e7a931d2990da712f7e3859e860d059c
+
+insert into merchant(merchant_id, merchant_password, bank_url) values ('pera','pera', '8083');
+insert into merchant(merchant_id, merchant_password, bank_url) values ('mile','mile', '8083');

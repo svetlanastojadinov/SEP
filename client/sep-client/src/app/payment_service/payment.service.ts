@@ -9,9 +9,9 @@ export class PaymentService {
 
   constructor(private http:HttpClient) { }
 
-  makePayment(sum, order:any) {
+  makePayment(order:any) {
     console.log(order)
-    return this.http.post('api/paypal/make/payment?sum='+sum, {order:order});
+    return this.http.post('api/paypal/make/payment', order);
   }
 
   completePayment(paymentId, payerId) {

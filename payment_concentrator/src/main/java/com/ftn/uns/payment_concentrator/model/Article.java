@@ -23,11 +23,12 @@ public class Article implements Serializable{
 
 	@Id
 	@Column(nullable = false, unique = true)
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@Column
 	private String title;
+<<<<<<< HEAD
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
@@ -44,6 +45,14 @@ public class Article implements Serializable{
 	public void setUser(User user) {
 		this.user = user;
 	}
+=======
+
+	@Column
+	private String merchantId;
+
+	@Column
+	private double price;	
+>>>>>>> e45c5b63e7a931d2990da712f7e3859e860d059c
 
 	public Article() {
 		super();
@@ -54,6 +63,10 @@ public class Article implements Serializable{
 		super();
 		this.id = id;
 		this.title = title;
+<<<<<<< HEAD
+=======
+		this.merchantId = authorUsername;
+>>>>>>> e45c5b63e7a931d2990da712f7e3859e860d059c
 	}
 
 	public String getTitle() {
@@ -64,6 +77,16 @@ public class Article implements Serializable{
 		this.title = title;
 	}
 
+<<<<<<< HEAD
+=======
+	public String getMerchantId() {
+		return merchantId;
+	}
+
+	public void setMerchantId(String merchantUsername) {
+		this.merchantId = merchantUsername;
+	}
+>>>>>>> e45c5b63e7a931d2990da712f7e3859e860d059c
 
 	public long getId() {
 		return id;
@@ -73,8 +96,17 @@ public class Article implements Serializable{
 		this.id = id;
 	}
 
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 	@Override
 	public String toString() {
+<<<<<<< HEAD
 		return id + " " + " " + title + " ";
 	}
 
@@ -84,8 +116,9 @@ public class Article implements Serializable{
 
 	public void setAuthor(String author) {
 		this.author = author;
+=======
+		return id + " " + " " + title + " " + merchantId + " " + price;
+>>>>>>> e45c5b63e7a931d2990da712f7e3859e860d059c
 	}
-	
-	
 
 }

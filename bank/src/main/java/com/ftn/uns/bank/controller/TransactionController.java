@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ftn.uns.bank.model.ClientAccount;
 import com.ftn.uns.bank.model.PaymentCallback;
 import com.ftn.uns.bank.model.Transaction;
+import com.ftn.uns.bank.paymentImpls.Payment;
+import com.ftn.uns.bank.paymentImpls.PaymentDifferentBank;
 import com.ftn.uns.bank.service.TransactionService;
-import com.ftn.uns.bank.service.impl.PaymentSameBank;
 
 @RestController
 @RequestMapping("/api/transactions")
@@ -30,9 +31,10 @@ public class TransactionController {
 	private TransactionService transactionService;
 
 	@Autowired
-	private PaymentSameBank paymentSameBank;
+	private PaymentDifferentBank paymentDiffBank;
 
-	private String bankCode = "1";
+	@Autowired
+	private Payment payment;
 
 	private String url = "http://localhost:1337";
 
@@ -59,27 +61,38 @@ public class TransactionController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	private ResponseEntity<String> startTransaction(@Valid @RequestBody String sum) {
-		// Transaction savedTransaction = transactionService.save(transaction);
-		System.out.println("bank: primila zahtev");
+	private ResponseEntity<Map<String, Object>> initiateTransaction(@RequestBody Transaction transaction) {
+		Transaction savedTransaction = transactionService.save(transaction);
 
 		PaymentCallback paymentCallback = new PaymentCallback();
-		paymentCallback.setPaymentId(Long.parseLong(sum));
+		paymentCallback.setPaymentId(savedTransaction.getId());
 		paymentCallback.setPaymentUrl(url);
 
-		return new ResponseEntity<String>(paymentCallback.toString(), HttpStatus.OK);
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("paymentId", paymentCallback.getPaymentId());
+		response.put("url", paymentCallback.getPaymentUrl());
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{paymentId}", method = RequestMethod.POST)
-	public Map<String, Object> completeTransaction(@PathVariable long paymentId,
+	public Map<String, Object> startTransaction(@PathVariable long paymentId,
 			@Valid @RequestBody ClientAccount clientAccount) {
-		Map<String, Object> response = new HashMap<String, Object>();
-		
-		if (clientAccount.getPan().startsWith(bankCode)) {
-			response = paymentSameBank.completeTransaction(clientAccount, paymentId);
-		} else {
-			// pcc
-		}
+		Map<String, Object> response = payment.startTransaction(paymentId, clientAccount);
+		return response;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/completing", method = RequestMethod.POST)
+	public Map<String, Object> completingTransactionDiffBank(@RequestBody Map map) {
+		Map<String, Object> response = paymentDiffBank.completingTransaction(map);
+
+		return response;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/complete", method = RequestMethod.POST)
+	public Map<String, Object> completeDiffTransaction(@Valid @RequestBody Map map) {
+		Map<String, Object> response = paymentDiffBank.completeTransaction(map);
 
 		return response;
 	}

@@ -22,20 +22,15 @@ public class Order implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(nullable = false, unique = true)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-
 	@Column
 	@Enumerated(EnumType.STRING)
 	private PaymentType paymentType;
 
 	@Column
-	private Double price;
+	private Double amount;
 
 	@Column
-	private Date dateOfTransaction;
+	private Date merchantTimestamp;
 
 	@Column
 	private String merchantId;
@@ -43,8 +38,13 @@ public class Order implements Serializable{
 	@Column
 	private String merchantPassword;
 
+	@Id
+	@Column(nullable = false, unique = true)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long merchantOrderId;
+
 	@Column
-	private String merchantOrderId;
+	private String buyerUsername;
 
 	@OneToOne
 	private Magazine magazine;
@@ -60,27 +60,40 @@ public class Order implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Order(long id, PaymentType paymentType, Double price, Date dateOfTransaction, String merchantId,
-			String merchantPassword, String merchantOrderId, Magazine magazine, Article article, boolean executed) {
+	public Order(PaymentType paymentType, Double amount, Date merchantTimestamp, String merchantId,
+			String merchantPassword, long merchantOrderId, String buyerUsername, Magazine magazine, Article article,
+			boolean executed) {
 		super();
-		this.id = id;
 		this.paymentType = paymentType;
-		this.price = price;
-		this.dateOfTransaction = dateOfTransaction;
+		this.amount = amount;
+		this.merchantTimestamp = merchantTimestamp;
 		this.merchantId = merchantId;
 		this.merchantPassword = merchantPassword;
 		this.merchantOrderId = merchantOrderId;
+		this.buyerUsername = buyerUsername;
 		this.magazine = magazine;
 		this.article = article;
 		this.executed = executed;
 	}
 
-	public long getId() {
-		return id;
+	public Date getMerchantTimestamp() {
+		return merchantTimestamp;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setMerchantTimestamp(Date merchantTimestamp) {
+		this.merchantTimestamp = merchantTimestamp;
+	}
+
+	public String getBuyerUsername() {
+		return buyerUsername;
+	}
+
+	public void setBuyerUsername(String buyerUsername) {
+		this.buyerUsername = buyerUsername;
+	}
+
+	public void setExecuted(boolean executed) {
+		this.executed = executed;
 	}
 
 	public PaymentType getPaymentType() {
@@ -91,12 +104,12 @@ public class Order implements Serializable{
 		this.paymentType = paymentType;
 	}
 
-	public Double getPrice() {
-		return price;
+	public Double getAmount() {
+		return amount;
 	}
 
-	public void setPrice(Double price) {
-		this.price = price;
+	public void setAmount(Double amount) {
+		this.amount = amount;
 	}
 
 	public Magazine getMagazine() {
@@ -116,11 +129,11 @@ public class Order implements Serializable{
 	}
 
 	public Date getDate() {
-		return dateOfTransaction;
+		return merchantTimestamp;
 	}
 
 	public void setDate(Date date) {
-		this.dateOfTransaction = date;
+		this.merchantTimestamp = date;
 	}
 
 	public Boolean getExecuted() {
@@ -129,13 +142,6 @@ public class Order implements Serializable{
 
 	public void setExecuted(Boolean executed) {
 		this.executed = executed;
-	}
-	public Date getDateOfTransaction() {
-		return dateOfTransaction;
-	}
-
-	public void setDateOfTransaction(Date dateOfTransaction) {
-		this.dateOfTransaction = dateOfTransaction;
 	}
 
 	public String getMerchantId() {
@@ -154,12 +160,20 @@ public class Order implements Serializable{
 		this.merchantPassword = merchantPassword;
 	}
 
-	public String getMerchantOrderId() {
+	public long getMerchantOrderId() {
 		return merchantOrderId;
 	}
 
-	public void setMerchantOrderId(String merchantOrderId) {
+	public void setMerchantOrderId(long merchantOrderId) {
 		this.merchantOrderId = merchantOrderId;
+	}
+
+	@Override
+	public String toString() {
+		return "Order [paymentType=" + paymentType + ", amount=" + amount + ", merchantTimestamp=" + merchantTimestamp
+				+ ", merchantId=" + merchantId + ", merchantPassword=" + merchantPassword + ", merchantOrderId="
+				+ merchantOrderId + ", buyerUsername=" + buyerUsername + ", magazine=" + magazine + ", article="
+				+ article + ", executed=" + executed + "]";
 	}
 
 }
