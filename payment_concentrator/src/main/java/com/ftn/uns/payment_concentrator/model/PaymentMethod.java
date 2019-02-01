@@ -1,9 +1,16 @@
 package com.ftn.uns.payment_concentrator.model;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 
 @Entity
-public class PaymentMethod {
+public class PaymentMethod implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(nullable = false, unique = true)

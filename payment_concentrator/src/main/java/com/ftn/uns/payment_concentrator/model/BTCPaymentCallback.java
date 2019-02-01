@@ -1,8 +1,13 @@
 package com.ftn.uns.payment_concentrator.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class BTCPaymentCallback {
+public class BTCPaymentCallback implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private long order_id;
 	private String status;

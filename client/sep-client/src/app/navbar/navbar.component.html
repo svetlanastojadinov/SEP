@@ -1,0 +1,16 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" routerLink="/center">SEP</a>
+    </div>
+    <p *ngIf="logged == true" class="nav navbar-nav navbar-right">
+      <li><a routerLink="/homepage">CART</a></li>
+      <li>Zdravo, {{ username }}!</li>
+      <li (click)="logout()" class="ListPointer"><a>Logout</a></li>
+    </p>
+    <ul *ngIf="logged == false" class="nav navbar-nav navbar-right">
+      <li><a routerLink="/login">Prijava</a></li>
+      <li><a routerLink="/registration">Registracija</a></li>
+    </ul>
+  </div>
+</nav>

@@ -32,13 +32,10 @@ export class HomepageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.sharedService.getMagazines().subscribe(
+    this.sharedService.getCart().subscribe(
       (data:any)=> {
-        this.magazines=data;
-      });
-    this.sharedService.getArticles().subscribe(
-      (data:any)=> {
-        this.articles=data;
+        this.magazines = data.magazines;
+        this.articles = data.articles;
       });
     this.sharedService.getPaymentMethos().subscribe(
       (data:any)=> {

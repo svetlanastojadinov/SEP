@@ -1,13 +1,25 @@
 package com.ftn.uns.payment_concentrator.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Article {
+public class Article implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(nullable = false, unique = true)
@@ -17,19 +29,31 @@ public class Article {
 	@Column
 	private String title;
 	
-	@Column
-	private String authorUsername;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	@JoinColumn(name = "user_id", nullable = true)
+	private User user;
+	
+
+	private String author;
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public Article() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Article(long id, String title, String authorUsername) {
+	public Article(long id, String title) {
 		super();
 		this.id = id;
 		this.title = title;
-		this.authorUsername = authorUsername;
 	}
 
 	public String getTitle() {
@@ -40,13 +64,6 @@ public class Article {
 		this.title = title;
 	}
 
-	public String getAuthorUsername() {
-		return authorUsername;
-	}
-
-	public void setAuthorUsername(String authorUsername) {
-		this.authorUsername = authorUsername;
-	}
 
 	public long getId() {
 		return id;
@@ -58,7 +75,15 @@ public class Article {
 
 	@Override
 	public String toString() {
-		return id + " " + " " + title + " " + authorUsername;
+		return id + " " + " " + title + " ";
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 	
 	

@@ -1,15 +1,26 @@
 package com.ftn.uns.payment_concentrator.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Magazine {
+public class Magazine implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Column
 	private String title;
@@ -21,6 +32,21 @@ public class Magazine {
 	@Column
 	@Enumerated(EnumType.STRING)
 	private Subscription subscription;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	@JoinColumn(name = "user_id", nullable = true)
+	private User user;
+	
+	private String author;
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public Magazine() {
 		super();
@@ -63,6 +89,14 @@ public class Magazine {
 	@Override
 	public String toString() {
 		return issn + " " + title+" " + subscription;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 	
 	

@@ -1,6 +1,12 @@
 package com.ftn.uns.payment_concentrator.model;
 
-public class OrderViaBTC {
+import java.io.Serializable;
+
+public class OrderViaBTC implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String order_id;
 	private Double price_amount;
 	private String price_currency = "BTC";

@@ -1,0 +1,77 @@
+<div align="center">
+  <p class="welcome">Welcome to the APPLICATION</p>
+  <br />
+</div>
+<div align="center">
+  <table class="table table-striped margined table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+        <th scope="col">Option</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let article of articles">
+        <td scope="row">{{ article.id }}</td>
+        <td scope="row">{{ article.title }}</td>
+        <td scope="row">{{ article.author }}</td>
+        <td scope="row">
+          <button
+            *ngIf='logged'
+            type="button"
+            (click)="addToCart('article', article.id)"
+            class="btn btn-primary"
+          >
+            Add to cart
+          </button>
+          <button
+            *ngIf='!logged'
+            type="button"
+            (click)="goToLogin()"
+            class="btn btn-primary"
+          >
+            Login to add
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table table-striped margined table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Subscription</th>
+        <th scope="col">Option</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let magazine of magazines">
+        <td scope="row">{{ magazine.issn }}</td>
+        <td scope="row">{{ magazine.title }}</td>
+        <td scope="row">{{ magazine.subscription }}</td>
+        <td scope="row">
+          <button
+          *ngIf='logged'
+          type="button"
+          (click)="addToCart('magazine', magazine.issn)"
+          class="btn btn-primary"
+        >
+          Add to cart
+        </button>
+        <button
+          *ngIf='!logged'
+          type="button"
+          (click)="goToLogin()"
+          class="btn btn-primary"
+        >
+          Login to add
+        </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

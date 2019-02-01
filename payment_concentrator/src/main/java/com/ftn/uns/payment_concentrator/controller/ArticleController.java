@@ -23,6 +23,7 @@ public class ArticleController {
 
 	@Autowired
 	private ArticleService articleService;
+	
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Collection<Article>> getArticles() {
@@ -53,8 +54,8 @@ public class ArticleController {
 
 		Article updatedArticle = articleService.findOne(id);
 
-		if (article.getAuthorUsername() != updatedArticle.getAuthorUsername()) {
-			updatedArticle.setAuthorUsername(article.getAuthorUsername());
+		if (article.getUser().getUsername() != updatedArticle.getUser().getUsername()) {
+			updatedArticle.setUser(article.getUser());
 		}
 		if (article.getTitle() != updatedArticle.getTitle()) {
 			updatedArticle.setTitle(article.getTitle());

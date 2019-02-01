@@ -1,0 +1,24 @@
+<form class="FormDiv" (submit)="login()">
+    <div class="form-group">
+      <label>Username</label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Enter username"
+        [(ngModel)]="loginRequest.username"
+        name="username"
+      />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input
+        type="password"
+        class="form-control"
+        placeholder="Enter password"
+        [(ngModel)]="loginRequest.password"
+        name="password"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  

@@ -5,10 +5,16 @@ import {PaypalsuccesComponent} from './paypalsucces/paypalsucces.component';
 import {BTCsuccessComponent} from './btcsuccess/btcsuccess.component';
 import { CancelPaypalComponent } from './cancel-paypal/cancel-paypal.component'
 import { CancelBTCComponent } from './cancel-btc/cancel-btc.component';
+import { CenterComponent } from './center/center.component';
+import { LoginComponent } from "./auth/login/login.component";
+import { RegistrationComponent } from "./auth/registration/registration.component";
 
 const routes: Routes = [
+    {path: 'login', component: LoginComponent},
+    {path: 'registration', component: RegistrationComponent},
     {path: 'homepage', component: HomepageComponent},
-    {path: '', component: HomepageComponent,pathMatch: 'full'},
+    {path: 'center', component: CenterComponent},
+    {path: '', component: CenterComponent,pathMatch: 'full'},
     {path: 'paypalsucces', component: PaypalsuccesComponent},
     {path: 'btcsuccess', component: BTCsuccessComponent},
     {path: 'cancelPaypal', component: CancelPaypalComponent},
