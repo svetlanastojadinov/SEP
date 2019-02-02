@@ -1,7 +1,11 @@
 package com.ftn.uns.payment_concentrator.conf;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,85 +22,63 @@ import com.ftn.uns.payment_concentrator.security.CustomUserDetailsService;
 import com.ftn.uns.payment_concentrator.security.JwtAuthenticationEntryPoint;
 import com.ftn.uns.payment_concentrator.security.JwtAuthenticationFilter;
 
-import org.springframework.context.annotation.Configuration;
-
-
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.security.authentication.AuthenticationManager;
-
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-        securedEnabled = true,
-        jsr250Enabled = true,
-        prePostEnabled = true
-)
-@EnableAspectJAutoProxy(proxyTargetClass=true)
-public class Conf extends WebSecurityConfigurerAdapter{
+@EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
+@EnableAspectJAutoProxy(proxyTargetClass = true)
+public class Conf extends WebSecurityConfigurerAdapter {
 	@Autowired
-    private CustomUserDetailsService customUserDetailsService;
+	private CustomUserDetailsService customUserDetailsService;
 
 	@Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
-	
-	@Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
-    }
-    
-    @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-                .userDetailsService(customUserDetailsService)
-                .passwordEncoder(passwordEncoder());
-    }
-    
-    @Bean(/*BeanIds.AUTHENTICATION_MANAGER*/)
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-    
-    @Bean
-    public MultipartResolver multipartResolver() {
-        return new StandardServletMultipartResolver();
-    }
+	private JwtAuthenticationEntryPoint unauthorizedHandler;
 
 	@Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-}
-	
-	
+	public JwtAuthenticationFilter jwtAuthenticationFilter() {
+		return new JwtAuthenticationFilter();
+	}
+
+	@Override
+	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+		authenticationManagerBuilder.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
+	}
+
+	@Bean(/* BeanIds.AUTHENTICATION_MANAGER */)
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
+
+	@Bean
+	public MultipartResolver multipartResolver() {
+		return new StandardServletMultipartResolver();
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-        	.cors()
-            .and()
-            .csrf()
-            .disable()
-            .exceptionHandling()
-            .authenticationEntryPoint(unauthorizedHandler)
-            .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .authorizeRequests()
-        	.antMatchers(HttpMethod.OPTIONS, "/**")
-        	.permitAll()
-            .antMatchers("/api/**").permitAll()
-            /*.antMatchers("/user/registration").permitAll()
-            .antMatchers("/user/getAllUsers").permitAll()
-            .antMatchers("/section/getAllSections").permitAll()
-            .antMatchers("/section/getSection/{id}").permitAll()
-            .antMatchers("/article/getAllArticles/{id}").permitAll()
-            .antMatchers("/article/getArticleFromComment/{id}").permitAll()
-            .antMatchers("/comments/getAllCommentsFromArticle/{id}").permitAll()
-            .antMatchers("/React/**").permitAll()*/
-            .anyRequest()
-                .authenticated();
+		http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll().antMatchers("/h2/**").permitAll()
+				.antMatchers("/api/**").permitAll()
 
-			http.addFilterAfter(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-}	
-	
+				/*
+				 * .antMatchers("/user/registration").permitAll()
+				 * .antMatchers("/user/getAllUsers").permitAll()
+				 * .antMatchers("/section/getAllSections").permitAll()
+				 * .antMatchers("/section/getSection/{id}").permitAll()
+				 * .antMatchers("/article/getAllArticles/{id}").permitAll()
+				 * .antMatchers("/article/getArticleFromComment/{id}").permitAll
+				 * () .antMatchers("/comments/getAllCommentsFromArticle/{id}").
+				 * permitAll() .antMatchers("/React/**").permitAll()
+				 */
+				.anyRequest().authenticated();
+		http.headers().frameOptions().disable();
+		http.addFilterAfter(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+	}
+
 }

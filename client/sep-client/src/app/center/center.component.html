@@ -7,61 +7,79 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Title</th>
-        <th scope="col">Author</th>
-        <th scope="col">Option</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let article of articles">
-        <td scope="row">{{ article.id }}</td>
-        <td scope="row">{{ article.title }}</td>
-        <td scope="row">{{ article.author }}</td>
-        <td scope="row">
-          <button
-            *ngIf='logged'
-            type="button"
-            (click)="addToCart('article', article.id)"
-            class="btn btn-primary"
-          >
-            Add to cart
-          </button>
-          <button
-            *ngIf='!logged'
-            type="button"
-            (click)="goToLogin()"
-            class="btn btn-primary"
-          >
-            Login to add
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table class="table table-striped margined table-bordered">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Title</th>
-        <th scope="col">Subscription</th>
+        <th scope="col">Magazine</th>
+        <th scope="col">Price</th>
         <th scope="col">Option</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let magazine of magazines">
-        <td scope="row">{{ magazine.issn }}</td>
-        <td scope="row">{{ magazine.title }}</td>
-        <td scope="row">{{ magazine.subscription }}</td>
-        <td scope="row">
+        <td scope="row" rowspan="magazine.articles.length"  ><h4><b>{{ magazine.issn }}</b></h4></td>
+        <td scope="row" rowspan="magazine.articles.length"  ><h4><b>{{ magazine.title }} </b></h4>
+          <table  class="table table-striped margined table-bordered"> 
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Article</th>
+                    <th scope="col">Autor</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Option</th>
+                  </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let article of magazine.articles; let i=index"> 
+                  <td scope="row">{{i+1}}</td>
+                  <td scope="row">{{article.title}}</td>
+                  <td scope="row">{{article.author}}</td>
+                  <td scope="row">{{article.price | currency:"RSD " }}</td>
+                  <td scope="row">
+                      <button
+                      *ngIf="'logged' && magazine.subscription!='OPEN_ACCESS'"
+                      type="button"
+                      (click)="addToCart('article',article.id)"
+                      class="btn btn-primary"
+                    >
+                      Add to cart
+                    </button>
+                    <button
+                      *ngIf="'logged' && magazine.subscription=='OPEN_ACCESS'"
+                      type="button"
+                      (click)="addToCart('article',article.id)"
+                      class="btn btn-success"
+                    >
+                      Read article
+                    </button>
+                    
+                    <button
+                      *ngIf='!logged'
+                      type="button"
+                      (click)="goToLogin()"
+                      class="btn btn-primary"
+                    >
+                      Login to add
+                    </button>
+                    </td>
+                </tr>
+            </tbody>
+          </table>
+           </td>
+        <td scope="row" rowspan="magazine.articles.length"  ><b>{{ magazine.price | currency:"RSD " }}</b></td>
+        <td scope="row" rowspan="magazine.articles.length">
           <button
-          *ngIf='logged'
+          *ngIf="'logged' && magazine.subscription!='OPEN_ACCESS'"
           type="button"
           (click)="addToCart('magazine', magazine.issn)"
           class="btn btn-primary"
         >
           Add to cart
         </button>
+        <button
+          *ngIf="'logged' && magazine.subscription=='OPEN_ACCESS'"
+          type="button"
+          (click)="addToCart('article',article.id)"
+          class="btn btn-success">
+          Read magazine
+          </button>
         <button
           *ngIf='!logged'
           type="button"
@@ -71,7 +89,7 @@
           Login to add
         </button>
         </td>
-      </tr>
-    </tbody>
+        </tr>
+        </tbody>
   </table>
 </div>

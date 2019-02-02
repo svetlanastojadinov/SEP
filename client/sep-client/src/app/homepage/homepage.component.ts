@@ -96,7 +96,7 @@ export class HomepageComponent implements OnInit {
         (data:any)=>{
           this.order.magazine=data;
           this.order.amount=data.price;
-          this.order.merchantId=data.merchantId;
+          this.order.merchantId=data.author;
           this.order.article=null;
           console.log("magazine");
         })
@@ -107,7 +107,7 @@ export class HomepageComponent implements OnInit {
           this.order.magazine=null;
           this.order.article=data;
           this.order.amount=data.price;
-          this.order.merchantId=data.merchantId;
+          this.order.merchantId=data.author;
           console.log("article");
         })
     }

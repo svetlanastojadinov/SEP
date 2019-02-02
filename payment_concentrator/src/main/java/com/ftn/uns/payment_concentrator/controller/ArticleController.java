@@ -23,7 +23,6 @@ public class ArticleController {
 
 	@Autowired
 	private ArticleService articleService;
-	
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Collection<Article>> getArticles() {
@@ -52,19 +51,8 @@ public class ArticleController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	private ResponseEntity<Article> updateArticle(@PathVariable long id, @Valid @RequestBody Article article) {
 
-<<<<<<< HEAD
-		Article updatedArticle = articleService.findOne(id);
-
-		if (article.getUser().getUsername() != updatedArticle.getUser().getUsername()) {
-			updatedArticle.setUser(article.getUser());
-		}
-		if (article.getTitle() != updatedArticle.getTitle()) {
-			updatedArticle.setTitle(article.getTitle());
-		}
-		articleService.update(updatedArticle, id);
-=======
 		Article updatedArticle = articleService.update(article, id);
->>>>>>> e45c5b63e7a931d2990da712f7e3859e860d059c
+
 		return new ResponseEntity<Article>(updatedArticle, HttpStatus.OK);
 	}
 

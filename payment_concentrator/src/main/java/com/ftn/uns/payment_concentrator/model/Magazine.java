@@ -1,8 +1,9 @@
 package com.ftn.uns.payment_concentrator.model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,11 +12,12 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Magazine implements Serializable{
+public class Magazine implements Serializable {
 
 	/**
 	 * 
@@ -32,12 +34,16 @@ public class Magazine implements Serializable{
 	@Column
 	@Enumerated(EnumType.STRING)
 	private Subscription subscription;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
 	@JoinColumn(name = "user_id", nullable = true)
 	private User user;
-	
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "magazine_issn")
+	private Set<Article> articles;
+
 	private String author;
 
 	public User getUser() {
@@ -49,9 +55,6 @@ public class Magazine implements Serializable{
 	}
 
 	@Column
-	private String merchantId;
-
-	@Column
 	private double price;
 
 	public Magazine() {
@@ -59,12 +62,24 @@ public class Magazine implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Magazine(String title, String issn, Subscription subscription, Collection<Article> articles) {
+	public Magazine(String title, String issn, Subscription subscription, User user, Set<Article> articles,
+			String author, double price) {
 		super();
 		this.title = title;
 		this.issn = issn;
 		this.subscription = subscription;
+		this.user = user;
+		this.articles = articles;
+		this.author = author;
+		this.price = price;
+	}
 
+	public Set<Article> getArticles() {
+		return articles;
+	}
+
+	public void setArticles(Set<Article> articles) {
+		this.articles = articles;
 	}
 
 	public String getTitle() {
@@ -91,6 +106,14 @@ public class Magazine implements Serializable{
 		this.subscription = subscription;
 	}
 
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
 	public double getPrice() {
 		return price;
 	}
@@ -99,30 +122,14 @@ public class Magazine implements Serializable{
 		this.price = price;
 	}
 
-	public String getMerchantId() {
-		return merchantId;
-	}
-
-	public void setMerchantId(String merchantUsername) {
-		this.merchantId = merchantUsername;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override
 	public String toString() {
-		return issn + " " + title + " " + subscription + " " + price;
+		return "Magazine [title=" + title + ", issn=" + issn + ", subscription=" + subscription + ", user=" + user
+				+ ", author=" + author + ", price=" + price + "]";
 	}
-<<<<<<< HEAD
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-	
-	
-=======
->>>>>>> e45c5b63e7a931d2990da712f7e3859e860d059c
 
 }

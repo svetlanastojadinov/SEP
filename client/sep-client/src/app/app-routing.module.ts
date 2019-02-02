@@ -5,16 +5,13 @@ import {PaypalsuccesComponent} from './paypalsucces/paypalsucces.component';
 import {BTCsuccessComponent} from './btcsuccess/btcsuccess.component';
 import { CancelPaypalComponent } from './cancel-paypal/cancel-paypal.component'
 import { CancelBTCComponent } from './cancel-btc/cancel-btc.component';
-<<<<<<< HEAD
 import { CenterComponent } from './center/center.component';
 import { LoginComponent } from "./auth/login/login.component";
 import { RegistrationComponent } from "./auth/registration/registration.component";
-=======
 import { CardSuccessComponent } from './card/cardsucess/cardsuccess.component';
 import { ErrorComponent } from './card/error/error.component';
 import { FailedComponent } from './card/failed/failed.component';
 import { WrongdataComponent } from './card/wrongdata/wrongdata.component';
->>>>>>> e45c5b63e7a931d2990da712f7e3859e860d059c
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},

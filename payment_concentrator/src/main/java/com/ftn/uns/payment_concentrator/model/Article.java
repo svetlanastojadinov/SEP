@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Article implements Serializable{
+public class Article implements Serializable {
 
 	/**
 	 * 
@@ -28,15 +28,16 @@ public class Article implements Serializable{
 
 	@Column
 	private String title;
-<<<<<<< HEAD
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
 	@JoinColumn(name = "user_id", nullable = true)
 	private User user;
-	
 
 	private String author;
+
+	@Column
+	private double price;
 
 	public User getUser() {
 		return user;
@@ -45,28 +46,27 @@ public class Article implements Serializable{
 	public void setUser(User user) {
 		this.user = user;
 	}
-=======
-
-	@Column
-	private String merchantId;
-
-	@Column
-	private double price;	
->>>>>>> e45c5b63e7a931d2990da712f7e3859e860d059c
 
 	public Article() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Article(long id, String title) {
+	public Article(long id, String title, User user, String author, double price) {
 		super();
 		this.id = id;
 		this.title = title;
-<<<<<<< HEAD
-=======
-		this.merchantId = authorUsername;
->>>>>>> e45c5b63e7a931d2990da712f7e3859e860d059c
+		this.user = user;
+		this.author = author;
+		this.price = price;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -77,23 +77,12 @@ public class Article implements Serializable{
 		this.title = title;
 	}
 
-<<<<<<< HEAD
-=======
-	public String getMerchantId() {
-		return merchantId;
+	public String getAuthor() {
+		return author;
 	}
 
-	public void setMerchantId(String merchantUsername) {
-		this.merchantId = merchantUsername;
-	}
->>>>>>> e45c5b63e7a931d2990da712f7e3859e860d059c
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 	public double getPrice() {
@@ -104,21 +93,14 @@ public class Article implements Serializable{
 		this.price = price;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
-<<<<<<< HEAD
-		return id + " " + " " + title + " ";
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-=======
-		return id + " " + " " + title + " " + merchantId + " " + price;
->>>>>>> e45c5b63e7a931d2990da712f7e3859e860d059c
+		return "Article [id=" + id + ", title=" + title + ", user=" + user + ", author=" + author + ", price=" + price
+				+ "]";
 	}
 
 }

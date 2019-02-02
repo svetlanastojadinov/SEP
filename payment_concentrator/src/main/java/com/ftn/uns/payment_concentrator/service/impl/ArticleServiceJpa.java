@@ -46,11 +46,8 @@ public class ArticleServiceJpa implements ArticleService{
 		// TODO Auto-generated method stub
 		Article articleToUpdate=this.findOne(id);
 		articleToUpdate.setTitle(article.getTitle());
-<<<<<<< HEAD
 		articleToUpdate.setUser(article.getUser());
-=======
-		articleToUpdate.setMerchantId(article.getMerchantId());
->>>>>>> e45c5b63e7a931d2990da712f7e3859e860d059c
+		articleToUpdate.setAuthor(article.getAuthor());
 		
 		return articleRepository.save(articleToUpdate);
 	}
