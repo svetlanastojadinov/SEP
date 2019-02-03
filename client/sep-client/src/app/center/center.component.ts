@@ -15,7 +15,11 @@ export class CenterComponent implements OnInit {
   constructor(private sharedService: SharedService, private router: Router) {}
 
   ngOnInit() {
-    this.logged = localStorage.getItem("token") !== null;
+    if(localStorage.getItem("token") === null) {
+      this.logged = false;
+    }else {
+      this.logged = true;
+    }
 
     this.sharedService.getMagazines().subscribe((data: any) => {
       this.magazines = data;
@@ -33,10 +37,14 @@ export class CenterComponent implements OnInit {
     if(item==='magazine') {
       this.sharedService.addMagazine(id).subscribe(
         data=> {
+          if(data==='MAGAZINE_EXISTS') {
+            alert('Casopis se vec nalazi u korpit')
+          }else {
           alert('Dodat casopis u korpu');
+          }
         },
         err=> {
-          alert('GRESKA. VIDI KONZOLU')
+          alert('GRESKA. Casopis se verovatno nalazi vec u korpi')
           console.log(err)
         }
       )
@@ -45,13 +53,21 @@ export class CenterComponent implements OnInit {
     if(item==='article') {
       this.sharedService.addArticle(id).subscribe(
         data=> {
+          if(data==='MAGAZINE_EXISTS') {
+            alert('Artikl se vec nalazi u korpit')
+          }else {
           alert('Dodat artikl u korpu');
+          }
         },
         err=> {
-          alert('GRESKA. VIDI KONZOLU')
+          alert('GRESKA. Artikl se verovatno nalazi vec u korpi')
           console.log(err)
         }
       )
     }
+  }
+
+  read() {
+    alert('Reading...')
   }
 }

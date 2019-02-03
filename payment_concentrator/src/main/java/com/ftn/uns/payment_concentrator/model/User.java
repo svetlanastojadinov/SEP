@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -101,8 +104,38 @@ public class User implements Serializable{
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Magazine> magazines = new HashSet<Magazine>(0);
-
 	
+	//in cart
+	
+	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+	    @JoinTable(name = "user_article_in_cart",
+	        joinColumns = @JoinColumn(name = "user_id"),
+	        inverseJoinColumns = @JoinColumn(name = "articles_id"))
+	private Set<Article> articles_in_cart = new HashSet<Article>(0);
+	
+	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @JoinTable(name = "user_magazine_in_cart",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "magazine_id"))
+	private Set<Magazine> magazines_in_cart = new HashSet<Magazine>(0);
+	
+
+	public Set<Article> getArticles_in_cart() {
+		return articles_in_cart;
+	}
+
+	public void setArticles_in_cart(Set<Article> articles_in_cart) {
+		this.articles_in_cart = articles_in_cart;
+	}
+
+	public Set<Magazine> getMagazines_in_cart() {
+		return magazines_in_cart;
+	}
+
+	public void setMagazines_in_cart(Set<Magazine> magazines_in_cart) {
+		this.magazines_in_cart = magazines_in_cart;
+	}
+
 	public Set<Article> getArticles() {
 		return articles;
 	}

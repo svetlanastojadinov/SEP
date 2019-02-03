@@ -1,7 +1,6 @@
 package com.ftn.uns.payment_concentrator.controller;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,14 +38,9 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/getCart", method=RequestMethod.GET)
-	public ResponseEntity<CartDTO> getCartContent() {
+	public ResponseEntity<?> getCartContent() {
 		User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-		Set<Article> articles = user.getArticles();
-		Set<Magazine> magazines =user.getMagazines();
-
-		CartDTO cart = new CartDTO();
-		cart.setArticles(articles);
-		cart.setMagazines(magazines);
+		CartDTO cart = new CartDTO(user.getArticles_in_cart(), user.getMagazines_in_cart());
 		System.out.println();
 		return new ResponseEntity<>(cart,HttpStatus.OK);
 	}
@@ -55,7 +49,14 @@ public class UserController {
 	public ResponseEntity<?> addArticleToCart(@PathVariable Long id) {
 		Article article = articleService.findOne(id);
 		User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-		user.getArticles().add(article);
+		for(Article a : user.getArticles_in_cart()) {
+			if(a.getId() == id) {
+				return new ResponseEntity<>("ARTICLE_EXISTS", HttpStatus.OK);
+			}
+		}
+		user.getArticles_in_cart().add(article);
+		article.getUser_cart().add(user);
+		articleService.save(article);
 		userService.save(user);
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
@@ -64,7 +65,15 @@ public class UserController {
 	public ResponseEntity<?> addMagazineToCart(@PathVariable String id) {
 		Magazine magazine = magazineService.findOne(id);
 		User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-		user.getMagazines().add(magazine);
+		for(Magazine m : user.getMagazines_in_cart()) {
+			if(m.getIssn().equals(id)) {
+				return new ResponseEntity<>("MAGAZINE_EXISTS", HttpStatus.OK);
+			}
+		}
+		
+		user.getMagazines_in_cart().add(magazine);
+		magazine.getUser_cart().add(user);
+		magazineService.save(magazine);
 		userService.save(user);
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}

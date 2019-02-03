@@ -34,7 +34,7 @@
                   <td scope="row">{{article.price | currency:"RSD " }}</td>
                   <td scope="row">
                       <button
-                      *ngIf="'logged' && magazine.subscription!='OPEN_ACCESS'"
+                      *ngIf="logged && magazine.subscription!='OPEN_ACCESS'"
                       type="button"
                       (click)="addToCart('article',article.id)"
                       class="btn btn-primary"
@@ -42,9 +42,9 @@
                       Add to cart
                     </button>
                     <button
-                      *ngIf="'logged' && magazine.subscription=='OPEN_ACCESS'"
+                      *ngIf="logged && magazine.subscription=='OPEN_ACCESS'"
                       type="button"
-                      (click)="addToCart('article',article.id)"
+                      (click)="read()"
                       class="btn btn-success"
                     >
                       Read article
@@ -66,7 +66,7 @@
         <td scope="row" rowspan="magazine.articles.length"  ><b>{{ magazine.price | currency:"RSD " }}</b></td>
         <td scope="row" rowspan="magazine.articles.length">
           <button
-          *ngIf="'logged' && magazine.subscription!='OPEN_ACCESS'"
+          *ngIf="logged && magazine.subscription!='OPEN_ACCESS'"
           type="button"
           (click)="addToCart('magazine', magazine.issn)"
           class="btn btn-primary"
@@ -74,9 +74,9 @@
           Add to cart
         </button>
         <button
-          *ngIf="'logged' && magazine.subscription=='OPEN_ACCESS'"
+          *ngIf="logged && magazine.subscription=='OPEN_ACCESS'"
           type="button"
-          (click)="addToCart('article',article.id)"
+          (click)="read()"
           class="btn btn-success">
           Read magazine
           </button>

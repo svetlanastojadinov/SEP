@@ -1,6 +1,7 @@
 package com.ftn.uns.payment_concentrator.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -72,6 +74,20 @@ public class Magazine implements Serializable {
 		this.articles = articles;
 		this.author = author;
 		this.price = price;
+	}
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy="magazines_in_cart")
+	private Set<User> user_cart = new HashSet<User>(0);
+
+	
+
+	public Set<User> getUser_cart() {
+		return user_cart;
+	}
+
+	public void setUser_cart(Set<User> user_cart) {
+		this.user_cart = user_cart;
 	}
 
 	public Set<Article> getArticles() {

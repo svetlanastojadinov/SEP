@@ -1,6 +1,8 @@
 package com.ftn.uns.payment_concentrator.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -38,6 +41,19 @@ public class Article implements Serializable {
 
 	@Column
 	private double price;
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy="articles_in_cart")
+	private Set<User> user_cart = new HashSet<User>(0);
+
+
+	public Set<User> getUser_cart() {
+		return user_cart;
+	}
+
+	public void setUser_cart(Set<User> user_cart) {
+		this.user_cart = user_cart;
+	}
 
 	public User getUser() {
 		return user;
