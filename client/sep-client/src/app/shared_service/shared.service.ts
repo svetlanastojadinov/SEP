@@ -6,7 +6,9 @@ import { Router } from "@angular/router";
   providedIn: "root"
 })
 export class SharedService {
-  constructor(private router: Router, private http: HttpClient) {}
+
+
+  constructor(private router: Router, private http: HttpClient) { }
 
   getOrders() {
     return this.http.get("/api/orders");
@@ -44,5 +46,13 @@ export class SharedService {
 
   addArticle(id: any) {
     return this.http.put("api/user/addArticleToCart/" + id, {});
+  }
+
+  removeArticle(id: any) {
+    return this.http.delete("api/user/removeArticleFromCart/" + id);
+  }
+
+  removeMagazine(id: any) {
+    return this.http.delete("api/user/removeMagazineFromCart/" + id);
   }
 }

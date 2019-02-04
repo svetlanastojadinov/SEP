@@ -70,11 +70,47 @@ public class UserController {
 				return new ResponseEntity<>("MAGAZINE_EXISTS", HttpStatus.OK);
 			}
 		}
-		
 		user.getMagazines_in_cart().add(magazine);
 		magazine.getUser_cart().add(user);
 		magazineService.save(magazine);
 		userService.save(user);
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/removeArticleFromCart/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<?> removeArticleFromCart(@PathVariable Long id) {
+		Article article = articleService.findOne(id);
+		User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		for(Article a : user.getArticles_in_cart()) {
+			if(a.getId() == id) {
+				user.getArticles_in_cart().remove(a);
+				article.getUser_cart().remove(a);
+				articleService.save(article);
+				userService.save(user);
+				return new ResponseEntity<>(article.getId(), HttpStatus.OK);
+			}
+		}
+	
+		return new ResponseEntity<>("NOT_EXISTS", HttpStatus.BAD_REQUEST);
+	}
+	
+	@RequestMapping(value = "/removeMagazineFromCart/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<?> removeMagazineFromCart(@PathVariable String id) {
+		Magazine magazine = magazineService.findOne(id);
+		User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		for(Magazine m : user.getMagazines_in_cart()) {
+			if(m.getIssn().equals(id)) {
+				user.getMagazines_in_cart().remove(m);
+				magazine.getUser_cart().remove(m);
+				magazineService.save(magazine);
+				userService.save(user);
+				return new ResponseEntity<>(magazine.getIssn(), HttpStatus.OK);
+			}
+		}
+	
+		return new ResponseEntity<>("NOT_EXISTS", HttpStatus.BAD_REQUEST);	
+	}
+	
+	
+	
 }

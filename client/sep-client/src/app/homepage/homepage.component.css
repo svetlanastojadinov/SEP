@@ -1,5 +1,5 @@
 .margined {
-    width:85%;
+    width:60%;
 }
 
 th {
@@ -13,4 +13,17 @@ th {
 
 .radioFont {
     font-size: 200%;
+}
+
+.btn-danger {
+    float: right;
+    margin-right: 15%
+}
+
+.btn-primary {
+    margin-left: 15%
+}
+
+.thCenter{
+    text-align: center;
 }

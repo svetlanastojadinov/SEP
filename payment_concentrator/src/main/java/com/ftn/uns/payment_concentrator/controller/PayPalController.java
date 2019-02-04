@@ -5,6 +5,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,9 @@ import com.ftn.uns.payment_concentrator.paymentImpls.PayPalClient;
 public class PayPalController {
 
 	private final PayPalClient payPalClient;
+	
+	private String currentIndicator;
+	private String currentIdentificator;
 
 	@Autowired
 	PayPalController(PayPalClient payPalClient) {
@@ -26,11 +31,23 @@ public class PayPalController {
 
 	@PostMapping(value = "/make/payment")
 	public Map<String, Object> makePayment(@RequestBody Order order) {
+		if(order.getArticle() != null) {
+			currentIndicator = "article";
+			currentIdentificator = Long.toString(order.getArticle().getId());
+		}
+		if(order.getMagazine() != null) {
+			currentIndicator = "magazine";
+			currentIdentificator = order.getMagazine().getIssn();
+		}
 		return payPalClient.create(order);
 	}
 
 	@PostMapping(value = "/complete/payment")
-	public Map<String, Object> completePayment(HttpServletRequest request) {
-		return payPalClient.complete(request);
+	public ResponseEntity<?> completePayment(HttpServletRequest request) {
+		//request.setAttribute("currentIndicator", currentIndicator);
+		//request.setAttribute("currentIdentificator", currentIdentificator);
+		Map<String, Object> retVal = payPalClient.complete(request);
+		return new ResponseEntity<>("KRAAAj",HttpStatus.OK);
+				
 	}
 }

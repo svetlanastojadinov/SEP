@@ -7,10 +7,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ftn.uns.payment_concentrator.model.Order;
 import com.ftn.uns.payment_concentrator.paymentInterface.PaymentInterface;
+import com.ftn.uns.payment_concentrator.service.UserService;
 import com.paypal.api.payments.Amount;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payee;
@@ -30,10 +32,14 @@ public class PayPalClient implements PaymentInterface {
 	private String clientId = "AYiZ1NVxzcFb0aHZnHSCaTqpeJpZf6ZSwJxoeFTKLAnvOktF8nOF0P3zcoL2FW3yRcSgyrxyHakUyoRl";
 	private String clientSecret = "ELTcYHBS5VuNby6wuz1Rn9wzHGbiWVGvnJaZuQ2Qn4QlrhoubqIJxl0HiencysO3KrkU8q4_6aWMkKJB";
 	private String adress = "http://localhost:4200";
+	
+	@Autowired
+	private UserService userService;
 
 	@Override
 	public Map<String, Object> create(Order order) {
 		System.out.println("USAO U PAYPAL");
+		//System.out.println(userService.findByUsername(order.getMerchantId()).getEmail());
 		Map<String, Object> response = new HashMap<String, Object>();
 		Amount amount = new Amount();
 		amount.setCurrency("USD");
@@ -41,7 +47,8 @@ public class PayPalClient implements PaymentInterface {
 
 		Transaction transaction = new Transaction();
 		Payee payee = new Payee();
-		payee.setEmail("vladimirjovicic95@yahoo.com"); // seller
+		//payee.setEmail("vladimirjovicic95@yahoo.com");
+		payee.setEmail(userService.findByUsername(order.getMerchantId()).getEmail()); // seller
 		transaction.setAmount(amount);
 		transaction.setPayee(payee);
 		List<Transaction> transactions = new ArrayList<Transaction>();
@@ -73,6 +80,7 @@ public class PayPalClient implements PaymentInterface {
 				}
 				response.put("status", "success");
 				response.put("redirect_url", redirectUrl);
+				
 			}
 		} catch (PayPalRESTException e) {
 			System.out.println("Error happened during payment creation!");
