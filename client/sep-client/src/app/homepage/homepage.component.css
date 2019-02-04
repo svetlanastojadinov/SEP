@@ -1,29 +1,33 @@
 .margined {
-    width:60%;
+  width: 60%;
 }
 
 th {
-    background-color: moccasin;
+  background-color: moccasin;
 }
 
 .welcome {
-    font-size: 250%;
-    color: brown;
+  font-size: 250%;
+  color: brown;
 }
 
 .radioFont {
-    font-size: 200%;
+  font-size: 200%;
 }
 
 .btn-danger {
-    float: right;
-    margin-right: 15%
+  margin-left: 10px;
 }
 
-.btn-primary {
-    margin-left: 15%
+.thCenter {
+  text-align: center;
 }
 
-.thCenter{
-    text-align: center;
+.noContentMessage {
+  width: 50%;
+  font-size: 50px;
+  margin-bottom: 35px;
+  border: solid 2px;
+  box-shadow: 5px 5px;
+  border-radius: 14px;
 }

@@ -13,7 +13,7 @@ export class CancelPaypalComponent implements OnInit {
   }
 
   backToCart(){
-    this.router.navigate(['homepage']);
+    this.router.navigate(['center']);
   }
 
 }

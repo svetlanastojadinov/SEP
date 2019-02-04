@@ -3,7 +3,10 @@
   <br />
 </div>
 <div align="center">
-  <table class="table table-striped margined table-bordered">
+    <div *ngIf="loading">
+      <img src='./assets/loading.gif' alt='loading' />
+    </div>
+  <table class="table table-striped margined table-bordered" *ngIf="!loading">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -40,7 +43,9 @@
                       class="btn btn-primary"
                     >
                       Add to cart
-                    </button>
+                    </button> <img *ngIf='addingArticle && clickedArticle===article.id'
+                     src='./assets/loading.gif' alt='adding' 
+                     style="width: 30px;height: 30px;margin-left: 5px;"/>
                     <button
                       *ngIf="logged && magazine.subscription=='OPEN_ACCESS'"
                       type="button"
@@ -73,6 +78,9 @@
         >
           Add to cart
         </button>
+        <img *ngIf='addingMagazine && clickedMagazine===magazine.issn'
+                     src='./assets/loading.gif' alt='adding' 
+                     style="width: 45px;height: 45px;margin: auto;display: table"/>
         <button
           *ngIf="logged && magazine.subscription=='OPEN_ACCESS'"
           type="button"

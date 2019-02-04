@@ -90,6 +90,7 @@ public class PayPalClient implements PaymentInterface {
 
 	@Override
 	public Map<String, Object> complete(HttpServletRequest req) {
+		System.out.println("Completing the request...");
 		Map<String, Object> response = new HashMap<String, Object>();
 		Payment payment = new Payment();
 		payment.setId(req.getParameter("paymentId"));

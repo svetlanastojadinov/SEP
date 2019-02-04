@@ -3,7 +3,9 @@
   <br>
 </div>
 <div align="center">
-  <table class="table table-striped margined table-bordered">
+    <img *ngIf='loadingArticles && loadingMagazines'
+    src='./assets/loading.gif' alt='removing' />
+  <table *ngIf='!loadingArticles && articles.length > 0' class="table table-striped margined table-bordered">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -24,13 +26,16 @@
             class="btn btn-primary">Buy</button>
           <button type="button" class="btn btn-danger" (click)="setIndicatorForDelete('article',article.id)"
             data-toggle="modal" data-target="#myModal2">Remove</button>
-
+            <img *ngIf='removingArticle && idForDelete===article.id'
+            src='./assets/loading.gif' alt='removing' 
+            style="width: 30px;height: 30px;margin-left: 5px;"/>
         </td>
       </tr>
     </tbody>
   </table>
+  <div *ngIf='!loadingArticles && articles.length === 0' class='noContentMessage'>No articles in cart</div>
 
-  <table class="table table-striped margined table-bordered">
+  <table *ngIf='!loadingMagazines && magazines.length > 0' class="table table-striped margined table-bordered">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -51,11 +56,15 @@
             data-target="#myModal">Buy</button>
           <button type="button" class="btn btn-danger" (click)="setIndicatorForDelete('magazine',magazine.issn)"
             data-toggle="modal" data-target="#myModal2">Remove</button>
+            <img *ngIf='removingMagazine && idForDelete===magazine.issn'
+            src='./assets/loading.gif' alt='removing' 
+            style="width: 30px;height: 30px;float: right;"/>
 
         </td>
       </tr>
     </tbody>
   </table>
+  <div *ngIf='!loadingMagazines && magazines.length === 0' class='noContentMessage'>No magazines in cart</div>
 </div>
 
 

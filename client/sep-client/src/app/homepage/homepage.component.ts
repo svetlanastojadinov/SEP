@@ -25,6 +25,12 @@ export class HomepageComponent implements OnInit {
   private idForDelete: any = '';
   private indicatorForDelete: string = '';
 
+  private loadingArticles: boolean = true;
+  private loadingMagazines: boolean = true;
+
+  private removingArticle: boolean = false;
+  private removingMagazine: boolean = false;
+
   constructor(
     private sharedService: SharedService,
     private datePipe: DatePipe,
@@ -39,6 +45,8 @@ export class HomepageComponent implements OnInit {
       (data: any) => {
         this.magazines = data.magazines;
         this.articles = data.articles;
+        this.loadingArticles = false;
+        this.loadingMagazines = false;
       });
     this.sharedService.getPaymentMethos().subscribe(
       (data: any) => {
@@ -122,11 +130,14 @@ export class HomepageComponent implements OnInit {
 
   remove() {
     if (this.indicatorForDelete === 'article') {
+      this.removingArticle = true;
       this.sharedService.removeArticle(this.idForDelete).subscribe(
         data => {
-          this.articles = this.articles.filter(article => article.id !== data)
+          this.articles = this.articles.filter(article => article.id !== data);
+          this.removingArticle = false;
         },
         err => {
+          this.removingArticle = false;
           alert('Doslo je do greske. Pogledaj konzolu')
           console.log(err)
         }
@@ -134,11 +145,14 @@ export class HomepageComponent implements OnInit {
     }
 
     if (this.indicatorForDelete === 'magazine') {
+      this.removingMagazine = true;
       this.sharedService.removeMagazine(this.idForDelete).subscribe(
         data => {
           this.magazines = this.magazines.filter(mag => mag.issn != data)
+          this.removingMagazine = false;
         },
         err => {
+          this.removingMagazine = false;
           alert('Doslo je do greske. Pogledaj konzolu')
           console.log(err)
         }

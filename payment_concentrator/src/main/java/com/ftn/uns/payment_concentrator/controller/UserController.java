@@ -84,7 +84,7 @@ public class UserController {
 		for(Article a : user.getArticles_in_cart()) {
 			if(a.getId() == id) {
 				user.getArticles_in_cart().remove(a);
-				article.getUser_cart().remove(a);
+				article.getUser_cart().remove(user);
 				articleService.save(article);
 				userService.save(user);
 				return new ResponseEntity<>(article.getId(), HttpStatus.OK);
@@ -101,7 +101,7 @@ public class UserController {
 		for(Magazine m : user.getMagazines_in_cart()) {
 			if(m.getIssn().equals(id)) {
 				user.getMagazines_in_cart().remove(m);
-				magazine.getUser_cart().remove(m);
+				magazine.getUser_cart().remove(user);
 				magazineService.save(magazine);
 				userService.save(user);
 				return new ResponseEntity<>(magazine.getIssn(), HttpStatus.OK);

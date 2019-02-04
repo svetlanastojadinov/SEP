@@ -14,7 +14,6 @@ export class PaypalsuccesComponent implements OnInit {
     private activatedRoute: ActivatedRoute, private router: Router, private service: SharedService) { }
 
   ngOnInit() {
-    alert('COMPLETE PAYMENT')
     this.activatedRoute.queryParams.subscribe(params => {
       if (params['paymentId'] !== undefined && params['PayerID'] !== undefined) {
         this.paymentService.completePayment(params['paymentId'], params['PayerID']).subscribe(
@@ -26,7 +25,7 @@ export class PaypalsuccesComponent implements OnInit {
   }
 
   backToCart() {
-    this.router.navigate(['homepage']);
+    this.router.navigate(['center']);
   }
 
 }
