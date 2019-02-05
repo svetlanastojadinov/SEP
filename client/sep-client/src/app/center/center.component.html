@@ -3,9 +3,9 @@
   <br />
 </div>
 <div align="center">
-    <div *ngIf="loading">
-      <img src='./assets/loading.gif' alt='loading' />
-    </div>
+  <div *ngIf="loading">
+    <img src='./assets/loading.gif' alt='loading' />
+  </div>
   <table class="table table-striped margined table-bordered" *ngIf="!loading">
     <thead>
       <tr>
@@ -17,87 +17,99 @@
     </thead>
     <tbody>
       <tr *ngFor="let magazine of magazines">
-        <td scope="row" rowspan="magazine.articles.length"  ><h4><b>{{ magazine.issn }}</b></h4></td>
-        <td scope="row" rowspan="magazine.articles.length"  ><h4><b>{{ magazine.title }} </b></h4>
-          <table  class="table table-striped margined table-bordered"> 
+        <td scope="row" rowspan="magazine.articles.length">
+          <h4><b>{{ magazine.issn }}</b></h4>
+        </td>
+        <td scope="row" rowspan="magazine.articles.length">
+          <h4><b>{{ magazine.title }}</b></h4>
+          <table *ngIf="payedMembership(magazine)" class="table table-striped margined table-bordered">
             <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Article</th>
-                    <th scope="col">Autor</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Option</th>
-                  </tr>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Article</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Price</th>
+                <th scope="col">Option</th>
+              </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let article of magazine.articles; let i=index"> 
-                  <td scope="row">{{i+1}}</td>
-                  <td scope="row">{{article.title}}</td>
-                  <td scope="row">{{article.author}}</td>
-                  <td scope="row">{{article.price | currency:"RSD " }}</td>
-                  <td scope="row">
-                      <button
-                      *ngIf="logged && magazine.subscription!='OPEN_ACCESS'"
-                      type="button"
-                      (click)="addToCart('article',article.id)"
-                      class="btn btn-primary"
-                    >
-                      Add to cart
-                    </button> <img *ngIf='addingArticle && clickedArticle===article.id'
-                     src='./assets/loading.gif' alt='adding' 
-                     style="width: 30px;height: 30px;margin-left: 5px;"/>
-                    <button
-                      *ngIf="logged && magazine.subscription=='OPEN_ACCESS'"
-                      type="button"
-                      (click)="read()"
-                      class="btn btn-success"
-                    >
-                      Read article
-                    </button>
-                    
-                    <button
-                      *ngIf='!logged'
-                      type="button"
-                      (click)="goToLogin()"
-                      class="btn btn-primary"
-                    >
-                      Login to add
-                    </button>
-                    </td>
-                </tr>
+              <tr *ngFor="let article of magazine.articles; let i=index">
+                <td scope="row">{{i+1}}</td>
+                <td scope="row">{{article.title}}</td>
+                <td scope="row">{{article.author}}</td>
+                <td scope="row">{{article.price | currency:"RSD " }}</td>
+                <td scope="row">
+                  <button *ngIf="logged && magazine.subscription!='OPEN_ACCESS'" type="button" (click)="addToCart('article',article.id)"
+                    class="btn btn-primary">
+                    Add to cart
+                  </button> <img *ngIf='addingArticle && clickedArticle===article.id' src='./assets/loading.gif' alt='adding'
+                    style="width: 30px;height: 30px;margin-left: 5px;" />
+                  <button *ngIf="logged && magazine.subscription=='OPEN_ACCESS'" type="button" (click)="read()" class="btn btn-success">
+                    Read article
+                  </button>
+
+                  <button *ngIf='!logged' type="button" (click)="goToLogin()" class="btn btn-primary">
+                    Login to add
+                  </button>
+                </td>
+              </tr>
             </tbody>
           </table>
-           </td>
-        <td scope="row" rowspan="magazine.articles.length"  ><b>{{ magazine.price | currency:"RSD " }}</b></td>
-        <td scope="row" rowspan="magazine.articles.length">
-          <button
-          *ngIf="logged && magazine.subscription!='OPEN_ACCESS'"
-          type="button"
-          (click)="addToCart('magazine', magazine.issn)"
-          class="btn btn-primary"
-        >
-          Add to cart
-        </button>
-        <img *ngIf='addingMagazine && clickedMagazine===magazine.issn'
-                     src='./assets/loading.gif' alt='adding' 
-                     style="width: 45px;height: 45px;margin: auto;display: table"/>
-        <button
-          *ngIf="logged && magazine.subscription=='OPEN_ACCESS'"
-          type="button"
-          (click)="read()"
-          class="btn btn-success">
-          Read magazine
-          </button>
-        <button
-          *ngIf='!logged'
-          type="button"
-          (click)="goToLogin()"
-          class="btn btn-primary"
-        >
-          Login to add
-        </button>
+          <div *ngIf="!payedMembership(magazine)" class="NotPayed">
+            MEMBERSHIP IS NOT PAYED
+          </div>
         </td>
-        </tr>
-        </tbody>
+        <td scope="row" rowspan="magazine.articles.length"><b>{{ magazine.price | currency:"RSD " }}</b></td>
+        <td scope="row" rowspan="magazine.articles.length">
+          <button *ngIf="logged && magazine.subscription!='OPEN_ACCESS'" type="button" (click)="addToCart('magazine', magazine.issn)"
+            class="btn btn-primary">
+            Add to cart
+          </button>
+          <button *ngIf="!logged && magazine.subscription!='OPEN_ACCESS'" type="button" (click)="goToLogin()" class="btn btn-primary">
+            Login to add
+          </button>
+          <img *ngIf='addingMagazine && clickedMagazine===magazine.issn' src='./assets/loading.gif' alt='adding' style="width: 45px;height: 45px;margin: auto;display: table" />
+          <button *ngIf="magazine.subscription=='OPEN_ACCESS' && payedMembership(magazine)" type="button" (click)="read()"
+            class="btn btn-success">
+            Read magazine
+          </button>
+
+          <p *ngIf="magazine.subscription=='OPEN_ACCESS' && !payedMembership(magazine)" class="NotPayed">
+            Membership not payed<br>
+            <button *ngIf="magazine.author==loggedUser" class="btn btn-danger payButton" (click)="setToPay(magazine)"
+              data-toggle="modal" data-target="#myModal">
+              PAY
+            </button>
+          </p>
+
+        </td>
+      </tr>
+    </tbody>
   </table>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Membership paying</h4>
+      </div>
+      <div class="modal-body payingBody">
+        <ul>
+          <li>Magazine ID: <b>{{magazineToPay.issn}}</b> </li>
+          <li>Magazine title: <b>{{magazineToPay.title}} </b> </li>
+          <li>Price: <b>{{magazineToPay.price | currency:"RSD "}}</b></li>
+
+        </ul>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)='pay()'>Pay</button>
+      </div>
+    </div>
+
+  </div>
 </div>

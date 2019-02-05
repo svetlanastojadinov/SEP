@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ftn.uns.payment_concentrator.model.Magazine;
 import com.ftn.uns.payment_concentrator.model.Order;
 import com.ftn.uns.payment_concentrator.paymentInterface.PaymentInterface;
 import com.ftn.uns.payment_concentrator.service.UserService;
@@ -38,7 +39,7 @@ public class PayPalClient implements PaymentInterface {
 
 	@Override
 	public Map<String, Object> create(Order order) {
-		System.out.println("USAO U PAYPAL");
+		System.out.println("USAO U PAYPAL ZA CLANARINU");
 		//System.out.println(userService.findByUsername(order.getMerchantId()).getEmail());
 		Map<String, Object> response = new HashMap<String, Object>();
 		Amount amount = new Amount();
@@ -109,6 +110,58 @@ public class PayPalClient implements PaymentInterface {
 			}
 		} catch (PayPalRESTException e) {
 			// System.err.println(e.getDetails());
+		}
+		return response;
+	}
+
+	@Override
+	public Map<String, Object> createMembershipPaying(Magazine magazine) {
+		System.out.println("USAO U PAYPAL ZA CLANARINU");
+		//System.out.println(userService.findByUsername(order.getMerchantId()).getEmail());
+		Map<String, Object> response = new HashMap<String, Object>();
+		Amount amount = new Amount();
+		amount.setCurrency("USD");
+		amount.setTotal(String.valueOf(magazine.getPrice()));
+
+		Transaction transaction = new Transaction();
+		Payee payee = new Payee();
+		payee.setEmail("vladimirjovicic95@yahoo.com");
+		//payee.setEmail(userService.findByUsername(order.getMerchantId()).getEmail()); // seller
+		transaction.setAmount(amount);
+		transaction.setPayee(payee);
+		List<Transaction> transactions = new ArrayList<Transaction>();
+		transactions.add(transaction);
+		Payer payer = new Payer();
+		payer.setPaymentMethod("paypal");
+
+		Payment payment = new Payment();
+		payment.setIntent("sale");
+		payment.setPayer(payer);
+		payment.setTransactions(transactions);
+
+		RedirectUrls redirectUrls = new RedirectUrls();
+		redirectUrls.setCancelUrl(adress + "/cancelPaypal");
+		redirectUrls.setReturnUrl(adress + "/paypalsucces");
+		payment.setRedirectUrls(redirectUrls);
+		Payment createdPayment;
+		try {
+			String redirectUrl = "";
+			APIContext context = new APIContext(clientId, clientSecret, "sandbox");
+			createdPayment = payment.create(context);
+			if (createdPayment != null) {
+				List<Links> links = createdPayment.getLinks();
+				for (Links link : links) {
+					if (link.getRel().equals("approval_url")) {
+						redirectUrl = link.getHref();
+						break;
+					}
+				}
+				response.put("status", "success");
+				response.put("redirect_url", redirectUrl);
+				
+			}
+		} catch (PayPalRESTException e) {
+			System.out.println("Error happened during payment creation!");
 		}
 		return response;
 	}

@@ -1,24 +1,32 @@
 import { Component, OnInit } from "@angular/core";
 import { SharedService } from "./../shared_service/shared.service";
 import { Router } from "@angular/router";
+import { DatePipe } from '@angular/common';
+import { NgbDatepickerDayView } from "@ng-bootstrap/ng-bootstrap/datepicker/datepicker.module";
 
 @Component({
   selector: "app-center",
   templateUrl: "./center.component.html",
-  styleUrls: ["./center.component.css"]
+  styleUrls: ["./center.component.css"],
+  providers: [DatePipe]
 })
 export class CenterComponent implements OnInit {
   private magazines: any = [];
   private articles: any = [];
   private logged: boolean = false;
   private loading: boolean = true;
+
   private addingArticle: boolean = false;
   private addingMagazine: boolean = false;
 
   private clickedArticle: string = "";
-  private clickedMagazine: string ="";
+  private clickedMagazine: string = "";
 
-  constructor(private sharedService: SharedService, private router: Router) {}
+  private loggedUser: string = localStorage.getItem('username');
+
+  private magazineToPay: any = {};
+
+  constructor(private sharedService: SharedService, private router: Router, private datePipe: DatePipe, ) { }
 
   ngOnInit() {
     if (localStorage.getItem("token") === null) {
@@ -28,6 +36,7 @@ export class CenterComponent implements OnInit {
     }
 
     this.sharedService.getMagazines().subscribe((data: any) => {
+
       this.magazines = data;
       this.loading = false;
     });
@@ -80,6 +89,32 @@ export class CenterComponent implements OnInit {
         }
       );
     }
+  }
+
+  payedMembership(magazine: any) {
+    if (magazine.membership !== null) {
+      const now = new Date();
+      const payDay = new Date(magazine.membership.payDay)
+      /*console.log(now)
+      console.log(payDay)
+      console.log(now < payDay)*/
+      //console.log('check', this.datePipe.transform(this.now) > this.datePipe.transform(magazine.membership.payDay))
+      //console.log(this.datePipe.transform(this.now) < this.datePipe.transform(magazine.membership.payDay))
+      return now < payDay;
+    }
+    return true;
+  }
+
+  setToPay(magazine) {
+    this.magazineToPay = magazine;
+  }
+  pay() {
+    this.sharedService.payMembership(this.magazineToPay.issn).subscribe(
+      (data: any) => {
+        const url: string = data.redirect_url;
+        window.location.href = url;
+      }
+    )
   }
 
   read() {

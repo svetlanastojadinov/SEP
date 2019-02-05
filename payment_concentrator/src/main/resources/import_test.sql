@@ -13,9 +13,11 @@ insert into payment_method(id,payment_type) values (1,'CARD');
 insert into payment_method(id,payment_type) values (2,'PAYPAL');
 insert into payment_method(id,payment_type) values (3,'BITCOIN');
 
+insert into membership (id,payed,pay_day) values (1,0,'2019-02-05');
+
 insert into magazine(title,issn,subscription,user_id,author, price) values ('Filomat',93545180,'READER_PAYS',1,'vladimir', 50);
 insert into magazine(title,issn,subscription,user_id,author, price) values ('Zbornik Medicinski pregled',99258105,'READER_PAYS',2,'milan',70);
-insert into magazine(title,issn,subscription,user_id,author,price) values ('Zbornik Matice srpske za prirodne nauke',14509636,'OPEN_ACCESS',3,'ivan',80);
+insert into magazine(title,issn,subscription,user_id,author,price,membership_id) values ('Zbornik Matice srpske za prirodne nauke',14509636,'OPEN_ACCESS',3,'ivan',80,1);
 
 insert into article(title,price, user_id, author,magazine_issn) values ('Detekcija mikotoksina putem različitih analitičkih metoda',0.01,1,'vladimir',14509636);
 insert into article(title,price, user_id, author,magazine_issn) values ('Vrednovanje ciljeva upravljanja spomenicima prirode primenom smart i smarter metoda',1,1,'vladimir',14509636);

@@ -55,4 +55,8 @@ export class SharedService {
   removeMagazine(id: any) {
     return this.http.delete("api/user/removeMagazineFromCart/" + id);
   }
+
+  payMembership(id: any) {
+    return this.http.put("api/paypal/payMembership/" + id, {});
+  }
 }

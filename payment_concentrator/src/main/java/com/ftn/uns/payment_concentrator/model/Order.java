@@ -54,6 +54,9 @@ public class Order implements Serializable{
 
 	@Column
 	private boolean executed;
+	
+	
+	
 
 	public Order() {
 		super();

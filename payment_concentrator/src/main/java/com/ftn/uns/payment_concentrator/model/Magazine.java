@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -47,6 +49,10 @@ public class Magazine implements Serializable {
 	private Set<Article> articles;
 
 	private String author;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "membership_id")
+	private Membership membership;
 
 	public User getUser() {
 		return user;
@@ -61,11 +67,10 @@ public class Magazine implements Serializable {
 
 	public Magazine() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
+	
 	public Magazine(String title, String issn, Subscription subscription, User user, Set<Article> articles,
-			String author, double price) {
+			String author, Membership membership, double price, Set<User> user_cart) {
 		super();
 		this.title = title;
 		this.issn = issn;
@@ -73,14 +78,15 @@ public class Magazine implements Serializable {
 		this.user = user;
 		this.articles = articles;
 		this.author = author;
+		this.membership = membership;
 		this.price = price;
+		this.user_cart = user_cart;
 	}
-	
+
 	@JsonIgnore
 	@ManyToMany(mappedBy="magazines_in_cart")
 	private Set<User> user_cart = new HashSet<User>(0);
 
-	
 
 	public Set<User> getUser_cart() {
 		return user_cart;
@@ -146,6 +152,14 @@ public class Magazine implements Serializable {
 	public String toString() {
 		return "Magazine [title=" + title + ", issn=" + issn + ", subscription=" + subscription + ", user=" + user
 				+ ", author=" + author + ", price=" + price + "]";
+	}
+
+	public Membership getMembership() {
+		return membership;
+	}
+
+	public void setMembership(Membership membership) {
+		this.membership = membership;
 	}
 
 }

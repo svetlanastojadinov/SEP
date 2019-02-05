@@ -1,5 +1,7 @@
 package com.ftn.uns.payment_concentrator.controller;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,11 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ftn.uns.payment_concentrator.dto.RemoveCartAfterPayingDTO;
 import com.ftn.uns.payment_concentrator.model.Article;
 import com.ftn.uns.payment_concentrator.model.Magazine;
+import com.ftn.uns.payment_concentrator.model.Membership;
 import com.ftn.uns.payment_concentrator.model.Order;
 import com.ftn.uns.payment_concentrator.model.User;
 import com.ftn.uns.payment_concentrator.paymentImpls.PayPalClient;
 import com.ftn.uns.payment_concentrator.service.ArticleService;
 import com.ftn.uns.payment_concentrator.service.MagazineService;
+import com.ftn.uns.payment_concentrator.service.MembershipService;
 import com.ftn.uns.payment_concentrator.service.UserService;
 
 @RestController
@@ -35,12 +41,15 @@ public class PayPalController {
 	
 	@Autowired
 	private ArticleService articleService;
+	
+	@Autowired
+	private MembershipService membershipService;
 
 
 	private final PayPalClient payPalClient;
 	
-	private String currentIndicator;
-	private String currentIdentificator;
+	private String currentIndicator = "";
+	private String currentIdentificator = "";
 
 	@Autowired
 	PayPalController(PayPalClient payPalClient) {
@@ -89,5 +98,17 @@ public class PayPalController {
 		}
 		
 		return new ResponseEntity<>(paypalResponse,HttpStatus.OK);		
+	}
+	
+	@PutMapping(value = "/payMembership/{issn}")
+	public Map<String, Object>  payMembership(@PathVariable String issn) {
+		Magazine magazine = magazineService.findOne(issn);
+		Membership membership = magazine.getMembership();
+		membership.setPayDay( Date.valueOf(LocalDate.now().plusMonths(1)));
+		
+		magazine.setMembership(membership);
+		magazineService.save(magazine);
+		membershipService.save(membership);
+		return payPalClient.createMembershipPaying(magazine);
 	}
 }

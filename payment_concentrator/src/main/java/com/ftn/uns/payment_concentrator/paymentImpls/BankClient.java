@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.ftn.uns.payment_concentrator.model.Magazine;
 import com.ftn.uns.payment_concentrator.model.Merchant;
 import com.ftn.uns.payment_concentrator.model.Order;
 import com.ftn.uns.payment_concentrator.paymentInterface.PaymentInterface;
@@ -72,6 +73,12 @@ public class BankClient implements PaymentInterface {
 			response.put("status", "errror");
 		}
 		return response;
+	}
+
+	@Override
+	public Map<String, Object> createMembershipPaying(Magazine magazine) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
