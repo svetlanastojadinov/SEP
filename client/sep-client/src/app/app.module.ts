@@ -18,11 +18,12 @@ import { CenterComponent } from "./center/center.component";
 import { NavbarComponent } from "./navbar/navbar.component";
 import { LoginComponent } from "./auth/login/login.component";
 import { RegistrationComponent } from "./auth/registration/registration.component";
-import {TokenInterceptor} from './auth/token-interceptor';
+import { TokenInterceptor } from './auth/token-interceptor';
 import { CardSuccessComponent } from './card/cardsucess/cardsuccess.component';
 import { WrongdataComponent } from './card/wrongdata/wrongdata.component';
 import { FailedComponent } from './card/failed/failed.component';
 import { ErrorComponent } from './card/error/error.component';
+import { PaypalsuccesMembership } from './paypalsuccesMembership/paypalsuccesMembership.component'
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ErrorComponent } from './card/error/error.component';
     CardSuccessComponent,
     WrongdataComponent,
     FailedComponent,
-    ErrorComponent
+    ErrorComponent,
+    PaypalsuccesMembership
   ],
   imports: [
     BrowserModule,
@@ -53,8 +55,8 @@ import { ErrorComponent } from './card/error/error.component';
     PaymentService,
     PaymentBTCService,
     PaymentCardService,
-    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

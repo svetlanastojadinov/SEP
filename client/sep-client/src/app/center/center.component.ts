@@ -112,6 +112,7 @@ export class CenterComponent implements OnInit {
     this.sharedService.payMembership(this.magazineToPay.issn).subscribe(
       (data: any) => {
         const url: string = data.redirect_url;
+        localStorage.setItem("issn", this.magazineToPay.issn);
         window.location.href = url;
       }
     )

@@ -59,4 +59,8 @@ export class SharedService {
   payMembership(id: any) {
     return this.http.put("api/paypal/payMembership/" + id, {});
   }
+
+  setMembership(id: any) {
+    return this.http.put("api/paypal/setMembership/" + id, {});
+  }
 }

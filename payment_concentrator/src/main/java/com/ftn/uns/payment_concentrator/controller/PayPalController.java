@@ -103,12 +103,17 @@ public class PayPalController {
 	@PutMapping(value = "/payMembership/{issn}")
 	public Map<String, Object>  payMembership(@PathVariable String issn) {
 		Magazine magazine = magazineService.findOne(issn);
+		return payPalClient.createMembershipPaying(magazine);
+	}
+	
+	@PutMapping(value = "/setMembership/{issn}")
+	public ResponseEntity<Membership>  setMembership(@PathVariable String issn) {
+		Magazine magazine = magazineService.findOne(issn);
 		Membership membership = magazine.getMembership();
 		membership.setPayDay( Date.valueOf(LocalDate.now().plusMonths(1)));
-		
 		magazine.setMembership(membership);
 		magazineService.save(magazine);
 		membershipService.save(membership);
-		return payPalClient.createMembershipPaying(magazine);
+		return new ResponseEntity<>(membership, HttpStatus.OK);
 	}
 }

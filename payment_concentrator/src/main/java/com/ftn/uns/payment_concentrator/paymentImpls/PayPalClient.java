@@ -39,7 +39,7 @@ public class PayPalClient implements PaymentInterface {
 
 	@Override
 	public Map<String, Object> create(Order order) {
-		System.out.println("USAO U PAYPAL ZA CLANARINU");
+		System.out.println("USAO U PAYPAL ZA ORDER");
 		//System.out.println(userService.findByUsername(order.getMerchantId()).getEmail());
 		Map<String, Object> response = new HashMap<String, Object>();
 		Amount amount = new Amount();
@@ -141,7 +141,7 @@ public class PayPalClient implements PaymentInterface {
 
 		RedirectUrls redirectUrls = new RedirectUrls();
 		redirectUrls.setCancelUrl(adress + "/cancelPaypal");
-		redirectUrls.setReturnUrl(adress + "/paypalsucces");
+		redirectUrls.setReturnUrl(adress + "/paypalsuccesMembership");
 		payment.setRedirectUrls(redirectUrls);
 		Payment createdPayment;
 		try {

@@ -13,7 +13,7 @@ insert into payment_method(id,payment_type) values (1,'CARD');
 insert into payment_method(id,payment_type) values (2,'PAYPAL');
 insert into payment_method(id,payment_type) values (3,'BITCOIN');
 
-insert into membership (id,payed,pay_day) values (1,0,'2019-02-05');
+insert into membership (id,payed,pay_day) values (1,0,'2018-03-09');
 
 insert into magazine(title,issn,subscription,user_id,author, price) values ('Filomat',93545180,'READER_PAYS',1,'vladimir', 50);
 insert into magazine(title,issn,subscription,user_id,author, price) values ('Zbornik Medicinski pregled',99258105,'READER_PAYS',2,'milan',70);
