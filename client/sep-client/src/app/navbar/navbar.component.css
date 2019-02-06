@@ -1,3 +1,9 @@
 .ListPointer {
     cursor: pointer;
 }
+
+.nameLabel {
+    cursor: context-menu;
+
+}
+ 

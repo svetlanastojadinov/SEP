@@ -27,47 +27,65 @@ public class AuthController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private RoleService roleService;
-	
+
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
+
 	@Autowired
 	private JwtTokenProvider tokenProvider;
-	
+
 	private UserConverter userConverter = new UserConverter();
-	
-	@RequestMapping(value="/register", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<?> register(@RequestBody UserDTO dto) {
-		
-		if(userService.findByUsername(dto.getUsername()) != null) {
+		return registerFoo(dto,1);
+	}
+
+	@RequestMapping(value = "login", method = RequestMethod.POST)
+	public ResponseEntity<?> loginUser(@RequestBody LoginRequestDTO dto) {
+		User user = userService.findByUsername(dto.getUsername());
+		if (user == null) {
+			return new ResponseEntity<>("USERNAME_NOT_EXIST", HttpStatus.BAD_REQUEST);
+		}
+
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword()));
+
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		String jwt = tokenProvider.generateToken(authentication);
+		return new ResponseEntity<>(new JwtAuthenticationResponse(jwt, user.getRole().getName().toString()),
+				HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/registerAuthor", method=RequestMethod.POST)
+	public ResponseEntity<?> registerAuthor(@RequestBody UserDTO dto) {
+		return registerFoo(dto,2);
+	}
+	
+	@RequestMapping(value="/registerRedactor", method=RequestMethod.POST)
+	public ResponseEntity<?> registerRedactor(@RequestBody UserDTO dto) {
+		return registerFoo(dto,3);
+	}
+	
+	
+	
+	
+	
+	public ResponseEntity<?> registerFoo(UserDTO dto, int role){
+		if (userService.findByUsername(dto.getUsername()) != null) {
 			return new ResponseEntity<>("A user with the given username already exists", HttpStatus.BAD_REQUEST);
 		}
-		
-		if(userService.findByEmail(dto.getEmail()) != null) {
+
+		if (userService.findByEmail(dto.getEmail()) != null) {
 			return new ResponseEntity<>("A user with the given email already exists", HttpStatus.BAD_REQUEST);
 		}
-		
+
 		User user = new User();
-		user = userConverter.DtoToUser(dto,roleService.findOne(Long.valueOf(1)).get());
+		user = userConverter.DtoToUser(dto, roleService.findOne(Long.valueOf(role)).get());
 		userService.save(user);
 		return new ResponseEntity<>("Succesfully registred", HttpStatus.OK);
 	}
-	
-	@RequestMapping(value="login", method = RequestMethod.POST)
-	public ResponseEntity<?> loginUser(@RequestBody LoginRequestDTO dto) {
-		User user = userService.findByUsername(dto.getUsername());
-		if(user == null) {
-			return new ResponseEntity<>("USERNAME_NOT_EXIST", HttpStatus.BAD_REQUEST);
-		}
-		
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword()));
-		
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = tokenProvider.generateToken(authentication);
-		return new ResponseEntity<> (new JwtAuthenticationResponse(jwt, user.getRole().getName().toString()), HttpStatus.OK);
-}
 }

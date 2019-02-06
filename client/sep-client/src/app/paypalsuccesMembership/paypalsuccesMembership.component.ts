@@ -23,7 +23,11 @@ export class PaypalsuccesMembership implements OnInit {
             }
         })
 
-        this.service.setMembership(localStorage.getItem("issn")).subscribe()
+        this.service.setMembership(localStorage.getItem("issn")).subscribe(
+            () => {
+                localStorage.removeItem("issn");
+            }
+        )
     }
 
     backToCart() {

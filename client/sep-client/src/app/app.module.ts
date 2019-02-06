@@ -23,7 +23,11 @@ import { CardSuccessComponent } from './card/cardsucess/cardsuccess.component';
 import { WrongdataComponent } from './card/wrongdata/wrongdata.component';
 import { FailedComponent } from './card/failed/failed.component';
 import { ErrorComponent } from './card/error/error.component';
-import { PaypalsuccesMembership } from './paypalsuccesMembership/paypalsuccesMembership.component'
+import { PaypalsuccesMembership } from './paypalsuccesMembership/paypalsuccesMembership.component';
+import { RoleGuardService } from './guards/role-guard.service';
+import { AuthGuardService } from './guards/auth-guard.service';
+import { NotAuthGuardService } from './guards/not-auth-service';
+import { ManageUsersComponent } from './manageUsers/manageUsers.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +45,7 @@ import { PaypalsuccesMembership } from './paypalsuccesMembership/paypalsuccesMem
     WrongdataComponent,
     FailedComponent,
     ErrorComponent,
+    ManageUsersComponent,
     PaypalsuccesMembership
   ],
   imports: [
@@ -51,6 +56,9 @@ import { PaypalsuccesMembership } from './paypalsuccesMembership/paypalsuccesMem
     FormsModule
   ],
   providers: [
+    RoleGuardService,
+    AuthGuardService,
+    NotAuthGuardService,
     SharedService,
     PaymentService,
     PaymentBTCService,

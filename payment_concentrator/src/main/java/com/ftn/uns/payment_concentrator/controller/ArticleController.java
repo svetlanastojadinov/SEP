@@ -24,6 +24,7 @@ public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
 
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Collection<Article>> getArticles() {
 
@@ -42,9 +43,7 @@ public class ArticleController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	private ResponseEntity<Article> saveArticle(@Valid @RequestBody Article article) {
-
 		Article savedArticle = articleService.save(article);
-
 		return new ResponseEntity<Article>(savedArticle, HttpStatus.CREATED);
 	}
 

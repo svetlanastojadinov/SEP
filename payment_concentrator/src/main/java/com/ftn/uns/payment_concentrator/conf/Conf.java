@@ -61,22 +61,55 @@ public class Conf extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll().antMatchers("/h2/**").permitAll()
-				.antMatchers("/api/**").permitAll()
-
-				/*
-				 * .antMatchers("/user/registration").permitAll()
-				 * .antMatchers("/user/getAllUsers").permitAll()
-				 * .antMatchers("/section/getAllSections").permitAll()
-				 * .antMatchers("/section/getSection/{id}").permitAll()
-				 * .antMatchers("/article/getAllArticles/{id}").permitAll()
-				 * .antMatchers("/article/getArticleFromComment/{id}").permitAll
-				 * () .antMatchers("/comments/getAllCommentsFromArticle/{id}").
-				 * permitAll() .antMatchers("/React/**").permitAll()
-				 */
-				.anyRequest().authenticated();
+		http.cors()
+			.and()
+			.csrf()
+			.disable()
+			.exceptionHandling()
+			.authenticationEntryPoint(unauthorizedHandler)
+			.and()
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+			.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+			.antMatchers("/api/auth/login").permitAll()
+			.antMatchers("/api/auth/register").permitAll()
+			.antMatchers("/api/auth/registerAuthor").hasAnyAuthority("ADMIN")
+			.antMatchers("/api/auth/registerRedactor").hasAnyAuthority("ADMIN")
+			
+			.antMatchers(HttpMethod.GET,"/api/articles").permitAll()
+			.antMatchers(HttpMethod.GET,"/api/articles/{id}").permitAll()
+			.antMatchers(HttpMethod.POST,"/api/articles").hasAnyAuthority("AUTOR","UREDNIK","ADMIN")
+			.antMatchers(HttpMethod.PUT,"/api/articles/{id}").hasAnyAuthority("AUTOR","UREDNIK","ADMIN")
+			.antMatchers(HttpMethod.DELETE,"/api/articles/{id}").hasAnyAuthority("AUTOR","UREDNIK","ADMIN")	// ako se brisu casopisi brisu se i artikli
+			
+			.antMatchers("/api/bitcoin/**").authenticated()
+			.antMatchers("/api/card/**").authenticated()
+			
+			.antMatchers(HttpMethod.GET,"/api/magazines").permitAll()
+			.antMatchers(HttpMethod.GET,"/api/magazines/{issn}").permitAll()
+			.antMatchers(HttpMethod.POST,"/api/magazines").hasAnyAuthority("UREDNIK","ADMIN")
+			.antMatchers(HttpMethod.PUT,"/api/magazines/{issn}").hasAnyAuthority("UREDNIK","ADMIN")
+			.antMatchers(HttpMethod.DELETE,"/api/magazines/{issn}").hasAnyAuthority("UREDNIK","ADMIN")
+			
+			.antMatchers("/api/merchants/{id}").authenticated()
+			.antMatchers("/api/orders/**").authenticated()
+			
+			.antMatchers(HttpMethod.GET,"/api/mpayment_methods").authenticated()
+			.antMatchers("/api/mpayment_methods/{id}").authenticated()
+			.antMatchers(HttpMethod.POST,"/api/mpayment_methods").hasAuthority("ADMIN")
+			
+			.antMatchers("/api/paypal/make/payment").authenticated()
+			.antMatchers("/api/paypal/complete/payment").authenticated()
+			.antMatchers("/api/paypal/payMembership/{issn}").hasAnyAuthority("UREDNIK")
+			.antMatchers("/api/paypal/setMembership/{issn}").hasAnyAuthority("UREDNIK")
+			
+			.antMatchers("/api/user").hasAnyAuthority("ADMIN")
+			.antMatchers("/api/user/getCart").authenticated()
+			.antMatchers("/api/user/addArticleToCart/{id}").authenticated()
+			.antMatchers("/api/user/addMagazineToCart/{id}").authenticated()
+			.antMatchers("/api/user/removeArticleFromCart/{id}").authenticated()
+			.antMatchers("/api/user/removeMagazineFromCart/{id}").authenticated()
+			.antMatchers("h2/**").authenticated()
+			;
 		http.headers().frameOptions().disable();
 		http.addFilterAfter(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}

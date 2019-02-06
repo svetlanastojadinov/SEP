@@ -1,0 +1,22 @@
+.manageUser {
+    margin-top: 70px;
+}
+
+.addNew {
+    width: 23%;
+    font-size: 50px;
+    background-color: lightgreen;
+    margin: auto;
+    display: table;
+    outline: solid 3px;
+    box-shadow: 5px 5px;
+    cursor: pointer;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.addNew:hover {
+    background-color: greenyellow;
+    width: 25%;
+    height: 9vh;
+}

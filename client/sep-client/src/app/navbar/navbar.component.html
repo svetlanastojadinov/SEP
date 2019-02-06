@@ -4,8 +4,9 @@
       <a class="navbar-brand" routerLink="/center">SEP</a>
     </div>
     <p *ngIf="logged == true" class="nav navbar-nav navbar-right">
+      <li *ngIf="loggedRole === 'ADMIN'"><a routerLink="/manageUsers">Manage users</a></li>
+      <li><a class="nameLabel">ZDRAVO, {{ username }}!</a></li>
       <li><a routerLink="/homepage">CART</a></li>
-      <li>Zdravo, {{ username }}!</li>
       <li (click)="logout()" class="ListPointer"><a>Logout</a></li>
     </p>
     <ul *ngIf="logged == false" class="nav navbar-nav navbar-right">

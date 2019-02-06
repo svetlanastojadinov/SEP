@@ -10,20 +10,19 @@ import { Router } from "@angular/router";
 })
 export class RegistrationComponent implements OnInit {
   private newUser: any = {};
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   register() {
     this.authService.register(this.newUser)
-    .subscribe(
-      data=>{
-        alert('Successfully')
-        this.router.navigate(['/login']);
-      
-      },
-      err=>console.log(err)
-    )
-    
+      .subscribe(
+        data => {
+          alert('Successfully')
+          this.router.navigate(['/login']);
+        },
+        err => console.log(err)
+      )
   }
 }

@@ -10,9 +10,10 @@ import { Router } from "@angular/router";
 })
 export class LoginComponent implements OnInit {
   private loginRequest: any = {};
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   login() {
     this.authService.login(this.loginRequest).subscribe(
