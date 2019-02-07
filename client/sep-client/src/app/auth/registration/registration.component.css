@@ -3,3 +3,8 @@
   margin: auto;
   display: table;
 }
+
+.notValid {
+  color: red;
+  font-size: 15px;
+}

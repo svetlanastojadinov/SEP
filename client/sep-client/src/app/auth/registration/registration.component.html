@@ -1,55 +1,39 @@
-<form class="FormDiv" (submit)="register()">
+<form class="FormDiv">
   <div class="form-group">
     <label>Username</label>
-    <input
-      type="text"
-      class="form-control"
-      placeholder="Enter username"
-      [(ngModel)]="newUser.username"
-      name="username"
-    />
+    <input type="text" class="form-control" placeholder="Enter username" [(ngModel)]="newUser.username" name="username"
+      (ngModelChange)="validOnKeyPress('username')" />
+    <p class='notValid' *ngIf="!newUserValid.username">*Username is not valid (at least 4 characters)</p>
   </div>
   <div class="form-group">
     <label>Email address</label>
-    <input
-      type="email"
-      class="form-control"
-      aria-describedby="emailHelp"
-      placeholder="Enter email"
-      [(ngModel)]="newUser.email"
-      name="email"
-    />
+    <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="newUser.email"
+      name="email" (ngModelChange)="validOnKeyPress('email')" />
+    <p class='notValid' *ngIf="!newUserValid.email">*Email is not valid</p>
   </div>
   <div class="form-group">
     <label>Name</label>
-    <input
-      type="text"
-      class="form-control"
-      placeholder="Enter name"
-      [(ngModel)]="newUser.name"
-      name="name"
-    />
+    <input type="text" class="form-control" placeholder="Enter name" [(ngModel)]="newUser.name" name="name"
+      (ngModelChange)="validOnKeyPress('name')" />
+    <p class='notValid' *ngIf="!newUserValid.name">*Name is not valid</p>
   </div>
 
   <div class="form-group">
     <label>Surname</label>
-    <input
-      type="text"
-      class="form-control"
-      placeholder="Enter surname"
-      [(ngModel)]="newUser.surname"
-      name="surname"
-    />
+    <input type="text" class="form-control" placeholder="Enter surname" [(ngModel)]="newUser.surname" name="surname"
+      (ngModelChange)="validOnKeyPress('surname')" />
+    <p class='notValid' *ngIf="!newUserValid.surname">*Surname is not valid</p>
   </div>
   <div class="form-group">
     <label>Password</label>
-    <input
-      type="password"
-      class="form-control"
-      placeholder="Password"
-      [(ngModel)]="newUser.password"
-      name="password"
-    />
+    <input type="password" class="form-control" placeholder="Password" [(ngModel)]="newUser.password" name="password"
+      (ngModelChange)="validOnKeyPress('password')" />
+    <p class='notValid' *ngIf="!newUserValid.password">*The password has to be at least 8 characters</p>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <div class="form-group">
+    <label>Repeat password</label>
+    <input type="password" class="form-control" placeholder="Password" [(ngModel)]="repeatPassword" name="repeatPassword" />
+    <p class='notValid' *ngIf="!matchingPassword">*The passwords are not matching</p>
+  </div>
+  <button type="submit" class="btn btn-primary" (click)="register()">Submit</button>
 </form>
