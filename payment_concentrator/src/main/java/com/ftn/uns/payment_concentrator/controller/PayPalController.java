@@ -66,12 +66,16 @@ public class PayPalController {
 			currentIndicator = "magazine";
 			currentIdentificator = order.getMagazine().getIssn();
 		}
-		return payPalClient.create(order);
+		
+		Map<String, Object> created = payPalClient.create(order);
+		
+		return created;
 	}
 
 	@PostMapping(value = "/complete/payment")
 	public ResponseEntity<?> completePayment(HttpServletRequest request) {
-		User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userService.findByUsername(username);
 		payPalClient.complete(request);
 		RemoveCartAfterPayingDTO paypalResponse= new RemoveCartAfterPayingDTO(currentIndicator,currentIdentificator);
 		
@@ -107,7 +111,7 @@ public class PayPalController {
 	}
 	
 	@PutMapping(value = "/setMembership/{issn}")
-	public ResponseEntity<Membership>  setMembership(@PathVariable String issn) {
+	public ResponseEntity<Membership> setMembership(@PathVariable String issn) {
 		Magazine magazine = magazineService.findOne(issn);
 		Membership membership = magazine.getMembership();
 		membership.setPayDay( Date.valueOf(LocalDate.now().plusMonths(1)));

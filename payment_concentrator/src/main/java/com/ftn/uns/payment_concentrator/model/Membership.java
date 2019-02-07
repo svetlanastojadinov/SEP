@@ -40,7 +40,7 @@ public class Membership implements Serializable{
 	@Column(nullable=false, columnDefinition="DATETIME")
 	private Date payDay;
 	
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "membership",fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "membership",fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Magazine magazine;
 	

@@ -30,5 +30,13 @@ public class RemoveCartAfterPayingDTO {
 	public void setCurrentIdentificator(String currentIdentificator) {
 		this.currentIdentificator = currentIdentificator;
 	}
+
+	@Override
+	public String toString() {
+		return "RemoveCartAfterPayingDTO [currentIndicator=" + currentIndicator + ", currentIdentificator="
+				+ currentIdentificator + "]";
+	}
+	
+	
 	
 }

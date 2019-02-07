@@ -34,6 +34,7 @@ public class PayPalClient implements PaymentInterface {
 	private String clientSecret = "ELTcYHBS5VuNby6wuz1Rn9wzHGbiWVGvnJaZuQ2Qn4QlrhoubqIJxl0HiencysO3KrkU8q4_6aWMkKJB";
 	private String adress = "http://localhost:4200";
 	
+
 	@Autowired
 	private UserService userService;
 

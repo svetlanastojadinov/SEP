@@ -107,13 +107,13 @@ public class User implements Serializable{
 	
 	//in cart
 	
-	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.EAGER)
 	    @JoinTable(name = "user_article_in_cart",
 	        joinColumns = @JoinColumn(name = "user_id"),
 	        inverseJoinColumns = @JoinColumn(name = "articles_id"))
 	private Set<Article> articles_in_cart = new HashSet<Article>(0);
 	
-	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "user_magazine_in_cart",
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "magazine_id"))

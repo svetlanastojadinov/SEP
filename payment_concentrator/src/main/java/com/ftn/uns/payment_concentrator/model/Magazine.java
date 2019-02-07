@@ -50,7 +50,7 @@ public class Magazine implements Serializable {
 
 	private String author;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "membership_id")
 	private Membership membership;
 
