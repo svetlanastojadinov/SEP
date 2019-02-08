@@ -26,8 +26,9 @@ export class BTCsuccessComponent implements OnInit {
         if(this.order!=null){
           this.order.executed=true;
           console.log(this.order);
-          this.sharedService.updateOrder(this.order).subscribe((data)=>{
-          })
+          this.paymentService.completePaymentBTC( this.order.merchantOrderId,this.order.buyerUsername).subscribe((data:any)=>{
+            console.log(data); 
+          });//paymentId,payerId)
         }
       })
     });

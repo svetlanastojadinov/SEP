@@ -11,10 +11,9 @@ export class PaymentBTCService {
 
   makePaymentBTC(order) {
     return this.http.post('api/bitcoin/make/payment', order);
-  }
+  } 
 
   completePaymentBTC(paymentId, payerId) {
-  // console.log("***********************"+payerId);
     return this.http.post('api/bitcoin/complete/payment?paymentId=' + paymentId + '&payerId=' + payerId , {});
   }
 }

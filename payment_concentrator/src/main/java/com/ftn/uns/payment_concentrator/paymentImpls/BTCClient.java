@@ -27,7 +27,7 @@ public class BTCClient implements PaymentInterface {
 	private String url = "http://localhost:4200";
 	private String sandboxUrl = "https://api-sandbox.coingate.com/v2/orders";
 	private String clientSecret = "Token CXaY7NVw4VbDTLRfQBb9C7bixEtQeXzQPJENVy5r";
-	private String token = UUID.randomUUID().toString();
+	private String token;
 
 	@Autowired
 	private OrderService orderService;
@@ -40,6 +40,7 @@ public class BTCClient implements PaymentInterface {
 		orderViaBTC.setOrder_id("Merchant's ID");
 		orderViaBTC.setPrice_amount(order.getAmount());
 		orderViaBTC.setCancel_url(url + "/cancelbtc");
+		token = UUID.randomUUID().toString();
 		orderViaBTC.setSuccess_url(url + "/btcsuccess/" + token);
 		// orderViaBTC.setCallback_url("http://localhost:8080/api/bitcoin/complete/payment");
 		orderViaBTC.setToken(token);
@@ -67,9 +68,17 @@ public class BTCClient implements PaymentInterface {
 
 	@Override
 	public Map<String, Object> complete(HttpServletRequest request) {
-		System.err.println("COMPLETE ? ? ?");
+		Map<String, Object> response = new HashMap<String, Object>();
+		try {
+			Order o=orderService.findOne(Long.parseLong(request.getParameter("paymentId")));
+			orderService.updateExecution(o, true);
+			System.out.println("btc: completed . . . ");
+			response.put("status", "success");
+		} catch (RuntimeException e) {
+			response.put("status", "errror");
+		}
 		// TODO Auto-generated method stub
-		return null;
+		return response;
 	}
 
 	@Override
