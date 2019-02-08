@@ -44,7 +44,7 @@ public class Magazine implements Serializable {
 	@JoinColumn(name = "user_id", nullable = true)
 	private User user;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name = "magazine_issn")
 	private Set<Article> articles;
 
