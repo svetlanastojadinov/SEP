@@ -1,9 +1,13 @@
 package com.ftn.uns.bank.paymentImpls;
 
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -29,8 +33,8 @@ public class PaymentSameBank {
 	private TransactionService transactionService;
 
 	private String url = "http://localhost:4200";
-	
-	private String urlPc="http://localhost:8080/api/card/complete/payment";
+
+	private String urlPc = "http://localhost:8080/api/card/complete/payment";
 
 	public Map<String, Object> completingTransaction(ClientAccount clientAccount, long paymentId) {
 
@@ -46,20 +50,27 @@ public class PaymentSameBank {
 		clientAccountService.updateFunds(clientFromDB, clientFromDB.getAvailableFunds() - transaction.getAmount());
 		clientAccountService.updateFunds(clientMerchant.getClientAccount(),
 				clientMerchant.getClientAccount().getAvailableFunds() + transaction.getAmount());
-		
+
 		RestTemplate rest = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		String auth = "BANK" + ":" + "819a8bb3be2f87ddace7ea6b5ba156c0";
+		byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
+		String authHeader = "Basic " + new String(encodedAuth);
+		headers.set("Authorization", authHeader);
+
 		MultiValueMap<String, String> map1 = new LinkedMultiValueMap<String, String>();
 		((MultiValueMap<String, String>) map1).add("merchantOrderId", String.valueOf(transaction.getMerchantOrderId()));
-		String result = rest.postForObject(urlPc, map1, String.class);
-		
-		if(result.contains("error")){
+		String result = rest.postForObject(urlPc, new HttpEntity<MultiValueMap<String, String>>(map1, headers),
+				String.class);
+
+		if (result.contains("error")) {
 			response.put("paymentStatus", "error");
 			response.put("redirect_url", url + "/error");
-		}else{
+		} else {
 			response.put("status", "success");
 			response.put("redirect_url", url + "/cardsuccess");
 		}
-		
+
 		return response;
 
 	}

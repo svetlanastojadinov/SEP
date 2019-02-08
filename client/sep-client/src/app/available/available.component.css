@@ -1,0 +1,35 @@
+.margined {
+    width:85%;
+}
+
+th {
+    background-color: moccasin;
+}
+
+.welcome {
+    font-size: 250%;
+    color: brown;
+}
+
+.radioFont {
+    font-size: 200%;
+}
+
+.NotPayed {
+    font-size: 30px;
+    font-weight: bold;
+    color: red;
+    margin: auto;
+    display: table;
+}
+
+.payButton {
+    margin: auto;
+    display: table;
+    width: 75%;
+    font-size: 25px;
+}
+
+.payingBody {
+    font-size: 20px;
+}

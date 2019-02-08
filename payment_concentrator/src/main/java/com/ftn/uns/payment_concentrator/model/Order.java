@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "order_table")
-public class Order implements Serializable{
+public class Order implements Serializable {
 
 	/**
 	 * 
@@ -54,9 +54,9 @@ public class Order implements Serializable{
 
 	@Column
 	private boolean executed;
-	
-	
-	
+
+	@Column
+	private String token;
 
 	public Order() {
 		super();
@@ -169,6 +169,18 @@ public class Order implements Serializable{
 
 	public void setMerchantOrderId(long merchantOrderId) {
 		this.merchantOrderId = merchantOrderId;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override

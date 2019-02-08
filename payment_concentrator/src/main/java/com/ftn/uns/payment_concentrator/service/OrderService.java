@@ -9,11 +9,15 @@ public interface OrderService {
 	public Order findOne(long id);
 
 	public List<Order> findAll();
+	
+	public List<Order> findAllByBuyer(String buyerUsername);
 
 	public Order save(Order order);
 
 	public void delete(Order order);
 
 	public Order updateExecution(Order order, boolean b);
+	
+	public Order findByToken(String token);
 
 }

@@ -14,6 +14,13 @@ export class SharedService {
     return this.http.get("/api/orders");
   }
 
+  getOneOrder(token: string) {
+    return this.http.get("/api/orders/token=" + token);
+  }
+  updateOrder(order: any){
+    return this.http.put("/api/orders", order);
+  }
+
   getArticles() {
     return this.http.get("/api/articles");
   }
@@ -42,6 +49,12 @@ export class SharedService {
 
   addMagazine(id: any) {
     return this.http.put("api/user/addMagazineToCart/" + id, {});
+  }
+  getBoughtMagazines() {
+    return this.http.get("api/user/getBoughtMagazines");
+  }
+  getBoughtArticles() {
+    return this.http.get("api/user/getBoughtArticles");
   }
 
   addArticle(id: any) {

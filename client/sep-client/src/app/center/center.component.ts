@@ -26,9 +26,12 @@ export class CenterComponent implements OnInit {
 
   private magazineToPay: any = {};
 
+  private boughtMagazines: any=[];
+
   constructor(private sharedService: SharedService, private router: Router, private datePipe: DatePipe, ) { }
 
   ngOnInit() {
+
     if (localStorage.getItem("token") === null) {
       this.logged = false;
     } else {
@@ -37,7 +40,7 @@ export class CenterComponent implements OnInit {
 
     this.sharedService.getMagazines().subscribe((data: any) => {
 
-      this.magazines = data;
+      this.magazines = data;  
       this.loading = false;
     });
     this.sharedService.getArticles().subscribe((data: any) => {

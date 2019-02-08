@@ -82,7 +82,7 @@ public class Conf extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.DELETE,"/api/articles/{id}").hasAnyAuthority("AUTOR","UREDNIK","ADMIN")	// ako se brisu casopisi brisu se i artikli
 			
 			.antMatchers("/api/bitcoin/**").authenticated()
-			.antMatchers("/api/card/**").authenticated()
+			.antMatchers("/api/card/**").permitAll()
 			
 			.antMatchers(HttpMethod.GET,"/api/magazines").permitAll()
 			.antMatchers(HttpMethod.GET,"/api/magazines/{issn}").permitAll()

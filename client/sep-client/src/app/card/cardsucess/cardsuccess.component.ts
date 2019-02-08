@@ -20,7 +20,7 @@ export class CardSuccessComponent implements OnInit {
   }
 
   backToCart(){
-    this.router.navigate(['homepage']);
+    this.router.navigate(['available']);
   }
 
 }

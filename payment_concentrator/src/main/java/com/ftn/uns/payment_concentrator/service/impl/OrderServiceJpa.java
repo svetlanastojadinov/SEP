@@ -1,5 +1,6 @@
 package com.ftn.uns.payment_concentrator.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,29 @@ public class OrderServiceJpa implements OrderService {
 	public Order updateExecution(Order order, boolean b) {
 		order.setExecuted(b);
 		return orderRepository.save(order);
+	}
+
+	@Override
+	public List<Order> findAllByBuyer(String buyerUsername) {
+		// TODO Auto-generated method stub
+		List<Order> orders = new ArrayList<Order>();
+		if(orderRepository.findAll()!=null)
+		for (Order o : orderRepository.findAll()) {
+			if (o.getBuyerUsername()!=null && o.getBuyerUsername().equals(buyerUsername)) {
+				orders.add(o);
+			}
+		}
+		return orders;
+	}
+
+	@Override
+	public Order findByToken(String token) {
+		for(Order o:orderRepository.findAll()){
+			if(o.getToken()!=null && o.getToken().equals(token)){
+				return o;
+			}
+		}
+		return null;
 	}
 
 }

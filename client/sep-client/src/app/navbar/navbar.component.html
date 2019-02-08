@@ -3,6 +3,10 @@
     <div class="navbar-header">
       <a class="navbar-brand" routerLink="/center">SEP</a>
     </div>
+    <ul class="nav navbar-nav" *ngIf="logged == true">
+      <li><a href="/center">Home</a></li>
+      <li><a routerLink="/available">Available</a></li>
+    </ul>
     <p *ngIf="logged == true" class="nav navbar-nav navbar-right">
       <li *ngIf="loggedRole === 'ADMIN'"><a routerLink="/manageUsers">Manage users</a></li>
       <li><a class="nameLabel">ZDRAVO, {{ username }}!</a></li>

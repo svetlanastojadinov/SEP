@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,6 +19,7 @@ import com.ftn.uns.payment_concentrator.model.Magazine;
 import com.ftn.uns.payment_concentrator.model.Order;
 import com.ftn.uns.payment_concentrator.model.OrderViaBTC;
 import com.ftn.uns.payment_concentrator.paymentInterface.PaymentInterface;
+import com.ftn.uns.payment_concentrator.service.OrderService;
 
 @Service
 public class BTCClient implements PaymentInterface {
@@ -27,6 +29,9 @@ public class BTCClient implements PaymentInterface {
 	private String clientSecret = "Token CXaY7NVw4VbDTLRfQBb9C7bixEtQeXzQPJENVy5r";
 	private String token = UUID.randomUUID().toString();
 
+	@Autowired
+	private OrderService orderService;
+
 	@Override
 	public Map<String, Object> create(Order order) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -35,9 +40,10 @@ public class BTCClient implements PaymentInterface {
 		orderViaBTC.setOrder_id("Merchant's ID");
 		orderViaBTC.setPrice_amount(order.getAmount());
 		orderViaBTC.setCancel_url(url + "/cancelbtc");
-		orderViaBTC.setSuccess_url(url + "/btcsucces");
+		orderViaBTC.setSuccess_url(url + "/btcsuccess/" + token);
 		// orderViaBTC.setCallback_url("http://localhost:8080/api/bitcoin/complete/payment");
 		orderViaBTC.setToken(token);
+		order.setToken(token);
 
 		// CXaY7NVw4VbDTLRfQBb9C7bixEtQeXzQPJENVy5r sand
 		// 8nQpsozzqQVTzgYicPx2eutAoDn4aLbr_SpYD83R token
@@ -47,10 +53,12 @@ public class BTCClient implements PaymentInterface {
 				new HttpEntity<OrderViaBTC>(orderViaBTC, headers), OrderViaBTC.class);
 
 		if (responseEntity.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
+			order.setExecuted(false);
+			orderService.save(order);
 			response.put("status", "error");
 			return response;
 		}
-
+		orderService.save(order);
 		response.put("status", "success");
 		response.put("redirect_url", responseEntity.getBody().getPayment_url());
 

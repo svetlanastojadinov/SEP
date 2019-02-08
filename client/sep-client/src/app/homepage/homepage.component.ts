@@ -41,6 +41,7 @@ export class HomepageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this.sharedService.getCart().subscribe(
       (data: any) => {
         this.magazines = data.magazines;
@@ -100,13 +101,14 @@ export class HomepageComponent implements OnInit {
     this.order.merchantOrderId = '';
     this.order.amount = 0;
     this.order.executed = false;
+    this.order.buyerUsername=localStorage.getItem("username");
 
     if (this.indicator === 'magazine') {
       this.sharedService.getOneMagazine(this.selectedId).subscribe(
         (data: any) => {
           this.order.magazine = data;
           this.order.amount = data.price;
-          this.order.merchantId = data.author;
+          this.order.merchantId = data.author; 
           this.order.article = null;
           console.log("magazine");
         })

@@ -2,7 +2,7 @@ package com.ftn.uns.payment_concentrator.model;
 
 import java.io.Serializable;
 
-public class OrderViaBTC implements Serializable{
+public class OrderViaBTC implements Serializable {
 	/**
 	 * 
 	 */

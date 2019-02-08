@@ -17,15 +17,17 @@ import { RoleGuardService } from './guards/role-guard.service';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { NotAuthGuardService } from './guards/not-auth-service';
 import { ManageUsersComponent } from './manageUsers/manageUsers.component';
+import { AvailableComponent } from './available/available.component';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent, canActivate: [NotAuthGuardService] },
     { path: 'registration', component: RegistrationComponent, canActivate: [NotAuthGuardService] },
     { path: 'homepage', component: HomepageComponent, canActivate: [AuthGuardService] },
     { path: 'center', component: CenterComponent },
+    { path: 'available', component: AvailableComponent},
     { path: '', component: CenterComponent, pathMatch: 'full' },
     { path: 'paypalsucces', component: PaypalsuccesComponent, canActivate: [AuthGuardService] },
-    { path: 'btcsuccess', component: BTCsuccessComponent, canActivate: [AuthGuardService] },
+    { path: 'btcsuccess/:url', component: BTCsuccessComponent, canActivate: [AuthGuardService] },
     { path: 'cancelPaypal', component: CancelPaypalComponent, canActivate: [AuthGuardService] },
     { path: 'cancelbtc', component: CancelBTCComponent, canActivate: [AuthGuardService] },
     { path: 'cardsuccess', component: CardSuccessComponent, canActivate: [AuthGuardService] },

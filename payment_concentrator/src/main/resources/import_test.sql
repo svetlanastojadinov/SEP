@@ -35,7 +35,7 @@ insert into article(title,price, user_id, author,magazine_issn) values ('Primena
 insert into article(title,price, user_id, author,magazine_issn) values ('Akvizicioni parametri trostrukog kvadropola lc/ms određivanja citrinina',0.02,2,'milan',14509636);
 insert into article(title,price, user_id, author,magazine_issn) values ('Antioksidativna svojstva sadnica soje inokulisanih sa Trichoderma asperellum',1.09,2,'milan',14509636);
 insert into article(title,price, user_id, author,magazine_issn) values ('Hipernearni prstenovi sa defektom distributivnosti',4.20,2,'pera',93545180);
-insert into article(title,price, user_id, author,magazine_issn) values ('Napomena o uzastopnim koeficijentima spiralnih funkcije',4.20,2,'pera',93545180);
+insert into article(title,price, user_id, author,magazine_issn) values ('Napomena o uzastopnim koeficijentima spiralnih funkcije',0.01,2,'pera',93545180);
 
 insert into merchant(merchant_id, merchant_password, bank_url) values ('pera','$2a$10$6LSbrt6YghsXu.AvvKEihuHfB/IlwL66QLz38VM5lpCQfb9oHQwie', '8083');
 insert into merchant(merchant_id, merchant_password, bank_url) values ('milan','$2a$10$bVikXYQemT0hIWmBCZWueeixC4zrWFjsEljCWhMFr1pjZofbPDnmS', '8083');

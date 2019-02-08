@@ -7,5 +7,5 @@ import com.ftn.uns.payment_concentrator.model.Order;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long>{
-
+	
 }

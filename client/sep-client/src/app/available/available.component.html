@@ -1,0 +1,88 @@
+<div align="center">
+    <p class="welcome">Available magazines and articles for you!</p>
+     <br />
+</div>
+<div align="center">
+    <div *ngIf="loading">
+      <img src='./assets/loading.gif' alt='loading' />
+</div>
+<table class="table table-striped margined table-bordered" *ngIf="!loading && boughtMagazines.length>0">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Magazine</th>
+        <th scope="col">Price</th>
+        <th scope="col">Option</th>
+      </tr>
+    </thead>
+      <tbody>
+        <tr *ngFor="let magazine of boughtMagazines">
+          <td scope="row" rowspan="magazine.articles.length">
+            <h4><b>{{ magazine.issn }}</b></h4>
+          </td>
+          <td scope="row" rowspan="magazine.articles.length">
+            <h4><b>{{ magazine.title }}</b></h4>
+            <table class="table table-striped margined table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Article</th>
+                  <th scope="col">Autor</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Option</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let article of magazine.articles; let i=index">
+                  <td scope="row">{{i+1}}</td>
+                  <td scope="row">{{article.title}}</td>
+                  <td scope="row">{{article.author}}</td>
+                  <td scope="row">{{article.price | currency:"RSD " }}</td>
+                  <td scope="row">
+                    <button 
+                      class="btn btn-success">
+                      Read article
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td scope="row" rowspan="magazine.articles.length"><b>{{ magazine.price | currency:"RSD " }}</b></td>
+          <td scope="row" rowspan="magazine.articles.length">
+            <button 
+              class="btn btn-success">
+              Read magazine
+            </button>
+          </td>
+        </tr>
+      </tbody>
+</table>
+
+<table class="table table-striped margined table-bordered" *ngIf="!loading && boughtArticles.length>0">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Article</th>
+      <th scope="col">Autor</th>
+      <th scope="col">Price</th>
+      <th scope="col">Option</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let article of boughtArticles; let i=index">
+      <td scope="row">{{i+1}}</td>
+      <td scope="row">{{article.title}}</td>
+      <td scope="row">{{article.author}}</td>
+      <td scope="row">{{article.price | currency:"RSD " }}</td>
+      <td scope="row">
+        <button 
+          class="btn btn-success">
+            Read article
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+        
+</div>

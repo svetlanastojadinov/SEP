@@ -28,6 +28,7 @@ import { RoleGuardService } from './guards/role-guard.service';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { NotAuthGuardService } from './guards/not-auth-service';
 import { ManageUsersComponent } from './manageUsers/manageUsers.component';
+import { AvailableComponent } from './available/available.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ManageUsersComponent } from './manageUsers/manageUsers.component';
     FailedComponent,
     ErrorComponent,
     ManageUsersComponent,
-    PaypalsuccesMembership
+    PaypalsuccesMembership,
+    AvailableComponent
   ],
   imports: [
     BrowserModule,

@@ -10,7 +10,6 @@ export class PaymentCardService {
   constructor(private http:HttpClient) { }
 
   completePaymentCard(paymentId,creditCard) {
-    console.log("ovde smo");
     return this.http.post('/api/transactions/' + paymentId , creditCard);
   }
 

@@ -41,10 +41,23 @@ public class OrderController {
 		return new ResponseEntity<Order>(order, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/token={token}", method = RequestMethod.GET)
+	private ResponseEntity<Order> getOrderByToken(@PathVariable String token) {
+		Order order = orderService.findByToken(token);
+		return new ResponseEntity<Order>(order, HttpStatus.OK);
+	}
+
 	@RequestMapping(method = RequestMethod.POST)
 	private ResponseEntity<Order> saveOrder(@Valid @RequestBody Order order) {
-		
+
 		Order savedOrder = orderService.save(order);
+		return new ResponseEntity<Order>(savedOrder, HttpStatus.CREATED);
+	}
+
+	@RequestMapping(method = RequestMethod.PUT)
+	private ResponseEntity<Order> updateOrder(@Valid @RequestBody Order order) {
+
+		Order savedOrder = orderService.updateExecution(order, order.getExecuted());
 		return new ResponseEntity<Order>(savedOrder, HttpStatus.CREATED);
 	}
 
