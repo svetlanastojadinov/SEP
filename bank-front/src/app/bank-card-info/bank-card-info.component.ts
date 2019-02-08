@@ -50,16 +50,12 @@ export class BankCardInfoComponent implements OnInit {
     this.formValid[type] = true;
   }
   confirm() {
-
-    //console.log(this.checkValid(this.creditCardForm));
     if (this.checkValid(this.creditCardForm)) {
       this.creditCard.pan = this.creditCardForm.value.PAN;
       this.creditCard.securityCode = this.creditCardForm.value.cvv;
       this.creditCard.cardHolderName = this.creditCardForm.value.cardHolderName;
       var dateString = this.creditCardForm.value.exy + '-' + this.creditCardForm.value.exm + '-01T00:00:00'
       this.creditCard.expirationDate = new Date(dateString);
-
-      console.log(this.creditCard);
 
       //id transakcije je poslat 
 
