@@ -1,5 +1,6 @@
 package com.ftn.uns.pcc.model;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,6 +31,9 @@ public class Bank {
 
 	@Column
 	private String brand;
+
+	@Column
+	private String host;
 
 	public Bank() {
 	}
@@ -90,6 +94,14 @@ public class Bank {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getSite() {
+		return host;
+	}
+
+	public void setSite(String site) {
+		this.host = site;
 	}
 
 }

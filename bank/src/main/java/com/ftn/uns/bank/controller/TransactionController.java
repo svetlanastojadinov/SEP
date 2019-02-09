@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +37,8 @@ public class TransactionController {
 	@Autowired
 	private Payment payment;
 
-	private String url = "http://localhost:1337";
+	@Value("${acquirer.front}")
+	private String front;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Collection<Transaction>> getTransactions() {
@@ -66,7 +68,7 @@ public class TransactionController {
 
 		PaymentCallback paymentCallback = new PaymentCallback();
 		paymentCallback.setPaymentId(savedTransaction.getId());
-		paymentCallback.setPaymentUrl(url);
+		paymentCallback.setPaymentUrl(front);
 
 		Map<String, Object> response = new HashMap<String, Object>();
 		response.put("paymentId", paymentCallback.getPaymentId());

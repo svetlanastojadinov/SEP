@@ -1,10 +1,12 @@
 package com.ftn.uns.bank.paymentImpls;
 
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,6 +22,13 @@ import com.ftn.uns.bank.service.TransactionService;
 
 @Service
 public class Payment {
+	
+	@Value("${pcc.address}")
+	private String pccAdress;
+
+	@Value("${pc.front}")
+	private String front;
+	
 	@Autowired
 	private TransactionService transactionService;
 
@@ -29,11 +38,7 @@ public class Payment {
 	@Autowired
 	private PaymentSameBank paymentSameBank;
 
-	private String bin = "438131"; // unic banka
-
-	private String urlPcc = "http://localhost:8082/api/banks/payment";
-
-	private String url = "http://localhost:4200";
+	private String bin = "438131"; // this bank -unic
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Map<String, Object> startTransaction(long paymentId, ClientAccount clientAccount) {
@@ -44,19 +49,19 @@ public class Payment {
 
 		if (clientFromDB == null) {
 			response.put("status", "wrong data");
-			response.put("redirect_url", url + "/wrongdata");
+			response.put("redirect_url", front + "/wrongdata");
 			return response;
 		}
 		if (!clientFromDB.getSecurityCode().equals(clientAccount.getSecurityCode())
 				|| !clientFromDB.getCardHolderName().equals(clientAccount.getCardHolderName())) {
 			response.put("status", "wrong data");
-			response.put("redirect_url", url + "/wrongdata");
+			response.put("redirect_url", front + "/wrongdata");
 			return response;
 		}
 
 		if (clientFromDB.getAvailableFunds() < transaction.getAmount()) {
 			response.put("status", "failed");
-			response.put("redirect_url", url + "/failed");
+			response.put("redirect_url", front + "/failed");
 			return response;
 		}
 
@@ -67,11 +72,12 @@ public class Payment {
 			request.put("ACQUIRER_ORDER_ID", paymentId);
 			request.put("ACQUIRER_TIMESTAMP", new Date());
 			request.put("clientAccount", clientAccount);
+			request.put("transaction", transaction);
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
-			ResponseEntity<Map> responseEntity = new RestTemplate().exchange(urlPcc, HttpMethod.POST,
-					new HttpEntity<Map>(request, headers), Map.class);
+			ResponseEntity<Map> responseEntity = new RestTemplate().exchange(pccAdress + "/api/banks/payment",
+					HttpMethod.POST, new HttpEntity<Map>(request, headers), Map.class);
 			response = responseEntity.getBody();
 		}
 

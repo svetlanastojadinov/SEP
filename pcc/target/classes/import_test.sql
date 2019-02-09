@@ -1,2 +1,2 @@
-insert into bank(bin, port, url, name, brand) values (438131,8083,'1337','UNICREDIT BANK SERBIA JSC BELGRADE', 'VISA');
-insert into bank(bin, port, url, name, brand) values (418340,8083,'1337','BANK INTESA AD BELGRADE', 'VISA');
+insert into bank(bin, port, url, name, brand, host) values (438131,8083,'1337','UNICREDIT BANK SERBIA JSC BELGRADE', 'VISA','http://localhost');
+insert into bank(bin, port, url, name, brand, host) values (418340,8083,'1337','BANK INTESA AD BELGRADE', 'VISA','https://localhost');

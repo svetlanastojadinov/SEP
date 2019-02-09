@@ -1,11 +1,13 @@
 package com.ftn.uns.payment_concentrator.paymentImpls;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,19 +18,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.ftn.uns.payment_concentrator.model.Magazine;
-import com.ftn.uns.payment_concentrator.model.Merchant;
 import com.ftn.uns.payment_concentrator.model.Order;
 import com.ftn.uns.payment_concentrator.paymentInterface.PaymentInterface;
-import com.ftn.uns.payment_concentrator.service.MerchantService;
 import com.ftn.uns.payment_concentrator.service.OrderService;
 
 @Service
 public class BankClient implements PaymentInterface {
 
-	private String address = "http://localhost:4200";
+	@Value("${pc.front}")
+	private String pcFront;
 
-	@Autowired
-	private MerchantService merchantService;
+	@Value("${acquirer.address}")
+	private String acquirerBank;
 
 	@Autowired
 	private OrderService orderService;
@@ -41,17 +42,15 @@ public class BankClient implements PaymentInterface {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		
-		Merchant merchant = merchantService.findOne(order.getMerchantId());
+
 		orderService.save(order);
-		
-		ResponseEntity<Map> responseEntity = new RestTemplate().exchange(
-				"http://localhost:" + merchant.getBankUrl() + "/api/transactions", HttpMethod.POST,
-				new HttpEntity<Order>(order, headers), Map.class);
+
+		ResponseEntity<Map> responseEntity = new RestTemplate().exchange(acquirerBank + "/api/transactions",
+				HttpMethod.POST, new HttpEntity<Order>(order, headers), Map.class);
 
 		if (responseEntity.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
 			response.put("status", "error");
-			response.put("redirect_url", address + "/error");
+			response.put("redirect_url", pcFront + "/error");
 			return response;
 		}
 		response.put("status", "success");
@@ -67,8 +66,10 @@ public class BankClient implements PaymentInterface {
 		try {
 			Order order = orderService.findOne(Long.parseLong(request.getParameter("merchantOrderId")));
 			orderService.updateExecution(order, true);
-			System.out.println("pc: zavrseno placanje!!!!!!!!!!!!!!");
+			System.err.println("pc: zavrseno placanje!");
 			response.put("status", "success");
+			response.put("redirect_url", pcFront + "/cardsuccess");
+
 		} catch (RuntimeException e) {
 			response.put("status", "errror");
 		}

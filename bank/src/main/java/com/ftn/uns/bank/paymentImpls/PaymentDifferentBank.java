@@ -1,10 +1,12 @@
 package com.ftn.uns.bank.paymentImpls;
 
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -19,6 +21,12 @@ import com.ftn.uns.bank.service.TransactionService;
 
 @Service
 public class PaymentDifferentBank {
+	
+	@Value("${pc.front}")
+	private String url;
+
+	@Value("${pc.address}")
+	private String pcAddress;
 
 	@Autowired
 	private TransactionService transactionService;
@@ -29,23 +37,23 @@ public class PaymentDifferentBank {
 	@Autowired
 	private ClientMerchantService clientMerchantService;
 
-	private String url = "http://localhost:4200";
-
-	private String urlPc = "http://localhost:8080/api/card/complete/payment";
-
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Map<String, Object> completingTransaction(Map map) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		String pan = (String) ((Map<String, Object>) map.get("clientAccount")).get("pan");
-		int transactionId = (int) map.get("ACQUIRER_ORDER_ID");
 
-		Transaction transaction = transactionService.findOne((long) transactionId);
+		Transaction transaction = new Transaction();
+		Double amount = (Double) ((Map<String, Object>) map.get("transaction")).get("amount");
+		String merchantId = (String) ((Map<String, Object>) map.get("transaction")).get("merchantId");
+		String merchantPass = (String) ((Map<String, Object>) map.get("transaction")).get("merchantPassword");
+
+		transaction.setAmount(amount);
+		transaction.setMerchantId(merchantId);
+		transaction.setMerchantPassword(merchantPass);
+
+		transactionService.save(transaction);
 		ClientAccount clientFromDB = clientAccountService.findOne(pan);
-		ClientMerchant clientMerchant = clientMerchantService.findOne(transaction.getMerchantId());
-
-		System.err.println("PLACAMOOO " + transaction.getAmount() + " od " + clientFromDB.getPan() + " za "
-				+ clientMerchant.getClientAccount().getPan());
 
 		clientAccountService.updateFunds(clientFromDB, clientFromDB.getAvailableFunds() - transaction.getAmount());
 
@@ -77,7 +85,7 @@ public class PaymentDifferentBank {
 		RestTemplate rest = new RestTemplate();
 		MultiValueMap<String, String> map1 = new LinkedMultiValueMap<String, String>();
 		((MultiValueMap<String, String>) map1).add("merchantOrderId", String.valueOf(transaction.getMerchantOrderId()));
-		String result = rest.postForObject(urlPc, map1, String.class);
+		String result = rest.postForObject(pcAddress + "/api/card/complete/payment", map1, String.class);
 
 		if (result.contains("error")) {
 			map.put("paymentStatus", "error");

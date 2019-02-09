@@ -1,11 +1,13 @@
 package com.ftn.uns.bank.paymentImpls;
 
+
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,12 @@ import com.ftn.uns.bank.service.TransactionService;
 @Service
 public class PaymentSameBank {
 
+	@Value("${pc.front}")
+	private String url;
+
+	@Value("${pc.address}")
+	private String pcAddress;
+
 	@Autowired
 	private ClientAccountService clientAccountService;
 
@@ -31,10 +39,6 @@ public class PaymentSameBank {
 
 	@Autowired
 	private TransactionService transactionService;
-
-	private String url = "http://localhost:4200";
-
-	private String urlPc = "http://localhost:8080/api/card/complete/payment";
 
 	public Map<String, Object> completingTransaction(ClientAccount clientAccount, long paymentId) {
 
@@ -60,8 +64,8 @@ public class PaymentSameBank {
 
 		MultiValueMap<String, String> map1 = new LinkedMultiValueMap<String, String>();
 		((MultiValueMap<String, String>) map1).add("merchantOrderId", String.valueOf(transaction.getMerchantOrderId()));
-		String result = rest.postForObject(urlPc, new HttpEntity<MultiValueMap<String, String>>(map1, headers),
-				String.class);
+		String result = rest.postForObject(pcAddress + "/api/card/complete/payment",
+				new HttpEntity<MultiValueMap<String, String>>(map1, headers), String.class);
 
 		if (result.contains("error")) {
 			response.put("paymentStatus", "error");
