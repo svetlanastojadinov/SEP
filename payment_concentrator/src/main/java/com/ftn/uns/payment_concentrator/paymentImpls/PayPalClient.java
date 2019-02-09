@@ -29,6 +29,7 @@ import com.paypal.base.rest.PayPalRESTException;
 public class PayPalClient implements PaymentInterface {
 	public PayPalClient() {
 	}
+	
 
 	private String clientId = "AYiZ1NVxzcFb0aHZnHSCaTqpeJpZf6ZSwJxoeFTKLAnvOktF8nOF0P3zcoL2FW3yRcSgyrxyHakUyoRl";
 	private String clientSecret = "ELTcYHBS5VuNby6wuz1Rn9wzHGbiWVGvnJaZuQ2Qn4QlrhoubqIJxl0HiencysO3KrkU8q4_6aWMkKJB";
@@ -67,6 +68,7 @@ public class PayPalClient implements PaymentInterface {
 		redirectUrls.setCancelUrl(adress + "/cancelPaypal");
 		redirectUrls.setReturnUrl(adress + "/paypalsucces");
 		payment.setRedirectUrls(redirectUrls);
+		
 		Payment createdPayment;
 		try {
 			String redirectUrl = "";
